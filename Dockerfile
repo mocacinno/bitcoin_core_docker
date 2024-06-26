@@ -12,7 +12,7 @@ RUN chmod +x bootstrap.sh && ./bootstrap.sh && ./b2 || ./b2 headers
 RUN git clone https://github.com/bitcoin/bitcoin.git /bitcoin
 WORKDIR /bitcoin
 RUN git fetch --all --tags
-RUN git checkout tags/v27.1 -b v27.1
+RUN git checkout tags/v27.0 -b v27.0
 RUN ./autogen.sh
 RUN ./configure --with-incompatible-bdb --with-gui=no --enable-wallet --with-sqlite=yes --with-utils --with-daemon CXX=g++-13
 RUN make -j "$(($(nproc) + 1))"
