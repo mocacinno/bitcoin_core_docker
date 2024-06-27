@@ -3,7 +3,7 @@ FROM registry.suse.com/bci/bci-base:15.6 AS builder
 COPY start.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/start.sh
 RUN /usr/local/bin/start.sh
-RUN zypper ref -s && zypper --non-interactive install git gcc13-c++ wget libevent-devel awk gcc-c++ libdb-4_8-devel sqlite3-devel clang7 && zypper --non-interactive install -t pattern devel_basis
+RUN zypper ref -s && zypper --non-interactive install git gcc13-c++ wget libevent-devel awk gcc-c++ libdb-4_8-devel sqlite3-devel clang7 libleveldb1 && zypper --non-interactive install -t pattern devel_basis
 RUN wget https://archives.boost.io/release/1.85.0/source/boost_1_85_0.tar.gz
 RUN tar -xvf boost_1_85_0.tar.gz
 ENV BOOST_ROOT=/boost_1_85_0
