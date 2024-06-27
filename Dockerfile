@@ -13,21 +13,21 @@ RUN git clone https://github.com/bitcoin/bitcoin.git /bitcoin
 WORKDIR /bitcoin
 RUN git fetch --all --tags
 RUN git checkout tags/v25.2 -b v25.2
-RUN ./autogen.sh
-RUN ./configure --with-incompatible-bdb --with-gui=no --enable-wallet --with-sqlite=yes --with-utils --with-daemon CXX=g++-13
-RUN make -j "$(($(nproc) + 1))"
+RUN ./autogen.sh #v25.2
+RUN ./configure --with-incompatible-bdb --with-gui=no --enable-wallet --with-sqlite=yes --with-utils --with-daemon CXX=g++-13 #v25.2
+RUN make -j "$(($(nproc) + 1))" #v25.2
 WORKDIR /bitcoin/src
-RUN strip bitcoin-util && strip bitcoind && strip bitcoin-cli && strip bitcoin-tx
+RUN strip bitcoin-util && strip bitcoind && strip bitcoin-cli && strip bitcoin-tx  #v25.2
 
 FROM registry.suse.com/bci/bci-minimal:15.6
-COPY --from=builder /bitcoin/src/bitcoin-util /usr/local/bin
-COPY --from=builder /bitcoin/src/bitcoin-cli /usr/local/bin
-COPY --from=builder /bitcoin/src/bitcoin-tx /usr/local/bin
-COPY --from=builder /bitcoin/src/bitcoind /usr/local/bin
-COPY --from=builder /usr/lib64/libevent_pthreads-2.1.so.7 /usr/lib64/
-COPY --from=builder /usr/lib64/libevent-2.1.so.7 /usr/lib64/
-COPY --from=builder /usr/lib64/libdb_cxx-4.8.so /usr/lib64/
-COPY --from=builder /usr/lib64/libsqlite3.so.0 /usr/lib64/
+COPY --from=builder /bitcoin/src/bitcoin-util /usr/local/bin #v25.2
+COPY --from=builder /bitcoin/src/bitcoin-cli /usr/local/bin #v25.2
+COPY --from=builder /bitcoin/src/bitcoin-tx /usr/local/bin #v25.2
+COPY --from=builder /bitcoin/src/bitcoind /usr/local/bin #v25.2
+COPY --from=builder /usr/lib64/libevent_pthreads-2.1.so.7 /usr/lib64/ #v25.2
+COPY --from=builder /usr/lib64/libevent-2.1.so.7 /usr/lib64/ #v25.2
+COPY --from=builder /usr/lib64/libdb_cxx-4.8.so /usr/lib64/ #v25.2
+COPY --from=builder /usr/lib64/libsqlite3.so.0 /usr/lib64/ #v25.2
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 EXPOSE 8332 8333 18332 18333
