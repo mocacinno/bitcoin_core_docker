@@ -14,7 +14,7 @@ WORKDIR /bitcoin
 RUN git fetch --all --tags
 RUN git checkout tags/v24.0 -b v24.0
 RUN ./autogen.sh #v24.0
-RUN ./configure --with-incompatible-bdb --with-gui=no --enable-wallet --with-sqlite=yes --with-utils --with-daemon CC=clang CXX=clang++ #v24.0
+RUN ./configure --with-incompatible-bdb --with-gui=no --enable-wallet --with-sqlite=yes --with-utils --with-daemon CC=clang CXX=clang++ CXXFLAGS="-std=c++17" #v24.0
 RUN make -j "$(($(nproc) + 1))" #v24.0
 WORKDIR /bitcoin/src
 RUN strip bitcoin-util && strip bitcoind && strip bitcoin-cli && strip bitcoin-tx  #v24.0
