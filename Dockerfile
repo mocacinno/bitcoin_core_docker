@@ -12,12 +12,12 @@ RUN chmod +x bootstrap.sh && ./bootstrap.sh && ./b2 || ./b2 headers
 RUN git clone https://github.com/bitcoin/bitcoin.git /bitcoin
 WORKDIR /bitcoin
 RUN git fetch --all --tags
-RUN git checkout tags/v25.1 -b v25.1
-RUN ./autogen.sh #v25.1
-RUN ./configure --with-incompatible-bdb --with-gui=no --enable-wallet --with-sqlite=yes --with-utils --with-daemon CXX=g++-13 #v25.1
-RUN make -j "$(($(nproc) + 1))" #v25.1
+RUN git checkout tags/v25.0 -b v25.0
+RUN ./autogen.sh #v25.0
+RUN ./configure --with-incompatible-bdb --with-gui=no --enable-wallet --with-sqlite=yes --with-utils --with-daemon CXX=g++-13 #v25.0
+RUN make -j "$(($(nproc) + 1))" #v25.0
 WORKDIR /bitcoin/src
-RUN strip bitcoin-util && strip bitcoind && strip bitcoin-cli && strip bitcoin-tx  #v25.1
+RUN strip bitcoin-util && strip bitcoind && strip bitcoin-cli && strip bitcoin-tx  #v25.0
 
 FROM registry.suse.com/bci/bci-minimal:15.6
 COPY --from=builder /bitcoin/src/bitcoin-util /usr/local/bin
