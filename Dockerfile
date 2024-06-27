@@ -8,7 +8,7 @@ RUN wget https://archives.boost.io/release/1.80.0/source/boost_1_80_0.tar.gz
 RUN tar -xvf boost_1_80_0.tar.gz
 ENV BOOST_ROOT=/boost_1_80_0
 WORKDIR /boost_1_80_0
-RUN chmod +x bootstrap.sh && ./bootstrap.sh && ./b2 || ./b2 headers
+RUN chmod +x bootstrap.sh && ./bootstrap.sh && ./b2 || ./b2 headers #boost1.80.0
 RUN git clone https://github.com/bitcoin/bitcoin.git /bitcoin
 WORKDIR /bitcoin
 RUN git fetch --all --tags
