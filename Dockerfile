@@ -13,14 +13,19 @@ RUN git clone https://github.com/bitcoin/bitcoin.git /bitcoin
 WORKDIR /bitcoin
 RUN git fetch --all --tags
 RUN git checkout tags/v24.0 -b v24.0
-RUN ./contrib/install_db4.sh `pwd` #v24.0
+RUN ./contrib/install_db4.sh `pwd`
+
 ENV BDB_PREFIX='/bitcoin/db4'
-RUN ./autogen.sh #v24.0
-RUN ./configure BDB_LIBS="-L${BDB_PREFIX}/lib -ldb_cxx-4.8" BDB_CFLAGS="-I${BDB_PREFIX}/include" --with-incompatible-bdb --with-gui=no --enable-wallet --with-sqlite=yes --with-utils --with-daemon CC=clang CXX=clang++ CXXFLAGS="-std=c++17" #v24.0
+RUN ./autogen.sh
+RUN zypper addrepo https://download.opensuse.org/repositories/devel:gcc/SLE-15/devel:gcc.repo
+RUN zypper --gpg-auto-import-keys ref -s
+RUN zypper --non-interactive install gcc10 gcc10-c++
+ENV CC=gcc-10
+ENV CXX=g++-10
+RUN ./configure BDB_LIBS="-L${BDB_PREFIX}/lib -ldb_cxx-4.8" BDB_CFLAGS="-I${BDB_PREFIX}/include"  --enable-util-cli --enable-util-tx --enable-util-wallet --enable-util-util
 RUN make -j "$(($(nproc) + 1))" #v24.0
 WORKDIR /bitcoin/src
 RUN strip bitcoin-util && strip bitcoind && strip bitcoin-cli && strip bitcoin-tx  #v24.0
-
 FROM registry.suse.com/bci/bci-minimal:15.6
 COPY --from=builder /bitcoin/src/bitcoin-util /usr/local/bin
 COPY --from=builder /bitcoin/src/bitcoin-cli /usr/local/bin
