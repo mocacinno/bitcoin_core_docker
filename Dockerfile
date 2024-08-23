@@ -19,7 +19,7 @@ RUN chmod +x bootstrap.sh && ./bootstrap.sh && ./b2 || ./b2 headers #boost1.86.0
 RUN git clone https://github.com/bitcoin/bitcoin.git /bitcoin
 WORKDIR /bitcoin
 RUN git fetch --all --tags
-RUN git checkout tags/v23.2 -b v23.2
+RUN git checkout tags/v23.1 -b v23.1
 RUN ./contrib/install_db4.sh `pwd`
 
 ENV BDB_PREFIX='/bitcoin/db4'
@@ -27,9 +27,9 @@ RUN ./autogen.sh
 
 
 RUN ./configure BDB_LIBS="-L${BDB_PREFIX}/lib -ldb_cxx-4.8" BDB_CFLAGS="-I${BDB_PREFIX}/include"  --enable-util-cli --enable-util-tx --enable-util-wallet --enable-util-util
-RUN make -j "$(($(nproc) + 1))" #v23.2
+RUN make -j "$(($(nproc) + 1))" #v23.1
 WORKDIR /bitcoin/src
-RUN strip bitcoin-util && strip bitcoind && strip bitcoin-cli && strip bitcoin-tx  #v23.2
+RUN strip bitcoin-util && strip bitcoind && strip bitcoin-cli && strip bitcoin-tx  #v23.1
 FROM registry.suse.com/bci/bci-minimal:15.6
 COPY --from=builder /bitcoin/src/bitcoin-util /usr/local/bin
 COPY --from=builder /bitcoin/src/bitcoin-cli /usr/local/bin
