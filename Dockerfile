@@ -7,9 +7,9 @@ RUN zypper ref -s && zypper --non-interactive install git wget libevent-devel aw
 RUN wget https://archives.boost.io/release/1.66.0/source/boost_1_66_0.tar.gz #boost1.66.0
 RUN tar -xvf boost_1_66_0.tar.gz #boost1.66.0
 ENV BOOST_ROOT=/boost_1_66_0
-WORKDIR /boost_1_66_0 #boost1.66.0
+WORKDIR /boost_1_66_0
 
-RUN zypper addrepo https://download.opensuse.org/repositories/devel:gcc/SLE-15/devel:gcc.repo #gcc10
+RUN zypper addrepo https://download.opensuse.org/repositories/devel:gcc/SLE-15/devel:gcc.repo
 RUN zypper --gpg-auto-import-keys ref -s #gcc10
 RUN zypper --non-interactive install gcc10 gcc10-c++ #gcc10
 ENV CC=gcc-10
