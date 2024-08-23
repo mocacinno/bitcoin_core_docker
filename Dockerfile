@@ -19,16 +19,16 @@ RUN chmod +x bootstrap.sh && ./bootstrap.sh && ./b2 || ./b2 headers #boost1.66.0
 RUN git clone https://github.com/bitcoin/bitcoin.git /bitcoin #bitcoin_git
 WORKDIR /bitcoin
 RUN git fetch --all --tags
-RUN git checkout tags/v22.0 -b v22.0 #v22.0
-RUN ./contrib/install_db4.sh `pwd` #v22.0
+RUN git checkout tags/v21.2 -b v21.2 #v21.2
+RUN ./contrib/install_db4.sh `pwd` #v21.2
 
 ENV BDB_PREFIX='/bitcoin/db4'
-RUN ./autogen.sh #v22.0
+RUN ./autogen.sh #v21.2
 
 
-RUN ./configure BDB_LIBS="-L${BDB_PREFIX}/lib -ldb_cxx-4.8" BDB_CFLAGS="-I${BDB_PREFIX}/include"  --enable-util-cli --enable-util-tx --enable-util-wallet --enable-util-util #v22.0
-#RUN./configure BDB_LIBS="-L${BDB_PREFIX}/lib -ldb_cxx-4.8" BDB_CFLAGS="-I${BDB_PREFIX}/include" --enable-util-cli --enable-util-tx --enable-util-wallet --enable-util-util LDFLAGS="-L/boost_1_66_0/stage/lib" LIBS="-lboost_system -lboost_filesystem" #v22.0
-RUN make -j "$(($(nproc) + 1))" #v22.0
+RUN ./configure BDB_LIBS="-L${BDB_PREFIX}/lib -ldb_cxx-4.8" BDB_CFLAGS="-I${BDB_PREFIX}/include"  --enable-util-cli --enable-util-tx --enable-util-wallet --enable-util-util #v21.2
+#RUN./configure BDB_LIBS="-L${BDB_PREFIX}/lib -ldb_cxx-4.8" BDB_CFLAGS="-I${BDB_PREFIX}/include" --enable-util-cli --enable-util-tx --enable-util-wallet --enable-util-util LDFLAGS="-L/boost_1_66_0/stage/lib" LIBS="-lboost_system -lboost_filesystem" #v21.2
+RUN make -j "$(($(nproc) + 1))" #v21.2
 WORKDIR /bitcoin/src
 RUN strip bitcoin-util && strip bitcoind && strip bitcoin-cli && strip bitcoin-tx
 FROM registry.suse.com/bci/bci-minimal:15.6
