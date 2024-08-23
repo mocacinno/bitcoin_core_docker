@@ -17,8 +17,8 @@ ENV CXX=g++-10
 
 RUN chmod +x bootstrap.sh && ./bootstrap.sh && ./b2 || ./b2 headers #boost1.66.0
 RUN git clone https://github.com/bitcoin/bitcoin.git /bitcoin #bitcoin_git
-WORKDIR /bitcoin #bitcoin_git
-RUN git fetch --all --tags #bitcoin_git
+WORKDIR /bitcoin
+RUN git fetch --all --tags
 RUN git checkout tags/v22.1 -b v22.1 #v22.1
 RUN ./contrib/install_db4.sh `pwd` #v22.1
 
