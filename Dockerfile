@@ -1,35 +1,35 @@
 FROM registry.suse.com/bci/bci-base:15.6 AS builder
 
-COPY start.sh /usr/local/bin/
-RUN chmod +x /usr/local/bin/start.sh
-RUN /usr/local/bin/start.sh
-RUN zypper ref -s && zypper --non-interactive install git wget libevent-devel awk libdb-4_8-devel sqlite3-devel libleveldb1 clang7 gcc-c++ && zypper --non-interactive install -t pattern devel_basis
-RUN wget https://archives.boost.io/release/1.66.0/source/boost_1_66_0.tar.gz
-RUN tar -xvf boost_1_66_0.tar.gz
-ENV BOOST_ROOT=/boost_1_66_0
-WORKDIR /boost_1_66_0
+COPY start.sh /usr/local/bin/ #proxy_0
+RUN chmod +x /usr/local/bin/start.sh #proxy_0
+RUN /usr/local/bin/start.sh #proxy_0
+RUN zypper ref -s && zypper --non-interactive install git wget libevent-devel awk libdb-4_8-devel sqlite3-devel libleveldb1 clang7 gcc-c++ && zypper --non-interactive install -t pattern devel_basis #prereqs
+RUN wget https://archives.boost.io/release/1.66.0/source/boost_1_66_0.tar.gz #boost1.66.0
+RUN tar -xvf boost_1_66_0.tar.gz #boost1.66.0
+ENV BOOST_ROOT=/boost_1_66_0 #boost1.66.0
+WORKDIR /boost_1_66_0 #boost1.66.0
 
-RUN zypper addrepo https://download.opensuse.org/repositories/devel:gcc/SLE-15/devel:gcc.repo
-RUN zypper --gpg-auto-import-keys ref -s
-RUN zypper --non-interactive install gcc10 gcc10-c++
-ENV CC=gcc-10
-ENV CXX=g++-10
+RUN zypper addrepo https://download.opensuse.org/repositories/devel:gcc/SLE-15/devel:gcc.repo #gcc10
+RUN zypper --gpg-auto-import-keys ref -s #gcc10
+RUN zypper --non-interactive install gcc10 gcc10-c++ #gcc10
+ENV CC=gcc-10 #gcc10
+ENV CXX=g++-10 #gcc10
 
 RUN chmod +x bootstrap.sh && ./bootstrap.sh && ./b2 || ./b2 headers #boost1.66.0
-RUN git clone https://github.com/bitcoin/bitcoin.git /bitcoin
-WORKDIR /bitcoin
-RUN git fetch --all --tags
-RUN git checkout tags/v22.1 -b v22.1
-RUN ./contrib/install_db4.sh `pwd`
+RUN git clone https://github.com/bitcoin/bitcoin.git /bitcoin #bitcoin_git
+WORKDIR /bitcoin #bitcoin_git
+RUN git fetch --all --tags #bitcoin_git
+RUN git checkout tags/v22.1 -b v22.1 #v22.1
+RUN ./contrib/install_db4.sh `pwd` #v22.1
 
-ENV BDB_PREFIX='/bitcoin/db4'
-RUN ./autogen.sh
+ENV BDB_PREFIX='/bitcoin/db4' #bitcoin_git
+RUN ./autogen.sh #v22.1
 
 
-RUN ./configure BDB_LIBS="-L${BDB_PREFIX}/lib -ldb_cxx-4.8" BDB_CFLAGS="-I${BDB_PREFIX}/include"  --enable-util-cli --enable-util-tx --enable-util-wallet --enable-util-util
-#RUN./configure BDB_LIBS="-L${BDB_PREFIX}/lib -ldb_cxx-4.8" BDB_CFLAGS="-I${BDB_PREFIX}/include" --enable-util-cli --enable-util-tx --enable-util-wallet --enable-util-util LDFLAGS="-L/boost_1_66_0/stage/lib" LIBS="-lboost_system -lboost_filesystem"
+RUN ./configure BDB_LIBS="-L${BDB_PREFIX}/lib -ldb_cxx-4.8" BDB_CFLAGS="-I${BDB_PREFIX}/include"  --enable-util-cli --enable-util-tx --enable-util-wallet --enable-util-util #v22.1
+#RUN./configure BDB_LIBS="-L${BDB_PREFIX}/lib -ldb_cxx-4.8" BDB_CFLAGS="-I${BDB_PREFIX}/include" --enable-util-cli --enable-util-tx --enable-util-wallet --enable-util-util LDFLAGS="-L/boost_1_66_0/stage/lib" LIBS="-lboost_system -lboost_filesystem" #v22.1
 RUN make -j "$(($(nproc) + 1))" #v22.1
-WORKDIR /bitcoin/src
+WORKDIR /bitcoin/src #bitcoin
 RUN strip bitcoin-util && strip bitcoind && strip bitcoin-cli && strip bitcoin-tx  #v22.1
 FROM registry.suse.com/bci/bci-minimal:15.6
 COPY --from=builder /bitcoin/src/bitcoin-util /usr/local/bin
