@@ -3,7 +3,7 @@ FROM registry.suse.com/bci/bci-base:15.6 AS builder
 COPY start.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/start.sh #proxy_0
 RUN /usr/local/bin/start.sh #proxy_0
-RUN zypper ref -s && zypper --non-interactive install git wget libevent-devel awk libdb-4_8-devel sqlite3-devel libleveldb1 clang7 gcc-c++ libopenssl-devel && zypper --non-interactive install -t pattern devel_basis #prereqs
+RUN zypper ref -s && zypper --non-interactive install git wget libevent-devel awk libdb-4_8-devel sqlite3-devel libleveldb1 clang7 gcc-c++ && zypper --non-interactive install -t pattern devel_basis #prereqs
 RUN wget https://archives.boost.io/release/1.66.0/source/boost_1_66_0.tar.gz #boost1.66.0
 RUN tar -xvf boost_1_66_0.tar.gz #boost1.66.0
 ENV BOOST_ROOT=/boost_1_66_0
@@ -21,7 +21,7 @@ WORKDIR /bitcoin
 RUN git fetch --all --tags
 RUN git checkout tags/v0.19.2 -b v0.19.2 #v0.19.2
 RUN ./contrib/install_db4.sh `pwd` #v0.19.2
-
+RUN zypper ref -s && zypper --non-interactive install libopenssl-devel
 ENV BDB_PREFIX='/bitcoin/db4'
 RUN ./autogen.sh #v0.19.2
 
