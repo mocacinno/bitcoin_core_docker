@@ -29,7 +29,7 @@ RUN ./autogen.sh #v22.1
 RUN ./configure BDB_LIBS="-L${BDB_PREFIX}/lib -ldb_cxx-4.8" BDB_CFLAGS="-I${BDB_PREFIX}/include"  --enable-util-cli --enable-util-tx --enable-util-wallet --enable-util-util #v22.1
 #RUN./configure BDB_LIBS="-L${BDB_PREFIX}/lib -ldb_cxx-4.8" BDB_CFLAGS="-I${BDB_PREFIX}/include" --enable-util-cli --enable-util-tx --enable-util-wallet --enable-util-util LDFLAGS="-L/boost_1_66_0/stage/lib" LIBS="-lboost_system -lboost_filesystem" #v22.1
 RUN make -j "$(($(nproc) + 1))" #v22.1
-WORKDIR /bitcoin/src #bitcoin
+WORKDIR /bitcoin/src
 RUN strip bitcoind && strip bitcoin-cli && strip bitcoin-tx
 FROM registry.suse.com/bci/bci-minimal:15.6
 COPY --from=builder /bitcoin/src/bitcoin-util /usr/local/bin
