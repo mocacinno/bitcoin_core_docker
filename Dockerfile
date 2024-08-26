@@ -40,6 +40,12 @@ COPY --from=builder /usr/lib64/libevent-2.1.so.7 /usr/lib64/
 COPY --from=builder /usr/lib64/libdb_cxx-4.8.so /usr/lib64/
 COPY --from=builder /usr/lib64/libsqlite3.so.0 /usr/lib64/
 COPY --from=builder /usr/lib64/libboost_system.so.1.66.0 /usr/lib64/
+COPY --from=builder /boost_1_66_0/stage/lib/libboost_filesystem.so.1.66.0 /usr/lib64/
+COPY --from=builder /boost_1_66_0/stage/lib/libboost_program_options.so.1.66.0 /usr/lib64/
+COPY --from=builder /boost_1_66_0/stage/lib/libboost_thread.so.1.66.0 /usr/lib64/
+COPY --from=builder /boost_1_66_0/stage/lib/libboost_chrono.so.1.66.0 /usr/lib64/
+COPY --from=builder /usr/lib64/libssl.so.3 /usr/lib64/
+COPY --from=builder /usr/lib64/libcrypto.so.3 /usr/lib64/
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 EXPOSE 8332 8333 18332 18333
