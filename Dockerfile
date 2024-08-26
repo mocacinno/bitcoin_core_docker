@@ -20,9 +20,7 @@ RUN git clone https://github.com/bitcoin/bitcoin.git /bitcoin #bitcoin_git
 WORKDIR /bitcoin
 RUN git fetch --all --tags
 RUN git checkout tags/v0.15.2 -b v0.15.2 #v0.15.2
-RUN ./contrib/install_db4.sh `pwd` #v0.15.2
 RUN zypper ref -s && zypper --non-interactive install libopenssl-devel
-ENV BDB_PREFIX='/bitcoin/db4'
 RUN ./autogen.sh #v0.15.2
 
 
