@@ -42,6 +42,7 @@ COPY --from=builder /boost_1_66_0/stage/lib/libboost_filesystem.so.1.66.0 /usr/l
 COPY --from=builder /boost_1_66_0/stage/lib/libboost_program_options.so.1.66.0 /usr/lib64/
 COPY --from=builder /boost_1_66_0/stage/lib/libboost_thread.so.1.66.0 /usr/lib64/
 COPY --from=builder /boost_1_66_0/stage/lib/libboost_chrono.so.1.66.0 /usr/lib64/
+COPY --from=builder /usr/lib64/libssl.so.3 /usr/lib64/
 
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
