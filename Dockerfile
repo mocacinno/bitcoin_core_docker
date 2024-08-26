@@ -19,16 +19,16 @@ RUN chmod +x bootstrap.sh && ./bootstrap.sh && ./b2 || ./b2 headers #boost1.66.0
 RUN git clone https://github.com/bitcoin/bitcoin.git /bitcoin #bitcoin_git
 WORKDIR /bitcoin
 RUN git fetch --all --tags
-RUN git checkout tags/v0.19.0 -b v0.19.0 #v0.19.0
-RUN ./contrib/install_db4.sh `pwd` #v0.19.0
+RUN git checkout tags/v0.18.1 -b v0.18.1 #v0.18.1
+RUN ./contrib/install_db4.sh `pwd` #v0.18.1
 RUN zypper ref -s && zypper --non-interactive install libopenssl-devel
 ENV BDB_PREFIX='/bitcoin/db4'
-RUN ./autogen.sh #v0.19.0
+RUN ./autogen.sh #v0.18.1
 
 
-RUN ./configure BDB_LIBS="-L${BDB_PREFIX}/lib -ldb_cxx-4.8" BDB_CFLAGS="-I${BDB_PREFIX}/include"  --enable-util-cli --enable-util-tx --enable-util-wallet --enable-util-util #v0.19.0
-#RUN./configure BDB_LIBS="-L${BDB_PREFIX}/lib -ldb_cxx-4.8" BDB_CFLAGS="-I${BDB_PREFIX}/include" --enable-util-cli --enable-util-tx --enable-util-wallet --enable-util-util LDFLAGS="-L/boost_1_66_0/stage/lib" LIBS="-lboost_system -lboost_filesystem" #v0.19.0
-RUN make -j "$(($(nproc) + 1))" #v0.19.0
+RUN ./configure BDB_LIBS="-L${BDB_PREFIX}/lib -ldb_cxx-4.8" BDB_CFLAGS="-I${BDB_PREFIX}/include"  --enable-util-cli --enable-util-tx --enable-util-wallet --enable-util-util #v0.18.1
+#RUN./configure BDB_LIBS="-L${BDB_PREFIX}/lib -ldb_cxx-4.8" BDB_CFLAGS="-I${BDB_PREFIX}/include" --enable-util-cli --enable-util-tx --enable-util-wallet --enable-util-util LDFLAGS="-L/boost_1_66_0/stage/lib" LIBS="-lboost_system -lboost_filesystem" #v0.18.1
+RUN make -j "$(($(nproc) + 1))" #v0.18.1
 WORKDIR /bitcoin/src
 RUN strip bitcoind && strip bitcoin-cli && strip bitcoin-tx
 FROM registry.suse.com/bci/bci-minimal:15.6
