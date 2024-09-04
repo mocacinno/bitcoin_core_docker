@@ -20,6 +20,7 @@ RUN git fetch --all --tags
 RUN git checkout tags/v0.15.1 -b v0.15.1 #v0.15.1
 RUN zypper ref -s && zypper --non-interactive install libopenssl-devel
 RUN ln -s /boost_1_63_0/stage/lib/libboost_system.so.1.63.0 /usr/lib64 #boost1.63.0
+RUN ln -s /boost_1_63_0/stage/lib/libboost_timer.so.1.63.0 /usr/lib64 #boost1.63.0
 
 RUN ./autogen.sh #v0.15.1
 
