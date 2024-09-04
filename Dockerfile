@@ -1,8 +1,8 @@
 FROM registry.suse.com/bci/bci-base:15.6 AS builder
 
-COPY start.sh /usr/local/bin/
-RUN chmod +x /usr/local/bin/start.sh
-RUN /usr/local/bin/start.sh
+#COPY start.sh /usr/local/bin/
+#RUN chmod +x /usr/local/bin/start.sh
+#RUN /usr/local/bin/start.sh
 RUN zypper ref -s && zypper --non-interactive install git wget libevent-devel awk libdb-4_8-devel sqlite3-devel libleveldb1 clang7 && zypper --non-interactive install -t pattern devel_basis
 RUN wget https://archives.boost.io/release/1.86.0/source/boost_1_86_0.tar.gz
 RUN tar -xvf boost_1_86_0.tar.gz
