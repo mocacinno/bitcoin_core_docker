@@ -13,13 +13,13 @@ RUN chmod +x bootstrap.sh && ./bootstrap.sh && ./b2 || ./b2 headers #boost1.63.0
 RUN git clone https://github.com/bitcoin/bitcoin.git /bitcoin #bitcoin_git
 WORKDIR /bitcoin
 RUN git fetch --all --tags
-RUN git checkout tags/v0.14.1 -b v0.14.1 #v0.14.1
+RUN git checkout tags/v0.14.2 -b v0.14.2 #v0.14.2
 RUN zypper ref -s && zypper --non-interactive install libopenssl-devel
-RUN ./autogen.sh #v0.14.1
+RUN ./autogen.sh #v0.14.2
 RUN ldconfig
 RUN ln -s /boost_1_63_0/stage/lib/libboost_system.so.1.63.0 /usr/lib64
-RUN ./configure  --enable-util-cli --enable-util-tx --enable-util-wallet --enable-util-util #v0.14.1
-RUN make -j "$(($(nproc) + 1))" #v0.14.1
+RUN ./configure  --enable-util-cli --enable-util-tx --enable-util-wallet --enable-util-util #v0.14.2
+RUN make -j "$(($(nproc) + 1))" #v0.14.2
 WORKDIR /bitcoin/src
 RUN strip bitcoind && strip bitcoin-cli && strip bitcoin-tx
 FROM registry.suse.com/bci/bci-minimal:15.6
