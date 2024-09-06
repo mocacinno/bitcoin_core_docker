@@ -14,7 +14,9 @@ RUN git clone https://github.com/bitcoin/bitcoin.git /bitcoin #bitcoin_git
 WORKDIR /bitcoin
 RUN git fetch --all --tags
 RUN git checkout tags/v0.13.1 -b v0.13.1 #v0.13.1
-RUN zypper ref -s && zypper --non-interactive install libopenssl-devel
+RUN zypper addrepo https://download.opensuse.org/repositories/home:MaxxedSUSE:Compiler-Tools-15.6/15.6/home:MaxxedSUSE:Compiler-Tools-15.6.repo
+RUN zypper --gpg-auto-import-keys ref -s #gcc6
+RUN zypper --non-interactive install libopenssl-1_0_0-devel #openssl1.0
 RUN ./autogen.sh #v0.13.1
 RUN ldconfig
 RUN ln -s /boost_1_63_0/stage/lib/libboost_system.so.1.63.0 /usr/lib64
