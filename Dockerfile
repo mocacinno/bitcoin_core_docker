@@ -13,15 +13,15 @@ RUN chmod +x bootstrap.sh && ./bootstrap.sh && ./b2 || ./b2 headers #boost1.63.0
 RUN git clone https://github.com/bitcoin/bitcoin.git /bitcoin #bitcoin_git
 WORKDIR /bitcoin
 RUN git fetch --all --tags
-RUN git checkout tags/v0.11.0 -b v0.11.0 #v0.11.0
+RUN git checkout tags/v0.10.5 -b v0.10.5 #v0.10.5
 RUN zypper addrepo https://download.opensuse.org/repositories/home:MaxxedSUSE:Compiler-Tools-15.6/15.6/home:MaxxedSUSE:Compiler-Tools-15.6.repo
 RUN zypper --gpg-auto-import-keys ref -s #gcc6
 RUN zypper --non-interactive install libopenssl-1_0_0-devel #openssl1.0
-RUN ./autogen.sh #v0.11.0
+RUN ./autogen.sh #v0.10.5
 RUN ldconfig
 RUN ln -s /boost_1_63_0/stage/lib/libboost_system.so.1.63.0 /usr/lib64
-RUN ./configure  --enable-util-cli --enable-util-tx --enable-util-wallet --enable-util-util #v0.11.0
-RUN make -j "$(($(nproc) + 1))" #v0.11.0
+RUN ./configure  --enable-util-cli --enable-util-tx --enable-util-wallet --enable-util-util #v0.10.5
+RUN make -j "$(($(nproc) + 1))" #v0.10.5
 WORKDIR /bitcoin/src
 RUN strip bitcoind && strip bitcoin-cli && strip bitcoin-tx
 FROM registry.suse.com/bci/bci-minimal:15.6
