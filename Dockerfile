@@ -18,6 +18,16 @@ RUN zypper --non-interactive install libopenssl-1_0_0-devel #openssl1.0
 RUN sed -i '1i#include <stdarg.h>' /bitcoin/src/leveldb/util/posix_logger.h
 RUN sed -i 's/va_copy/__va_copy/' /bitcoin/src/leveldb/util/posix_logger.h
 
+#RUN sed -i 's/base58Prefixes\[PUBKEY_ADDRESS\] = list_of(0)/base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1, 0)/' src/chainparams.cpp
+#RUN sed -i 's/base58Prefixes\[SCRIPT_ADDRESS\] = list_of(5)/base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1, 5)/' src/chainparams.cpp
+#RUN sed -i 's/base58Prefixes\[SECRET_KEY\] = list_of(128)/base58Prefixes[SECRET_KEY] = std::vector<unsigned char>(1, 128)/' src/chainparams.cpp
+#RUN sed -i 's/base58Prefixes\[EXT_PUBLIC_KEY\] = list_of(0x04)(0x88)(0xB2)(0x1E)/base58Prefixes[EXT_PUBLIC_KEY] = std::vector<unsigned char>{0x04, 0x88, 0xb2, 0x1e}/' src/chainparams.cpp
+#RUN sed -i 's/base58Prefixes\[EXT_SECRET_KEY\] = list_of(0x04)(0x88)(0xAD)(0xE4)/base58Prefixes[EXT_SECRET_KEY] = std::vector<unsigned char>{0x04, 0x88, 0xad, 0xe4}/' src/chainparams.cpp
+#RUN sed -i 's/base58Prefixes\[PUBKEY_ADDRESS\] = list_of(111)/base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1, 111)/' src/chainparams.cpp
+#RUN sed -i 's/base58Prefixes\[SCRIPT_ADDRESS\] = list_of(196)/base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1, 196)/' src/chainparams.cpp
+#RUN sed -i 's/base58Prefixes\[SECRET_KEY\] = list_of(239)/base58Prefixes[SECRET_KEY] = std::vector<unsigned char>(1, 239)/' src/chainparams.cpp
+#RUN sed -i 's/base58Prefixes\[EXT_PUBLIC_KEY\] = list_of(0x04)(0x35)(0x87)(0xCF)/base58Prefixes[EXT_PUBLIC_KEY] = std::vector<unsigned char>{0x04, 0x35, 0x87, 0xCF}/' src/chainparams.cpp
+#RUN sed -i 's/base58Prefixes\[EXT_SECRET_KEY\] = list_of(0x04)(0x35)(0x83)(0x94)/base58Prefixes[EXT_SECRET_KEY] = std::vector<unsigned char>{0x04, 0x35, 0x83, 0x94}/' src/chainparams.cpp
 
 COPY patch_mocacinno_chainparams /bitcoin
 RUN patch /bitcoin/src/chainparams.cpp < patch_mocacinno_chainparams
