@@ -22,7 +22,7 @@ RUN zypper --non-interactive install libopenssl-1_0_0-devel #openssl1.0
 RUN ./autogen.sh #v0.9.5
 RUN ldconfig
 #RUN ln -s /boost_1_57_0/stage/lib/libboost_system.so.1.57.0 /usr/lib64
-RUN ./configure  --enable-util-cli --enable-util-tx --enable-util-wallet --enable-util-util CXX="g++ -std=c++98" #v0.9.5
+RUN ./configure  --with-cli --with-daemon CXX="g++ -std=c++98" #v0.9.5
 RUN make -j "$(($(nproc) + 1))" #v0.9.5
 WORKDIR /bitcoin/src
 RUN strip bitcoind && strip bitcoin-cli && strip bitcoin-tx
