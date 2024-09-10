@@ -3,37 +3,23 @@ FROM registry.suse.com/bci/bci-base:15.6 AS builder
 
 RUN zypper addrepo https://download.opensuse.org/repositories/devel:gcc/SLE-15/devel:gcc.repo
 RUN zypper addrepo https://download.opensuse.org/repositories/home:MaxxedSUSE:Compiler-Tools-15.6/15.6/home:MaxxedSUSE:Compiler-Tools-15.6.repo
-RUN zypper --gpg-auto-import-keys ref -s #gcc43
-RUN zypper --non-interactive install gcc43 gcc43-c++ make automake makeinfo git gawk libdb-4_8-devel libopenssl-1_0_0-devel wget #gcc43
-ENV CC=gcc-4.3
-ENV CXX=g++-4.3
+RUN zypper addrepo https://download.opensuse.org/repositories/devel:libraries:c_c++/SLE_12_SP5/devel:libraries:c_c++.repo
+RUN zypper --gpg-auto-import-keys ref -s #gcc57
+RUN zypper --non-interactive install gcc9 gcc9-c++ make automake makeinfo git gawk libdb-4_8-devel libopenssl-1_0_0-devel wget libicu-devel libminiupnpc-devel libupnp-devel patch #gcc57
+ENV CC=gcc-9
+ENV CXX=g++-9
 
 
-RUN wget https://sourceforge.net/projects/boost/files/boost/1.37.0/boost_1_37_0.tar.gz/download -O boost_1_37_0.tar.gz #boost1.37.0
-RUN tar -xvf boost_1_37_0.tar.gz #boost1.37.0
-ENV BOOST_ROOT=/boost_1_37_0
-WORKDIR /boost_1_37_0
+RUN wget https://sourceforge.net/projects/boost/files/boost/1.57.0/boost_1_57_0.tar.gz/download -O boost_1_57_0.tar.gz #boost1.57.0
+RUN tar -xvf boost_1_57_0.tar.gz #boost1.57.0
+ENV BOOST_ROOT=/boost_1_57_0
+WORKDIR /boost_1_57_0
 
-RUN ln -s /usr/bin/gcc-4.3 /usr/bin/gcc
-RUN ln -s /usr/bin/g++-4.3 /usr/bin/g++
-RUN ./configure --with-toolset=gcc
-#RUN echo "using gcc : 4.3 : /usr/bin/gcc-4.3 ;" > /boost_1_37_0/tools/build/v2/user-config.jam
-
-#WORKDIR /boost_1_37_0/tools/jam/src
-#RUN ./build.sh gcc
-#WORKDIR /boost_1_37_0
-RUN make -j"$(($(nproc) + 1))"
-RUN make install
-RUN mkdir -p /boost_1_37_0/boost/signals2
-RUN ln -s /boost_1_37_0/boost/last_value.hpp /boost_1_37_0/boost/signals2/last_value.hpp
-RUN ln -s /boost_1_37_0/boost/foreach.hpp /boost_1_37_0/boost/signals2/foreach.hpp
-RUN ln -s /boost_1_37_0/boost/signal.hpp /boost_1_37_0/boost/signals2/signal.hpp
-
-
-
-
-
-
+RUN chmod +x bootstrap.sh #boost1.57.0
+RUN ln -s /usr/bin/gcc-9 /usr/bin/gcc
+RUN ln -s /usr/bin/g++-9 /usr/bin/g++
+RUN ./bootstrap.sh #boost1.57.0
+RUN ./b2  -j"$(($(nproc) + 1))" || ./b2 -j"$(($(nproc) + 1))" install || ./b2 -j"$(($(nproc) + 1))" headers #boost1.57.0
 
 
 RUN git clone https://github.com/bitcoin/bitcoin.git /bitcoin #bitcoin_git
@@ -41,28 +27,28 @@ WORKDIR /bitcoin
 RUN git fetch --all --tags
 RUN git checkout tags/v0.8.6 -b v0.8.6 #v0.8.6
 WORKDIR /bitcoin/src
-RUN make -f makefile.unix BOOST_INCLUDE_PATH=/boost_1_37_0
+COPY patch_mocacinno_net /bitcoin/src/patch_mocacinno_net
+RUN patch net.cpp < patch_mocacinno_net
+RUN make -j "$(($(nproc) + 1))" -f makefile.unix BOOST_INCLUDE_PATH=/boost_1_57_0
 
 WORKDIR /bitcoin/src
-RUN strip bitcoind && strip bitcoin-cli
+RUN strip bitcoind 
 
 FROM registry.suse.com/bci/bci-minimal:15.6
-COPY --from=builder /bitcoin/src/bitcoin-cli /usr/local/bin
 COPY --from=builder /bitcoin/src/bitcoind /usr/local/bin
-COPY --from=builder /usr/lib64/libevent_pthreads-2.1.so.7 /usr/lib64/
-COPY --from=builder /usr/lib64/libevent-2.1.so.7 /usr/lib64/
 COPY --from=builder /usr/lib64/libdb_cxx-4.8.so /usr/lib64/
 COPY --from=builder /usr/lib64/libsqlite3.so.0 /usr/lib64/
-COPY --from=builder /boost_1_37_0/stage/lib/libboost_system.so.1.37.0 /usr/lib64/
-COPY --from=builder /boost_1_37_0/stage/lib/libboost_filesystem.so.1.37.0 /usr/lib64/
-COPY --from=builder /boost_1_37_0/stage/lib/libboost_program_options.so.1.37.0 /usr/lib64/
-COPY --from=builder /boost_1_37_0/stage/lib/libboost_thread.so.1.37.0 /usr/lib64/
-COPY --from=builder /boost_1_37_0/stage/lib/libboost_chrono.so.1.37.0 /usr/lib64/
+COPY --from=builder /boost_1_57_0/stage/lib/libboost_system.so.1.57.0 /usr/lib64/
+COPY --from=builder /boost_1_57_0/stage/lib/libboost_filesystem.so.1.57.0 /usr/lib64/
+COPY --from=builder /boost_1_57_0/stage/lib/libboost_program_options.so.1.57.0 /usr/lib64/
+COPY --from=builder /boost_1_57_0/stage/lib/libboost_thread.so.1.57.0 /usr/lib64/
+COPY --from=builder /boost_1_57_0/stage/lib/libboost_chrono.so.1.57.0 /usr/lib64/
 COPY --from=builder /usr/lib64/libssl.so.1.0.0 /usr/lib64/
 COPY --from=builder /usr/lib64/libcrypto.so.1.0.0 /usr/lib64/
+COPY --from=builder /usr/lib64/libminiupnpc.so.17 /usr/lib64/
 
 COPY entrypoint.sh /entrypoint.sh
 COPY bitcoin.conf /root/.bitcoin/bitcoin.conf
 RUN chmod +x /entrypoint.sh
-EXPOSE 8332 8333 18332 18333
+EXPOSE 8572 8573 18572 18573
 ENTRYPOINT ["/entrypoint.sh"]
