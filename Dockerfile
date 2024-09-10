@@ -5,9 +5,9 @@ RUN zypper addrepo https://download.opensuse.org/repositories/devel:gcc/SLE-15/d
 RUN zypper addrepo https://download.opensuse.org/repositories/home:MaxxedSUSE:Compiler-Tools-15.6/15.6/home:MaxxedSUSE:Compiler-Tools-15.6.repo
 RUN zypper addrepo https://download.opensuse.org/repositories/devel:libraries:c_c++/SLE_12_SP5/devel:libraries:c_c++.repo
 RUN zypper --gpg-auto-import-keys ref -s #gcc57
-RUN zypper --non-interactive install gcc9 gcc9-c++ make automake makeinfo git gawk libdb-4_8-devel libopenssl-1_0_0-devel wget libicu-devel libminiupnpc-devel libupnp-devel patch #gcc57
-ENV CC=gcc-9
-ENV CXX=g++-9
+RUN zypper --non-interactive install gcc6 gcc6-c++ make automake makeinfo git gawk libdb-4_8-devel libopenssl-1_0_0-devel wget libicu-devel libminiupnpc-devel libupnp-devel patch #gcc6
+ENV CC=gcc-6
+ENV CXX=g++-6
 
 
 RUN wget https://sourceforge.net/projects/boost/files/boost/1.57.0/boost_1_57_0.tar.gz/download -O boost_1_57_0.tar.gz #boost1.57.0
@@ -16,8 +16,8 @@ ENV BOOST_ROOT=/boost_1_57_0
 WORKDIR /boost_1_57_0
 
 RUN chmod +x bootstrap.sh #boost1.57.0
-RUN ln -s /usr/bin/gcc-9 /usr/bin/gcc
-RUN ln -s /usr/bin/g++-9 /usr/bin/g++
+RUN ln -s /usr/bin/gcc-6 /usr/bin/gcc
+RUN ln -s /usr/bin/g++-6 /usr/bin/g++
 RUN ./bootstrap.sh #boost1.57.0
 RUN ./b2  -j"$(($(nproc) + 1))" || ./b2 -j"$(($(nproc) + 1))" install || ./b2 -j"$(($(nproc) + 1))" headers #boost1.57.0
 
@@ -28,8 +28,10 @@ RUN git fetch --all --tags
 RUN git checkout tags/v0.7.2 -b v0.7.2 #v0.7.2
 WORKDIR /bitcoin/src
 COPY patch_mocacinno_net /bitcoin/src/patch_mocacinno_net
+COPY patch_mocacinno_strlcpy /bitcoin/src/patch_mocacinno_strlcpy
 RUN patch net.cpp < patch_mocacinno_net
-RUN make -j "$(($(nproc) + 1))" -f makefile.unix BOOST_INCLUDE_PATH=/boost_1_57_0
+RUN patch strlcpy.h < patch_mocacinno_strlcpy
+RUN make -j"$(($(nproc) + 1))" -f makefile.unix BOOST_INCLUDE_PATH=/boost_1_57_0 CXXFLAGS="-DHAVE_DECL_STRLCPY=1 -DHAVE_DECL_STRLCAT=1 -Wno-deprecated-declarations"
 
 WORKDIR /bitcoin/src
 RUN strip bitcoind 
