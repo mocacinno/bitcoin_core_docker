@@ -25,7 +25,7 @@ RUN ./b2  -j"$(($(nproc) + 1))" || ./b2 -j"$(($(nproc) + 1))" install || ./b2 -j
 RUN git clone https://github.com/bitcoin/bitcoin.git /bitcoin #bitcoin_git
 WORKDIR /bitcoin
 RUN git fetch --all --tags
-RUN git checkout tags/v0.8.3 -b v0.8.3 #v0.8.3
+RUN git checkout tags/v0.8.2 -b v0.8.2 #v0.8.2
 WORKDIR /bitcoin/src
 COPY patch_mocacinno_net /bitcoin/src/patch_mocacinno_net
 RUN patch net.cpp < patch_mocacinno_net
