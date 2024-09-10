@@ -10,16 +10,16 @@ ENV CC=gcc-6
 ENV CXX=g++-6
 
 
-RUN wget https://sourceforge.net/projects/boost/files/boost/1.56.3/boost_1_56.3.tar.gz/download -O boost_1_56.3.tar.gz #boost1.56.3
-RUN tar -xvf boost_1_56.3.tar.gz #boost1.56.3
-ENV BOOST_ROOT=/boost_1_56.3
-WORKDIR /boost_1_56.3
+RUN wget https://sourceforge.net/projects/boost/files/boost/1.57.0/boost_1_57_0.tar.gz/download -O boost_1_57_0.tar.gz #boost1.57.0
+RUN tar -xvf boost_1_57_0.tar.gz #boost1.57.0
+ENV BOOST_ROOT=/boost_1_57_0
+WORKDIR /boost_1_57_0
 
-RUN chmod +x bootstrap.sh #boost1.56.3
+RUN chmod +x bootstrap.sh #boost1.57.0
 RUN ln -s /usr/bin/gcc-6 /usr/bin/gcc
 RUN ln -s /usr/bin/g++-6 /usr/bin/g++
-RUN ./bootstrap.sh #boost1.56.3
-RUN ./b2  -j"$(($(nproc) + 1))" || ./b2 -j"$(($(nproc) + 1))" install || ./b2 -j"$(($(nproc) + 1))" headers #boost1.56.3
+RUN ./bootstrap.sh #boost1.57.0
+RUN ./b2  -j"$(($(nproc) + 1))" || ./b2 -j"$(($(nproc) + 1))" install || ./b2 -j"$(($(nproc) + 1))" headers #boost1.57.0
 
 
 RUN git clone https://github.com/bitcoin/bitcoin.git /bitcoin #bitcoin_git
@@ -31,7 +31,7 @@ COPY patch_mocacinno_net /bitcoin/src/patch_mocacinno_net
 COPY patch_mocacinno_strlcpy /bitcoin/src/patch_mocacinno_strlcpy
 RUN patch net.cpp < patch_mocacinno_net
 RUN patch strlcpy.h < patch_mocacinno_strlcpy
-RUN make -j"$(($(nproc) + 1))" -f makefile.unix BOOST_INCLUDE_PATH=/boost_1_56.3 CXXFLAGS="-DHAVE_DECL_STRLCPY=1 -DHAVE_DECL_STRLCAT=1 -Wno-deprecated-declarations"
+RUN make -j"$(($(nproc) + 1))" -f makefile.unix BOOST_INCLUDE_PATH=/boost_1_57_0 CXXFLAGS="-DHAVE_DECL_STRLCPY=1 -DHAVE_DECL_STRLCAT=1 -Wno-deprecated-declarations"
 
 WORKDIR /bitcoin/src
 RUN strip bitcoind 
@@ -40,11 +40,11 @@ FROM registry.suse.com/bci/bci-minimal:15.6
 COPY --from=builder /bitcoin/src/bitcoind /usr/local/bin
 COPY --from=builder /usr/lib64/libdb_cxx-4.8.so /usr/lib64/
 COPY --from=builder /usr/lib64/libsqlite3.so.0 /usr/lib64/
-COPY --from=builder /boost_1_56.3/stage/lib/libboost_system.so.1.56.3 /usr/lib64/
-COPY --from=builder /boost_1_56.3/stage/lib/libboost_filesystem.so.1.56.3 /usr/lib64/
-COPY --from=builder /boost_1_56.3/stage/lib/libboost_program_options.so.1.56.3 /usr/lib64/
-COPY --from=builder /boost_1_56.3/stage/lib/libboost_thread.so.1.56.3 /usr/lib64/
-COPY --from=builder /boost_1_56.3/stage/lib/libboost_chrono.so.1.56.3 /usr/lib64/
+COPY --from=builder /boost_1_57_0/stage/lib/libboost_system.so.1.57.0 /usr/lib64/
+COPY --from=builder /boost_1_57_0/stage/lib/libboost_filesystem.so.1.57.0 /usr/lib64/
+COPY --from=builder /boost_1_57_0/stage/lib/libboost_program_options.so.1.57.0 /usr/lib64/
+COPY --from=builder /boost_1_57_0/stage/lib/libboost_thread.so.1.57.0 /usr/lib64/
+COPY --from=builder /boost_1_57_0/stage/lib/libboost_chrono.so.1.57.0 /usr/lib64/
 COPY --from=builder /usr/lib64/libssl.so.1.0.0 /usr/lib64/
 COPY --from=builder /usr/lib64/libcrypto.so.1.0.0 /usr/lib64/
 COPY --from=builder /usr/lib64/libminiupnpc.so.17 /usr/lib64/
