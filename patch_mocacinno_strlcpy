@@ -1,31 +1,35 @@
---- strlcpy.h.orig      2024-09-10 12:21:32.703060855 +0000
-+++ strlcpy.h   2024-09-10 12:27:18.195056748 +0000
-@@ -19,11 +19,16 @@
- #include <stdlib.h>
- #include <string.h>
-
+--- strlcpy.h.orig      2024-09-10 13:27:36.571013736 +0000
++++ strlcpy.h   2024-09-10 13:29:28.875012401 +0000
+@@ -13,6 +13,11 @@
+  * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+  */
++
 +#ifdef HAVE_CONFIG_H
 +#include "config/bitcoin-config.h"
 +#endif
 +
+ #ifndef BITCOIN_STRLCPY_H
+ #define BITCOIN_STRLCPY_H
  /*
-  * Copy src to string dst of size siz.  At most siz-1 characters
+@@ -20,6 +25,8 @@
   * will be copied.  Always NUL terminates (unless siz == 0).
   * Returns strlen(src); if retval >= siz, truncation occurred.
   */
++
 +#ifndef HAVE_DECL_STRLCPY
  inline size_t strlcpy(char *dst, const char *src, size_t siz)
  {
      char *d = dst;
-@@ -51,6 +56,7 @@
-
+@@ -48,6 +55,7 @@
      return(s - src - 1); /* count does not include NUL */
  }
-+#endif
 
++#endif //HAVE_DECL_STRLCPY
  /*
   * Appends src to string dst of size siz (unlike strncat, siz is the
-@@ -59,6 +65,8 @@
+  * full size of dst, not space left).  At most siz-1 characters
+@@ -55,6 +63,8 @@
   * Returns strlen(src) + MIN(siz, strlen(initial dst)).
   * If retval >= siz, truncation occurred.
   */
@@ -34,7 +38,7 @@
  inline size_t strlcat(char *dst, const char *src, size_t siz)
  {
      char *d = dst;
-@@ -88,3 +96,4 @@
+@@ -84,3 +94,4 @@
      return(dlen + (s - src)); /* count does not include NUL */
  }
  #endif
