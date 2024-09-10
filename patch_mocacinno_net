@@ -1,6 +1,15 @@
---- net.cpp.bu  2024-09-10 10:43:26.015130830 +0000
-+++ net.cpp     2024-09-10 10:43:57.527130456 +0000
-@@ -1084,7 +1084,7 @@
+--- net.cpp.orig        2024-09-10 11:55:52.419079164 +0000
++++ net.cpp     2024-09-10 11:56:29.575078723 +0000
+@@ -55,7 +55,7 @@
+ static bool vfLimited[NET_MAX] = {};
+ static CNode* pnodeLocalHost = NULL;
+ uint64 nLocalHostNonce = 0;
+-array<int, THREAD_MAX> vnThreadsRunning;
++boost::array<int, THREAD_MAX> vnThreadsRunning;
+ static std::vector<SOCKET> vhListenSocket;
+ CAddrMan addrman;
+
+@@ -1031,7 +1031,7 @@
  #else
      /* miniupnpc 1.6 */
      int error = 0;
