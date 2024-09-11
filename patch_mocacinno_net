@@ -1,5 +1,5 @@
---- net.cpp.orig        2024-09-10 13:57:27.038992453 +0000
-+++ net.cpp     2024-09-10 13:58:12.174991916 +0000
+--- net.cpp.orig        2024-09-11 07:03:32.274260622 +0000
++++ net.cpp     2024-09-11 07:04:12.718260141 +0000
 @@ -47,7 +47,7 @@
  CAddress addrLocalHost("0.0.0.0", 0, false, nLocalServices);
  static CNode* pnodeLocalHost = NULL;
@@ -9,7 +9,7 @@
  static SOCKET hListenSocket = INVALID_SOCKET;
 
  vector<CNode*> vNodes;
-@@ -1135,7 +1135,7 @@
+@@ -1084,7 +1084,7 @@
      struct UPNPDev * devlist = 0;
      char lanaddr[64];
 
