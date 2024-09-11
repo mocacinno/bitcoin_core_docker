@@ -11,9 +11,9 @@ This project aims to make older Bitcoin Core versions available for use in speci
 
 Explore the documentation to get started:
 
-- [Version Information](./versions/README.md): Details for each Bitcoin Core version compiled.
-- [Developer Guide](./developers/README.md): Instructions for contributing to the project.
-- [User Documentation](./userdocs/README.md): Guide for running the Docker images on your machine.
+- [Version Information](./versions/Readme.md): Details for each Bitcoin Core version compiled.
+- [Developer Guide](./developers/Readme.md): Instructions for contributing to the project.
+- [User Documentation](./userdocs/Readme.md): Guide for running the Docker images on your machine.
 
 > **Disclaimer**: The first draft of this documentation was AI-generated. Please feel free to submit a pull request if you find errors or improvements.
 
