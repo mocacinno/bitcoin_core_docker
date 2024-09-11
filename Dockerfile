@@ -62,24 +62,28 @@ RUN make
 RUN make install_sw
 
 RUN git clone https://github.com/bitcoin/bitcoin.git /bitcoin #bitcoin_git
+#WORKDIR /
 #RUN wget https://github.com/bitcoin/bitcoin/archive/refs/tags/v0.4.0.zip
-#RUN unzip v0.4.0.zip
+#RUN mv v0.4.0.zip bitcoin.zip
+#RUN unzip bitcoin.zip
 WORKDIR /bitcoin
 RUN git fetch --all --tags
 RUN git checkout tags/v0.4.0 -b v0.4.0 #v0.4.0
 WORKDIR /bitcoin/src
 COPY patch_mocacinno_net /bitcoin/src/patch_mocacinno_net
-#COPY patch_mocacinno_strlcpy /bitcoin/src/patch_mocacinno_strlcpy
+COPY patch_mocacinno_makefile /bitcoin/src/patch_mocacinno_makefile
 RUN patch net.cpp < patch_mocacinno_net
+RUN patch makefile.unix < patch_mocacinno_makefile
 #RUN patch strlcpy.h < patch_mocacinno_strlcpy
-#RUN make -j"$(($(nproc) + 1))" -f makefile.unix BOOST_INCLUDE_PATH=/boost_1_57_0 CXXFLAGS="-DHAVE_DECL_STRLCPY=1 -DHAVE_DECL_STRLCAT=1 -Wno-deprecated-declarations"
+#RUN make -j"$(($(nproc) + 1))" -f makefile.unix BOOST_INCLUDE_PATln -s /usr/local/ssl/lib/libcrypto.a /usr/lib64/H=/boost_1_57_0 CXXFLAGS="-DHAVE_DECL_STRLCPY=1 -DHAVE_DECL_STRLCAT=1 -Wno-deprecated-declarations"
 #RUN unlink /usr/lib64/libdb_cxx.so
 #RUN unlink /usr/lib64/libssl.so
 #RUN unlink /usr/lib64/libcrypto.so
 #ENV LD_LIBRARY_PATH=/usr/local/BerkeleyDB.4.8/lib:/usr/local/ssl/lib:$LD_LIBRARY_PATH
-#RUN ln -s /usr/local/BerkeleyDB.4.8/lib/libdb_cxx.so /usr/lib64/libdb_cxx.so
-#RUN ln -s /usr/local/ssl/lib/libssl.so /usr/lib64/libssl.so
-#RUN ln -s /usr/local/ssl/lib/libcrypto.so /usr/lib64/libcrypto.so
+RUN ln -s /usr/local/BerkeleyDB.4.8/lib/libdb_cxx.so /usr/lib64/libdb_cxx.so
+RUN ln -s /usr/local/ssl/lib/libssl.so /usr/lib64/libssl.so
+RUN ln -s /usr/local/ssl/lib/libcrypto.so /usr/lib64/libcrypto.so
+RUN ln -s /usr/local/ssl/lib/libcrypto.a /usr/lib64/
 #RUN echo "/usr/local/BerkeleyDB.4.8/lib" >> /etc/ld.so.conf.d/local.conf
 #RUN echo "/usr/local/ssl/lib" >> /etc/ld.so.conf.d/local.conf
 #RUN echo "/usr/local/lib" >> /etc/ld.so.conf.d/local.conf
@@ -97,16 +101,16 @@ RUN strip bitcoind
 
 FROM registry.suse.com/bci/bci-minimal:15.6
 COPY --from=builder /bitcoin/src/bitcoind /usr/local/bin
-COPY --from=builder /usr/lib64/libdb_cxx-4.8.so /usr/lib64/
-COPY --from=builder /usr/lib64/libsqlite3.so.0 /usr/lib64/
+#COPY --from=builder /usr/lib64/libdb_cxx-4.8.so /usr/lib64/
+#COPY --from=builder /usr/lib64/libsqlite3.so.0 /usr/lib64/
 COPY --from=builder /boost_1_57_0/stage/lib/libboost_system.so.1.57.0 /usr/lib64/
 COPY --from=builder /boost_1_57_0/stage/lib/libboost_filesystem.so.1.57.0 /usr/lib64/
 COPY --from=builder /boost_1_57_0/stage/lib/libboost_program_options.so.1.57.0 /usr/lib64/
 COPY --from=builder /boost_1_57_0/stage/lib/libboost_thread.so.1.57.0 /usr/lib64/
 COPY --from=builder /boost_1_57_0/stage/lib/libboost_chrono.so.1.57.0 /usr/lib64/
-COPY --from=builder /usr/lib64/libssl.so.1.0.0 /usr/lib64/
-COPY --from=builder /usr/lib64/libcrypto.so.1.0.0 /usr/lib64/
-COPY --from=builder /usr/lib64/libminiupnpc.so.17 /usr/lib64/
+#COPY --from=builder /usr/lib64/libssl.so.1.0.0 /usr/lib64/
+#COPY --from=builder /usr/lib64/libcrypto.so.1.0.0 /usr/lib64/
+#COPY --from=builder /usr/lib64/libminiupnpc.so.17 /usr/lib64/
 
 COPY entrypoint.sh /entrypoint.sh
 COPY bitcoin.conf /root/.bitcoin/bitcoin.conf
