@@ -5,7 +5,7 @@ RUN zypper addrepo https://download.opensuse.org/repositories/devel:gcc/SLE-15/d
 RUN zypper addrepo https://download.opensuse.org/repositories/home:MaxxedSUSE:Compiler-Tools-15.6/15.6/home:MaxxedSUSE:Compiler-Tools-15.6.repo
 RUN zypper addrepo https://download.opensuse.org/repositories/devel:libraries:c_c++/SLE_12_SP5/devel:libraries:c_c++.repo
 RUN zypper --gpg-auto-import-keys ref -s #gcc57
-RUN zypper --non-interactive install gcc6 gcc6-c++ make automake makeinfo git gawk libdb-4_8-devel libopenssl-1_0_0-devel wget libicu-devel libminiupnpc-devel libupnp-devel patch #gcc6
+RUN zypper --non-interactive install cmake xz meson gcc6 gcc6-c++ make automake makeinfo git gawk libdb-4_8-devel libopenssl-1_0_0-devel wget libicu-devel libminiupnpc-devel libupnp-devel patch libopenssl1_0_0 libopenssl-devel #gcc6
 ENV CC=gcc-6
 ENV CXX=g++-6
 
@@ -21,17 +21,32 @@ RUN ln -s /usr/bin/g++-6 /usr/bin/g++
 RUN ./bootstrap.sh #boost1.57.0
 RUN ./b2  -j"$(($(nproc) + 1))" || ./b2 -j"$(($(nproc) + 1))" install || ./b2 -j"$(($(nproc) + 1))" headers #boost1.57.0
 
+RUN wget http://miniupnp.free.fr/files/download.php?file=miniupnpc-2.1.tar.gz -O miniupnpc-2.1.tar.gz
+RUN tar -xvf miniupnpc-2.1.tar.gz
+WORKDIR /miniupnpc-2.1
+RUN meson setup _build                      # configure the build
+RUN meson compile -C _build                 # build GLib
+RUN meson install -C _build                 # install GLib
+
+
+WORKDIR /
+RUN wget https://download.gnome.org/sources/glib/2.78/glib-2.78.3.tar.xz
+RUN xz -d glib-2.78.3.tar.xz
+RUN tar -xvf glib-2.78.3.tar
+WORKDIR /glib-2.78.3
+RUN ./configure && make && make install
 
 RUN git clone https://github.com/bitcoin/bitcoin.git /bitcoin #bitcoin_git
 WORKDIR /bitcoin
 RUN git fetch --all --tags
-RUN git checkout tags/v0.5.0 -b v0.5.0 #v0.5.0
+RUN git checkout tags/v0.4.0 -b v0.4.0 #v0.4.0
 WORKDIR /bitcoin/src
-COPY patch_mocacinno_net /bitcoin/src/patch_mocacinno_net
-COPY patch_mocacinno_strlcpy /bitcoin/src/patch_mocacinno_strlcpy
-RUN patch net.cpp < patch_mocacinno_net
-RUN patch strlcpy.h < patch_mocacinno_strlcpy
-RUN make -j"$(($(nproc) + 1))" -f makefile.unix BOOST_INCLUDE_PATH=/boost_1_57_0 CXXFLAGS="-DHAVE_DECL_STRLCPY=1 -DHAVE_DECL_STRLCAT=1 -Wno-deprecated-declarations"
+#COPY patch_mocacinno_net /bitcoin/src/patch_mocacinno_net
+#COPY patch_mocacinno_strlcpy /bitcoin/src/patch_mocacinno_strlcpy
+#RUN patch net.cpp < patch_mocacinno_net
+#RUN patch strlcpy.h < patch_mocacinno_strlcpy
+#RUN make -j"$(($(nproc) + 1))" -f makefile.unix BOOST_INCLUDE_PATH=/boost_1_57_0 CXXFLAGS="-DHAVE_DECL_STRLCPY=1 -DHAVE_DECL_STRLCAT=1 -Wno-deprecated-declarations"
+RUN make -f makefile.unix bitcoind
 
 WORKDIR /bitcoin/src
 RUN strip bitcoind 
