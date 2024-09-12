@@ -62,16 +62,16 @@ RUN meson compile -C _build                 # build GLib
 RUN meson install -C _build                 # install GLib
 
 WORKDIR /
-RUN wget https://github.com/bitcoin/bitcoin/archive/refs/tags/v0.3.22.zip
-RUN unzip v0.3.22.zip
-WORKDIR /bitcoin-0.3.22/src
+RUN wget https://github.com/bitcoin/bitcoin/archive/refs/tags/v0.3.21.zip
+RUN unzip v0.3.21.zip
+WORKDIR /bitcoin-0.3.21
 RUN make -f makefile.unix bitcoind CXXFLAGS="-pthread -I/usr/local/ssl/include -I/usr/lib64 -I/usr/local/BerkeleyDB.4.7/include/"
 
-WORKDIR /bitcoin-0.3.22/src
+WORKDIR /bitcoin-0.3.21
 RUN strip bitcoind
 
 FROM registry.suse.com/bci/bci-minimal:15.6
-COPY --from=builder /bitcoin-0.3.22/src/bitcoind /usr/local/bin
+COPY --from=builder /bitcoin-0.3.21/bitcoind /usr/local/bin
 COPY --from=builder /boost_1_57_0/stage/lib/libboost_system.so.1.57.0 /usr/lib64/
 COPY --from=builder /boost_1_57_0/stage/lib/libboost_filesystem.so.1.57.0 /usr/lib64/
 COPY --from=builder /boost_1_57_0/stage/lib/libboost_program_options.so.1.57.0 /usr/lib64/
