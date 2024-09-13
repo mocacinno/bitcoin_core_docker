@@ -42,14 +42,14 @@ RUN make -j"$(($(nproc) + 1))" && make install
 RUN ln -s /usr/local/BerkeleyDB.4.7/lib/* /usr/lib64/
 
 WORKDIR /
-RUN wget https://sourceforge.net/projects/boost/files/boost/1.40.0/boost_1_40_0.tar.gz/download -O boost_1_40_0.tar.gz
-RUN tar -xvf boost_1_40_0.tar.gz
-ENV BOOST_ROOT=/boost_1_40_0
-WORKDIR /boost_1_40_0
-RUN chmod +x bootstrap.sh
-RUN ./bootstrap.sh
-RUN ./bjam -j"$(($(nproc) + 1))" || ./bjam -j"$(($(nproc) + 1))" install || ./bjam -j"$(($(nproc) + 1))" headers
-RUN ln -s /boost_1_40_0/stage/lib/* /usr/lib64
+RUN wget https://sourceforge.net/projects/boost/files/boost/1.57.0/boost_1_57_0.tar.gz/download -O boost_1_57_0.tar.gz #boost1.57.0
+RUN tar -xvf boost_1_57_0.tar.gz #boost1.57.0
+ENV BOOST_ROOT=/boost_1_57_0
+WORKDIR /boost_1_57_0
+RUN chmod +x bootstrap.sh #boost1.57.0
+RUN ./bootstrap.sh #boost1.57.0
+RUN ./b2  -j"$(($(nproc) + 1))" || ./b2 -j"$(($(nproc) + 1))" install || ./b2 -j"$(($(nproc) + 1))" headers #boost1.57.0
+RUN ln -s /boost_1_57_0/stage/lib/* /usr/lib64
 
 WORKDIR /
 RUN wget https://github.com/wxWidgets/wxWidgets/archive/refs/tags/v2.9.0.tar.gz
@@ -61,6 +61,8 @@ RUN wget https://sourceforge.net/code-snapshots/svn/b/bi/bitcoin/code/bitcoin-co
 RUN unzip bitcoin-code-r109-trunk.zip
 WORKDIR /bitcoin-code-r109-trunk
 COPY mocacinno_patch_nowx.patch /mocacinno_patch_nowx.patch
+RUN zypper --non-interactive install dos2unix
+RUN find /bitcoin-code-r109-trunk/ -type f -exec dos2unix {} +
 RUN patch -p1 < ../mocacinno_patch_nowx.patch
 
 RUN  make -f makefile.unix bitcoind CFLAGS="-I/openssl-0.9.8k/include -I/db-4.7.25.NC/build_unix" LDFLAGS="-L/openssl-0.9.8k/lib -static"
