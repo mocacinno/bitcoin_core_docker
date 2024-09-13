@@ -958,20 +958,6 @@ diff -ruN bitcoin-code-r111-trunk/rpc.cpp bitcoin-code-r112-trunk/rpc.cpp
          MyMessageBox(strprintf("error: %s\n", e.what()).c_str(), "Bitcoin", wxOK);
  #else
          fprintf(stderr, "error: %s\n", e.what());
-diff -ruN bitcoin-code-r111-trunk/serialize.h bitcoin-code-r112-trunk/serialize.h
---- bitcoin-code-r111-trunk/serialize.h	2010-07-25 16:45:21.000000000 +0000
-+++ bitcoin-code-r112-trunk/serialize.h	2010-07-26 17:15:18.000000000 +0000
-@@ -19,8 +19,8 @@
- class CDataStream;
- class CAutoFile;
- 
--static const int VERSION = 303;
--static const char* pszSubVer = "";
-+static const int VERSION = 304;
-+static const char* pszSubVer = ".0";
- 
- 
- 
 diff -ruN bitcoin-code-r111-trunk/ui.cpp bitcoin-code-r112-trunk/ui.cpp
 --- bitcoin-code-r111-trunk/ui.cpp	2010-07-25 16:45:21.000000000 +0000
 +++ bitcoin-code-r112-trunk/ui.cpp	2010-07-26 17:15:18.000000000 +0000
