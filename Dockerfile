@@ -3,50 +3,13 @@ FROM registry.suse.com/bci/bci-base:15.6 AS builder
 RUN zypper addrepo https://download.opensuse.org/repositories/devel:gcc/SLE-15/devel:gcc.repo
 RUN zypper addrepo https://download.opensuse.org/repositories/home:MaxxedSUSE:Compiler-Tools-15.6/15.6/home:MaxxedSUSE:Compiler-Tools-15.6.repo
 RUN zypper addrepo https://download.opensuse.org/repositories/devel:libraries:c_c++/SLE_12_SP5/devel:libraries:c_c++.repo
-RUN zypper --gpg-auto-import-keys ref -s #gcc48
-RUN zypper --non-interactive install gcc48 gcc48-c++ make automake makeinfo git gawk wget libicu-devel mlocate vim unzip cmake xz meson patch #gcc48
+RUN zypper addrepo https://download.opensuse.org/repositories/home:steffens:branches:Application:Geo:qgis/SLE_11_SP4/home:steffens:branches:Application:Geo:qgis.repo
+RUN zypper --gpg-auto-import-keys ref -s
+RUN zypper --non-interactive install gcc48 gcc48-c++ make automake makeinfo git gawk wget libicu-devel mlocate vim unzip cmake xz meson patch
 ENV CC=gcc-4.8
 ENV CXX=g++-4.8
 RUN ln -s /usr/bin/gcc-4.8 /usr/bin/gcc
 RUN ln -s /usr/bin/g++-4.8 /usr/bin/g++
-
-RUN wget https://sourceforge.net/projects/boost/files/boost/1.57.0/boost_1_57_0.tar.gz/download -O boost_1_57_0.tar.gz #boost1.57.0
-RUN tar -xvf boost_1_57_0.tar.gz #boost1.57.0
-ENV BOOST_ROOT=/boost_1_57_0
-WORKDIR /boost_1_57_0
-RUN chmod +x bootstrap.sh #boost1.57.0
-RUN ./bootstrap.sh #boost1.57.0
-RUN ./b2  -j"$(($(nproc) + 1))" || ./b2 -j"$(($(nproc) + 1))" install || ./b2 -j"$(($(nproc) + 1))" headers #boost1.57.0
-RUN ln -s /boost_1_57_0/stage/lib/* /usr/lib64
-
-WORKDIR /
-RUN wget http://miniupnp.free.fr/files/download.php?file=miniupnpc-1.5.tar.gz -O miniupnpc-1.5.tar.gz
-RUN tar -xvf miniupnpc-1.5.tar.gz
-WORKDIR /miniupnpc-1.5
-RUN make -j"$(($(nproc) + 1))" && make install
-RUN ln -s /usr/lib/libminiupnpc.so.5 /usr/lib64
-RUN ln -s /usr/lib/libminiupnpc.so /usr/lib64
-RUN ln -s /usr/lib/libminiupnpc.a /usr/lib64
-
-WORKDIR /
-RUN wget http://download.oracle.com/berkeley-db/db-4.7.25.NC.tar.gz
-RUN tar -xvf db-4.7.25.NC.tar.gz
-WORKDIR /db-4.7.25.NC/build_unix
-RUN ../dist/configure --enable-cxx
-RUN make -j"$(($(nproc) + 1))" && make install
-RUN ln -s /usr/local/BerkeleyDB.4.7/lib/* /usr/lib64/
-
-WORKDIR /
-RUN wget https://www.openssl.org/source/openssl-0.9.8g.tar.gz
-RUN tar -xvf openssl-0.9.8g.tar.gz
-WORKDIR /openssl-0.9.8g
-RUN ./config
-RUN make 
-RUN make install_sw
-RUN ./config shared --prefix=/usr/local/ssl
-RUN make  
-RUN make install_sw
-RUN ln -s /usr/local/ssl/lib/lib* /usr/lib64/
 
 WORKDIR /
 RUN wget https://download.gnome.org/sources/glib/2.78/glib-2.78.3.tar.xz
@@ -62,11 +25,47 @@ RUN meson compile -C _build                 # build GLib
 RUN meson install -C _build                 # install GLib
 
 WORKDIR /
-RUN wget https://github.com/bitcoin/bitcoin/archive/refs/tags/v0.3.6.zip
-RUN unzip v0.3.6.zip
-WORKDIR /bitcoin-0.3.6
-#run g++ -v -c util.cpp
-RUN make -f makefile.unix bitcoind CFLAGS="-I/openssl-0.9.8g/include -I/openssl-0.9.8g/include/openssl -I/db-4.7.25.NC/build_unix" LDFLAGS="-L/openssl-0.9.8g/lib -static"
+RUN wget https://www.openssl.org/source/openssl-0.9.8k.tar.gz
+RUN tar -xvf openssl-0.9.8k.tar.gz
+WORKDIR /openssl-0.9.8k
+RUN ./config
+RUN make 
+RUN make install_sw
+RUN ln -s /usr/local/ssl/lib/lib* /usr/lib64/
+
+WORKDIR /
+RUN wget http://download.oracle.com/berkeley-db/db-4.7.25.NC.tar.gz
+RUN tar -xvf db-4.7.25.NC.tar.gz
+WORKDIR /db-4.7.25.NC/build_unix
+RUN ../dist/configure --enable-cxx
+RUN make -j"$(($(nproc) + 1))" && make install
+RUN ln -s /usr/local/BerkeleyDB.4.7/lib/* /usr/lib64/
+
+WORKDIR /
+RUN wget https://sourceforge.net/projects/boost/files/boost/1.40.0/boost_1_40_0.tar.gz/download -O boost_1_40_0.tar.gz
+RUN tar -xvf boost_1_40_0.tar.gz
+ENV BOOST_ROOT=/boost_1_40_0
+WORKDIR /boost_1_40_0
+RUN chmod +x bootstrap.sh
+RUN ./bootstrap.sh
+RUN ./bjam -j"$(($(nproc) + 1))" || ./bjam -j"$(($(nproc) + 1))" install || ./bjam -j"$(($(nproc) + 1))" headers
+RUN ln -s /boost_1_40_0/stage/lib/* /usr/lib64
+
+WORKDIR /
+RUN wget https://github.com/wxWidgets/wxWidgets/archive/refs/tags/v2.9.0.tar.gz
+RUN tar -xvf v2.9.0.tar.gz
+RUN zypper --non-interactive install libgtk-2_0-0
+
+WORKDIR /
+RUN wget https://github.com/bitcoin/bitcoin/archive/refs/tags/v0.3.3.zip
+RUN unzip v0.3.3.zip
+RUN wget https://sourceforge.net/code-snapshots/svn/b/bi/bitcoin/code/bitcoin-code-r109-trunk.zip
+RUN unzip bitcoin-code-r109-trunk.zip
+WORKDIR /bitcoin-0.3.3
+RUN cp -r /bitcoin-code-r109-trunk/obj/ ./
+RUN ln -s /wxWidgets-2.9.0/include/wx /usr/include/wx
+
+RUN  make -f makefile.unix bitcoind CFLAGS="-I/openssl-0.9.8k/include -I/db-4.7.25.NC/build_unix" LDFLAGS="-L/openssl-0.9.8k/lib -static"
 
 RUN strip bitcoind
 
