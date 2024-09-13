@@ -57,13 +57,11 @@ RUN tar -xvf v2.9.0.tar.gz
 RUN zypper --non-interactive install libgtk-2_0-0
 
 WORKDIR /
-RUN wget https://github.com/bitcoin/bitcoin/archive/refs/tags/v0.3.3.zip
-RUN unzip v0.3.3.zip
 RUN wget https://sourceforge.net/code-snapshots/svn/b/bi/bitcoin/code/bitcoin-code-r109-trunk.zip
 RUN unzip bitcoin-code-r109-trunk.zip
-WORKDIR /bitcoin-0.3.3
-RUN cp -r /bitcoin-code-r109-trunk/obj/ ./
-RUN ln -s /wxWidgets-2.9.0/include/wx /usr/include/wx
+WORKDIR /bitcoin-code-r109-trunk
+COPY mocacinno_patch_nowx.patch /mocacinno_patch_nowx.patch
+RUN patch -p1 < ../mocacinno_patch_nowx.patch
 
 RUN  make -f makefile.unix bitcoind CFLAGS="-I/openssl-0.9.8k/include -I/db-4.7.25.NC/build_unix" LDFLAGS="-L/openssl-0.9.8k/lib -static"
 
