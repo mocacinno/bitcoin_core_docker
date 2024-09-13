@@ -1,1 +1,3 @@
 
+code comes from https://sourceforge.net/p/bitcoin/code/commit_browser . v0.3.6 and v0.3.3 were clearly indicated in commit messages. This commit lays somewhere between v0.3.3 and v0.3.6... I have no idear if it's v0.3.4, v0.3.5 or some commit somewhere in between...
+The general age of the code is more or less correct, but don't blame me if this codebase was not exactly the v0.3.4 tag i gave it!
