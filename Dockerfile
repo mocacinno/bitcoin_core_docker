@@ -79,11 +79,11 @@ RUN ./autogen.sh && \
 
 
 WORKDIR /
-RUN wget https://github.com/bitcoin/bitcoin/archive/refs/tags/v0.2.11.zip && \
-    unzip v0.2.11.zip
-WORKDIR /bitcoin-0.2.11
+RUN wget https://github.com/bitcoin/bitcoin/archive/refs/tags/v0.2.10.zip && \
+    unzip v0.2.10.zip
+WORKDIR /bitcoin-0.2.10
 RUN zypper --non-interactive install dos2unix && \
-    find /bitcoin-0.2.11/ -type f -exec dos2unix {} + && \
+    find /bitcoin-0.2.10/ -type f -exec dos2unix {} + && \
     mkdir -p obj/nogui && \
     ln -s /usr/local/lib/libwx_baseu-2.9.so /usr/lib64/libwx_baseud-2.9.so && \
     sed -i '24s/-mt//g' makefile.unix && \
@@ -93,7 +93,7 @@ RUN zypper --non-interactive install dos2unix && \
 
 
 FROM registry.suse.com/bci/bci-minimal:15.6
-COPY --from=builder /bitcoin-0.2.11/bitcoind /usr/local/bin
+COPY --from=builder /bitcoin-0.2.10/bitcoind /usr/local/bin
 COPY --from=builder /boost_1_57_0/stage/lib/libboost_system.so.1.57.0 /usr/lib64/
 COPY --from=builder /boost_1_57_0/stage/lib/libboost_filesystem.so.1.57.0 /usr/lib64/
 COPY --from=builder /boost_1_57_0/stage/lib/libboost_program_options.so.1.57.0 /usr/lib64/
