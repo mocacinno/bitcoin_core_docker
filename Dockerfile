@@ -79,11 +79,11 @@ RUN ./autogen.sh && \
 
 
 WORKDIR /
-RUN wget https://github.com/mocacinno/bitcoin_core_history/archive/refs/heads/v0.3.0.zip && \
-    unzip v0.3.0.zip
-WORKDIR /bitcoin_core_history-0.3.0
+RUN wget https://github.com/bitcoin/bitcoin/archive/refs/tags/v0.2.13.zip && \
+    unzip v0.2.13.zip
+WORKDIR /bitcoin-0.2.13
 RUN zypper --non-interactive install dos2unix && \
-    find /bitcoin_core_history-0.3.0/ -type f -exec dos2unix {} + && \
+    find /bitcoin-0.2.13/ -type f -exec dos2unix {} + && \
     mkdir -p obj/nogui && \
     ln -s /usr/local/lib/libwx_baseu-2.9.so /usr/lib64/libwx_baseud-2.9.so && \
     make -j"$(($(nproc) + 1))" -f makefile.unix bitcoind CFLAGS="-I/usr/local/lib/wx/include/gtk2-unicode-2.9 -I/usr/local/include/wx-2.9 -I/db-4.7.25.NC/build_unix -I/boost_1_57_0 -I/openssl-0.9.8k/include" && \
@@ -92,7 +92,7 @@ RUN zypper --non-interactive install dos2unix && \
 
 
 FROM registry.suse.com/bci/bci-minimal:15.6
-COPY --from=builder /bitcoin_core_history-0.3.0/bitcoind /usr/local/bin
+COPY --from=builder /bitcoin-0.2.13/bitcoind /usr/local/bin
 COPY --from=builder /boost_1_57_0/stage/lib/libboost_system.so.1.57.0 /usr/lib64/
 COPY --from=builder /boost_1_57_0/stage/lib/libboost_filesystem.so.1.57.0 /usr/lib64/
 COPY --from=builder /boost_1_57_0/stage/lib/libboost_program_options.so.1.57.0 /usr/lib64/
