@@ -62,9 +62,10 @@ RUN meson compile -C _build                 # build GLib
 RUN meson install -C _build                 # install GLib
 
 WORKDIR /
-RUN wget https://sourceforge.net/code-snapshots/svn/b/bi/bitcoin/code/bitcoin-code-r112-trunk.zip
-RUN unzip bitcoin-code-r112-trunk.zip
-WORKDIR /bitcoin-code-r112-trunk
+RUN wget https://github.com/bitcoin/bitcoin/archive/refs/tags/v0.3.4.zip
+RUN unzip v0.3.4.zip
+WORKDIR /bitcoin-0.3.4
+RUN mkdir -p obj/nogui
 #run g++ -v -c util.cpp
 RUN make -f makefile.unix bitcoind CFLAGS="-I/openssl-0.9.8g/include -I/openssl-0.9.8g/include/openssl -I/db-4.7.25.NC/build_unix" LDFLAGS="-L/openssl-0.9.8g/lib -static"
 RUN strip bitcoind
