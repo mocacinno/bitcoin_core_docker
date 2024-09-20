@@ -64,14 +64,9 @@ RUN meson install -C _build                 # install GLib
 WORKDIR /
 RUN wget https://github.com/bitcoin/bitcoin/archive/refs/tags/v0.3.13.zip
 RUN unzip v0.3.13.zip
-RUN wget https://github.com/bitcoin/bitcoin/archive/refs/tags/v0.3.8.zip
-RUN unzip v0.3.8.zip
 WORKDIR /bitcoin-0.3.13
-RUN cp -R ../bitcoin-0.3.8/obj/ ./
-WORKDIR /bitcoin-0.3.13/cryptopp
-RUN cp -R /bitcoin-0.3.8/cryptopp/obj/ ./
-WORKDIR /bitcoin-0.3.13
-#run g++ -v -c util.cpp
+RUN mkdir -p ./obj/nogui/
+RUN mkdir -p ./cryptopp/obj/
 RUN make -f makefile.unix bitcoind CFLAGS="-I/openssl-0.9.8g/include -I/openssl-0.9.8g/include/openssl -I/db-4.7.25.NC/build_unix" LDFLAGS="-L/openssl-0.9.8g/lib -static"
 
 WORKDIR /bitcoin-0.3.13
