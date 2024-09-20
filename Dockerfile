@@ -49,24 +49,11 @@ RUN make install_sw
 RUN ln -s /usr/local/ssl/lib/lib* /usr/lib64/
 
 WORKDIR /
-RUN wget https://download.gnome.org/sources/glib/2.78/glib-2.78.3.tar.xz
-RUN xz -d glib-2.78.3.tar.xz
-RUN tar -xvf glib-2.78.3.tar
-WORKDIR /glib-2.78.3/subprojects
-RUN wget https://github.com/PCRE2Project/pcre2/archive/refs/tags/pcre2-10.37.tar.gz -O pcre2-10.37.tar.gz
-RUN tar -xvf pcre2-10.37.tar.gz
-RUN mv pcre2-pcre2-10.37/ pcre2
-WORKDIR /glib-2.78.3
-RUN meson setup _build --wrap-mode=forcefallback -Dc_args="-Wno-error=unused-result" -Dcpp_args="-Wno-error=unused-result" -Dwarning_level=0
-RUN meson compile -C _build                 # build GLib
-RUN meson install -C _build                 # install GLib
-
-WORKDIR /
 RUN wget https://github.com/bitcoin/bitcoin/archive/refs/tags/v0.3.8.zip
 RUN unzip v0.3.8.zip
 WORKDIR /bitcoin-0.3.8
 #run g++ -v -c util.cpp
-RUN make -f makefile.unix bitcoind CFLAGS="-I/openssl-0.9.8g/include -I/openssl-0.9.8g/include/openssl -I/db-4.7.25.NC/build_unix" LDFLAGS="-L/openssl-0.9.8g/lib -static"
+RUN make -j"$(($(nproc) + 1))" -f makefile.unix bitcoind CFLAGS="-I/openssl-0.9.8g/include -I/openssl-0.9.8g/include/openssl -I/db-4.7.25.NC/build_unix" LDFLAGS="-L/openssl-0.9.8g/lib -static"
 
 WORKDIR /bitcoin-0.3.8
 RUN strip bitcoind
