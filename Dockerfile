@@ -64,15 +64,11 @@ RUN meson install -C _build                 # install GLib
 WORKDIR /
 RUN wget https://github.com/bitcoin/bitcoin/archive/refs/tags/v0.3.10.zip
 RUN unzip v0.3.10.zip
-RUN wget https://github.com/bitcoin/bitcoin/archive/refs/tags/v0.3.8.zip
-RUN unzip v0.3.8.zip
 WORKDIR /bitcoin-0.3.10
-RUN cp -R ../bitcoin-0.3.8/obj/ ./
-WORKDIR /bitcoin-0.3.10/cryptopp
-RUN cp -R /bitcoin-0.3.8/cryptopp/obj/ ./
-WORKDIR /bitcoin-0.3.10
+RUN mkdir -p ./obj/
+RUN mkdir -p ./cryptopp/obj/
 #run g++ -v -c util.cpp
-RUN make -f makefile.unix bitcoind CFLAGS="-I/openssl-0.9.8g/include -I/openssl-0.9.8g/include/openssl -I/db-4.7.25.NC/build_unix" LDFLAGS="-L/openssl-0.9.8g/lib -static"
+RUN make -j"$(($(nproc) + 1))" -f makefile.unix bitcoind CFLAGS="-I/openssl-0.9.8g/include -I/openssl-0.9.8g/include/openssl -I/db-4.7.25.NC/build_unix" LDFLAGS="-L/openssl-0.9.8g/lib -static"
 
 WORKDIR /bitcoin-0.3.10
 RUN strip bitcoind
