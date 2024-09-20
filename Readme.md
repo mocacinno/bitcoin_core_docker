@@ -1,6 +1,6 @@
 # Bitcoin Core Docker Compilation Project
 
-Welcome to the Bitcoin Core Docker compilation project repository! This repository documents the process of compiling all major versions of Bitcoin Core (from v0.4.0 to v27.1) inside a SLES 15 SP6 BCI_minimal container.
+Welcome to the Bitcoin Core Docker compilation project repository! This repository documents the process of compiling all major versions of Bitcoin Core (from v0.2.8 to v27.1) inside a SLES 15 SP6 BCI_minimal container.
 
 This project aims to make older Bitcoin Core versions available for use in specific scenarios like:
 
