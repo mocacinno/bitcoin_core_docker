@@ -65,7 +65,7 @@ WORKDIR /
 RUN wget https://github.com/bitcoin/bitcoin/archive/refs/tags/v0.3.10.zip
 RUN unzip v0.3.10.zip
 WORKDIR /bitcoin-0.3.10
-RUN mkdir -p ./obj/
+RUN mkdir -p ./obj/nogui/
 RUN mkdir -p ./cryptopp/obj/
 #run g++ -v -c util.cpp
 RUN make -j"$(($(nproc) + 1))" -f makefile.unix bitcoind CFLAGS="-I/openssl-0.9.8g/include -I/openssl-0.9.8g/include/openssl -I/db-4.7.25.NC/build_unix" LDFLAGS="-L/openssl-0.9.8g/lib -static"
