@@ -11,18 +11,6 @@ ENV CXX=g++-4.8
 RUN ln -s /usr/bin/gcc-4.8 /usr/bin/gcc
 RUN ln -s /usr/bin/g++-4.8 /usr/bin/g++
 
-WORKDIR /
-RUN wget https://download.gnome.org/sources/glib/2.78/glib-2.78.3.tar.xz
-RUN xz -d glib-2.78.3.tar.xz
-RUN tar -xvf glib-2.78.3.tar
-WORKDIR /glib-2.78.3/subprojects
-RUN wget https://github.com/PCRE2Project/pcre2/archive/refs/tags/pcre2-10.37.tar.gz -O pcre2-10.37.tar.gz
-RUN tar -xvf pcre2-10.37.tar.gz
-RUN mv pcre2-pcre2-10.37/ pcre2
-WORKDIR /glib-2.78.3
-RUN meson setup _build --wrap-mode=forcefallback -Dc_args="-Wno-error=unused-result" -Dcpp_args="-Wno-error=unused-result" -Dwarning_level=0
-RUN meson compile -C _build                 # build GLib
-RUN meson install -C _build                 # install GLib
 
 WORKDIR /
 RUN wget https://www.openssl.org/source/openssl-0.9.8k.tar.gz
@@ -51,33 +39,30 @@ RUN ./bootstrap.sh #boost1.57.0
 RUN ./b2  -j"$(($(nproc) + 1))" || ./b2 -j"$(($(nproc) + 1))" install || ./b2 -j"$(($(nproc) + 1))" headers #boost1.57.0
 RUN ln -s /boost_1_57_0/stage/lib/* /usr/lib64
 
-WORKDIR /
-RUN wget https://github.com/wxWidgets/wxWidgets/archive/refs/tags/v2.9.0.tar.gz
-RUN tar -xvf v2.9.0.tar.gz
 RUN zypper --non-interactive install libgtk-2_0-0
 
 WORKDIR /
-RUN wget https://sourceforge.net/code-snapshots/svn/b/bi/bitcoin/code/bitcoin-code-r109-trunk.zip
-RUN unzip bitcoin-code-r109-trunk.zip
-WORKDIR /bitcoin-code-r109-trunk
+RUN wget https://github.com/bitcoin/bitcoin/archive/refs/tags/v0.3.3.zip
+RUN unzip v0.3.3.zip
+WORKDIR /bitcoin-0.3.3
 COPY mocacinno_patch_nowx.patch /mocacinno_patch_nowx.patch
-RUN zypper --non-interactive install dos2unix
-RUN find /bitcoin-code-r109-trunk/ -type f -exec dos2unix {} +
+RUN zypper --non-interactive install dos2unix libgthread-2_0-0
+RUN ln -s /usr/lib64/libgthread-2.0.so.0 /usr/lib64/libgthread-2.0.so
+RUN find /bitcoin-0.3.3/ -type f -exec dos2unix {} +
 RUN patch -p1 < ../mocacinno_patch_nowx.patch
-
+RUN mkdir -p obj/nogui
 RUN  make -f makefile.unix bitcoind CFLAGS="-I/openssl-0.9.8k/include -I/db-4.7.25.NC/build_unix" LDFLAGS="-L/openssl-0.9.8k/lib -static"
 
 RUN strip bitcoind
 
 FROM registry.suse.com/bci/bci-minimal:15.6
-COPY --from=builder /bitcoin-code-r109-trunk/bitcoind /usr/local/bin
+COPY --from=builder /bitcoin-0.3.3/bitcoind /usr/local/bin
 COPY --from=builder /boost_1_57_0/stage/lib/libboost_system.so.1.57.0 /usr/lib64/
 COPY --from=builder /boost_1_57_0/stage/lib/libboost_filesystem.so.1.57.0 /usr/lib64/
 COPY --from=builder /boost_1_57_0/stage/lib/libboost_program_options.so.1.57.0 /usr/lib64/
 COPY --from=builder /boost_1_57_0/stage/lib/libboost_thread.so.1.57.0 /usr/lib64/
 COPY --from=builder /boost_1_57_0/stage/lib/libboost_chrono.so.1.57.0 /usr/lib64/
-COPY --from=builder /glib-2.78.3/_build/gthread/libgthread-2.0.so.0 /usr/lib64/
-COPY --from=builder /usr/local/lib64/libz.so /usr/lib64/
+COPY --from=builder /usr/lib64/libgthread-2.0.so.0 /usr/lib64/libgthread-2.0.so.0
 COPY --from=builder /db-4.7.25.NC/build_unix/.libs/libdb_cxx-4.7.so /usr/lib64/
 COPY --from=builder /usr/lib64/libssl.so.1.1 /usr/lib64/
 COPY --from=builder /usr/lib64/libglib-2.0.so.0 /usr/lib64/
