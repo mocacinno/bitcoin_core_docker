@@ -1,1 +1,5 @@
-theme: leap-day
+title: Bitcoin Core Docker Compilation Project
+description: A repository van most majore releases back to 2009, inside a clean docker container
+show_downloads: true
+google_analytics:
+theme: jekyll-theme-leap-day
