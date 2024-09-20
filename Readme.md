@@ -1,10 +1,11 @@
-### Welcome to the Bitcoin Core Docker Compilation Project
+# Welcome to the Bitcoin Core Docker Compilation Project
 
 This repository serves as a comprehensive archive of all major versions of Bitcoin Core, from **v0.2.8** (released in 2009) to **v27.1**. Inside this repository, you will find the docker images of each version as well as the documentation and tools needed to compile these versions in a **SLES 15 SP6 BCI_minimal** container (usually in the form of a Dockerfile).
 
 This project provides a historical snapshot of Bitcoin Core's development over the years and aims to be a valuable resource for the community in various scenarios, including but not limited to:
 
-#### Use Cases
+## Use Cases
+
 - **Manipulating Old Wallets:** Restore or experiment with older wallet formats that may not be compatible with modern software versions.
 - **Learning & Experimenting:** Study how Bitcoin Core has evolved, experiment with old versions, and test them in a contained environment.
 - **Analyzing Feature Changes Over Time:** Track the introduction, modification, or deprecation of key features across different Bitcoin Core releases.
@@ -18,6 +19,7 @@ This project provides a historical snapshot of Bitcoin Core's development over t
 
 This archive stands as a testament to Bitcoin's robust and evolving codebase, providing developers and enthusiasts with invaluable insights into the project's technical journey.
 
+## shortcuts
 
 Explore the documentation to get started:
 
