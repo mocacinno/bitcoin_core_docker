@@ -7,7 +7,7 @@ WORKDIR /boost_1_57_0
 
 RUN chmod +x bootstrap.sh #boost1.57.0
 RUN ./bootstrap.sh #boost1.57.0
-RUN ./b2  -j"$(($(nproc) + 1))" || ./b2 install || ./b2 headers #boost1.57.0
+RUN ./b2  -j"$(($(nproc) + 1))" || ./b2 -j"$(($(nproc) + 1))" install || ./b2 -j"$(($(nproc) + 1))" headers #boost1.57.0
 RUN git clone https://github.com/bitcoin/bitcoin.git /bitcoin #bitcoin_git
 WORKDIR /bitcoin
 RUN git fetch --all --tags
@@ -17,26 +17,12 @@ RUN zypper --gpg-auto-import-keys ref -s #gcc6
 RUN zypper --non-interactive install libopenssl-1_0_0-devel #openssl1.0
 RUN sed -i '1i#include <stdarg.h>' /bitcoin/src/leveldb/util/posix_logger.h
 RUN sed -i 's/va_copy/__va_copy/' /bitcoin/src/leveldb/util/posix_logger.h
-
-#RUN sed -i 's/base58Prefixes\[PUBKEY_ADDRESS\] = list_of(0)/base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1, 0)/' src/chainparams.cpp
-#RUN sed -i 's/base58Prefixes\[SCRIPT_ADDRESS\] = list_of(5)/base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1, 5)/' src/chainparams.cpp
-#RUN sed -i 's/base58Prefixes\[SECRET_KEY\] = list_of(128)/base58Prefixes[SECRET_KEY] = std::vector<unsigned char>(1, 128)/' src/chainparams.cpp
-#RUN sed -i 's/base58Prefixes\[EXT_PUBLIC_KEY\] = list_of(0x04)(0x88)(0xB2)(0x1E)/base58Prefixes[EXT_PUBLIC_KEY] = std::vector<unsigned char>{0x04, 0x88, 0xb2, 0x1e}/' src/chainparams.cpp
-#RUN sed -i 's/base58Prefixes\[EXT_SECRET_KEY\] = list_of(0x04)(0x88)(0xAD)(0xE4)/base58Prefixes[EXT_SECRET_KEY] = std::vector<unsigned char>{0x04, 0x88, 0xad, 0xe4}/' src/chainparams.cpp
-#RUN sed -i 's/base58Prefixes\[PUBKEY_ADDRESS\] = list_of(111)/base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1, 111)/' src/chainparams.cpp
-#RUN sed -i 's/base58Prefixes\[SCRIPT_ADDRESS\] = list_of(196)/base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1, 196)/' src/chainparams.cpp
-#RUN sed -i 's/base58Prefixes\[SECRET_KEY\] = list_of(239)/base58Prefixes[SECRET_KEY] = std::vector<unsigned char>(1, 239)/' src/chainparams.cpp
-#RUN sed -i 's/base58Prefixes\[EXT_PUBLIC_KEY\] = list_of(0x04)(0x35)(0x87)(0xCF)/base58Prefixes[EXT_PUBLIC_KEY] = std::vector<unsigned char>{0x04, 0x35, 0x87, 0xCF}/' src/chainparams.cpp
-#RUN sed -i 's/base58Prefixes\[EXT_SECRET_KEY\] = list_of(0x04)(0x35)(0x83)(0x94)/base58Prefixes[EXT_SECRET_KEY] = std::vector<unsigned char>{0x04, 0x35, 0x83, 0x94}/' src/chainparams.cpp
-
 COPY patch_mocacinno_chainparams /bitcoin
 RUN patch /bitcoin/src/chainparams.cpp < patch_mocacinno_chainparams
 
 RUN ./autogen.sh #v0.9.1
 RUN ldconfig
-#RUN ln -s /boost_1_57_0/stage/lib/libboost_system.so.1.57.0 /usr/lib64
 RUN ./configure  --with-cli --with-daemon CXX="g++ -std=c++11" #v0.9.1
-#RUN sed -i '1i#ifndef va_copy\n#define va_copy(dest, src) ((dest) = (src))\n#endif' /bitcoin/src/leveldb/util/posix_logger.h
 
 RUN make -j "$(($(nproc) + 1))" #v0.9.1
 WORKDIR /bitcoin/src
