@@ -62,10 +62,7 @@ RUN make
 RUN make install_sw
 
 RUN git clone https://github.com/bitcoin/bitcoin.git /bitcoin #bitcoin_git
-#WORKDIR /
-#RUN wget https://github.com/bitcoin/bitcoin/archive/refs/tags/v0.4.0.zip
-#RUN mv v0.4.0.zip bitcoin.zip
-#RUN unzip bitcoin.zip
+
 WORKDIR /bitcoin
 RUN git fetch --all --tags
 RUN git checkout tags/v0.4.0 -b v0.4.0 #v0.4.0
@@ -74,26 +71,13 @@ COPY patch_mocacinno_net /bitcoin/src/patch_mocacinno_net
 COPY patch_mocacinno_makefile /bitcoin/src/patch_mocacinno_makefile
 RUN patch net.cpp < patch_mocacinno_net
 RUN patch makefile.unix < patch_mocacinno_makefile
-#RUN patch strlcpy.h < patch_mocacinno_strlcpy
-#RUN make -j"$(($(nproc) + 1))" -f makefile.unix BOOST_INCLUDE_PATln -s /usr/local/ssl/lib/libcrypto.a /usr/lib64/H=/boost_1_57_0 CXXFLAGS="-DHAVE_DECL_STRLCPY=1 -DHAVE_DECL_STRLCAT=1 -Wno-deprecated-declarations"
-#RUN unlink /usr/lib64/libdb_cxx.so
-#RUN unlink /usr/lib64/libssl.so
-#RUN unlink /usr/lib64/libcrypto.so
-#ENV LD_LIBRARY_PATH=/usr/local/BerkeleyDB.4.8/lib:/usr/local/ssl/lib:$LD_LIBRARY_PATH
 RUN ln -s /usr/local/BerkeleyDB.4.8/lib/libdb_cxx.so /usr/lib64/libdb_cxx.so
 RUN ln -s /usr/local/ssl/lib/libssl.so /usr/lib64/libssl.so
 RUN ln -s /usr/local/ssl/lib/libcrypto.so /usr/lib64/libcrypto.so
 RUN ln -s /usr/local/ssl/lib/libcrypto.a /usr/lib64/
-#RUN echo "/usr/local/BerkeleyDB.4.8/lib" >> /etc/ld.so.conf.d/local.conf
-#RUN echo "/usr/local/ssl/lib" >> /etc/ld.so.conf.d/local.conf
-#RUN echo "/usr/local/lib" >> /etc/ld.so.conf.d/local.conf
-#RUN ldconfig
 ENV LD_LIBRARY_PATH=/usr/local/BerkeleyDB.4.8/lib:/usr/local/ssl/lib:/usr/local/lib:
 ENV LD_RUN_PATH=/usr/local/BerkeleyDB.4.8/lib:/usr/local/ssl/lib
-
-#g++ -I/usr/local/ssl/include -I/usr/local/BerkeleyDB.4.8/include/ -o bitcoind obj/nogui/crypter.o obj/nogui/db.o obj/nogui/init.o obj/nogui/irc.o obj/nogui/keystore.o obj/nogui/main.o obj/nogui/net.o obj/nogui/protocol.o obj/nogui/rpc.o obj/nogui/script.o obj/nogui/util.o obj/nogui/wallet.o cryptopp/obj/sha.o cryptopp/obj/cpu.o -Wl,-Bstatic -l boost_system -l boost_filesystem -l boost_program_options -l boost_thread -l db_cxx -l ssl -l crypto -l miniupnpc -Wl,-Bdynamic -l gthread-2.0 -l z -l dl -l pthread -Wl,--verbose
-#makefile.unix => static/dynamic
-RUN make -f makefile.unix bitcoind LDFLAGS="-L/usr/local/BerkeleyDB.4.8/lib -L/usr/local/ssl/lib" CXXFLAGS="-I/usr/local/ssl/include -I/usr/local/BerkeleyDB.4.8/include/"
+RUN make -j"$(($(nproc) + 1))" -f makefile.unix bitcoind LDFLAGS="-L/usr/local/BerkeleyDB.4.8/lib -L/usr/local/ssl/lib" CXXFLAGS="-I/usr/local/ssl/include -I/usr/local/BerkeleyDB.4.8/include/"
 
 
 WORKDIR /bitcoin/src
@@ -101,8 +85,7 @@ RUN strip bitcoind
 
 FROM registry.suse.com/bci/bci-minimal:15.6
 COPY --from=builder /bitcoin/src/bitcoind /usr/local/bin
-#COPY --from=builder /usr/lib64/libdb_cxx-4.8.so /usr/lib64/
-#COPY --from=builder /usr/lib64/libsqlite3.so.0 /usr/lib64/
+
 COPY --from=builder /boost_1_57_0/stage/lib/libboost_system.so.1.57.0 /usr/lib64/
 COPY --from=builder /boost_1_57_0/stage/lib/libboost_filesystem.so.1.57.0 /usr/lib64/
 COPY --from=builder /boost_1_57_0/stage/lib/libboost_program_options.so.1.57.0 /usr/lib64/
@@ -113,9 +96,6 @@ COPY --from=builder /usr/local/lib64/libz.so /usr/lib64/
 COPY --from=builder /db-4.8.30.NC/build_unix/.libs/libdb_cxx-4.8.so /usr/lib64/
 COPY --from=builder /openssl-0.9.8g/libssl.so.0.9.8 /usr/lib64/
 COPY --from=builder /usr/lib64/libglib-2.0.so.0 /usr/lib64/
-#COPY --from=builder /usr/lib64/libssl.so.1.0.0 /usr/lib64/
-#COPY --from=builder /usr/lib64/libcrypto.so.1.0.0 /usr/lib64/
-#COPY --from=builder /usr/lib64/libminiupnpc.so.17 /usr/lib64/
 
 COPY entrypoint.sh /entrypoint.sh
 COPY bitcoin.conf /root/.bitcoin/bitcoin.conf
