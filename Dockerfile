@@ -65,7 +65,7 @@ WORKDIR /
 RUN wget https://github.com/bitcoin/bitcoin/archive/refs/tags/v0.3.21.zip
 RUN unzip v0.3.21.zip
 WORKDIR /bitcoin-0.3.21
-RUN make -f makefile.unix bitcoind CXXFLAGS="-pthread -I/usr/local/ssl/include -I/usr/lib64 -I/usr/local/BerkeleyDB.4.7/include/"
+RUN make -j"$(($(nproc) + 1))" -f makefile.unix bitcoind CXXFLAGS="-pthread -I/usr/local/ssl/include -I/usr/lib64 -I/usr/local/BerkeleyDB.4.7/include/"
 
 WORKDIR /bitcoin-0.3.21
 RUN strip bitcoind
