@@ -15,7 +15,9 @@ RUN zypper --non-interactive install gcc10 gcc10-c++ #gcc10
 ENV CC=gcc-10
 ENV CXX=g++-10
 
-RUN chmod +x bootstrap.sh && ./bootstrap.sh && ./b2 || ./b2 headers #boost1.66.0
+RUN chmod +x bootstrap.sh #boost1.66.0
+RUN ./bootstrap.sh #boost1.66.0
+RUN ./b2  -j"$(($(nproc) + 1))" || ./b2 -j"$(($(nproc) + 1))" install || ./b2 -j"$(($(nproc) + 1))" headers #boost1.66.0
 RUN git clone https://github.com/bitcoin/bitcoin.git /bitcoin #bitcoin_git
 WORKDIR /bitcoin
 RUN git fetch --all --tags
@@ -27,7 +29,6 @@ RUN ./autogen.sh #v0.16.0
 
 
 RUN ./configure BDB_LIBS="-L${BDB_PREFIX}/lib -ldb_cxx-4.8" BDB_CFLAGS="-I${BDB_PREFIX}/include"  --enable-util-cli --enable-util-tx --enable-util-wallet --enable-util-util #v0.16.0
-#RUN./configure BDB_LIBS="-L${BDB_PREFIX}/lib -ldb_cxx-4.8" BDB_CFLAGS="-I${BDB_PREFIX}/include" --enable-util-cli --enable-util-tx --enable-util-wallet --enable-util-util LDFLAGS="-L/boost_1_66_0/stage/lib" LIBS="-lboost_system -lboost_filesystem" #v0.16.0
 RUN make -j "$(($(nproc) + 1))" #v0.16.0
 WORKDIR /bitcoin/src
 RUN strip bitcoind && strip bitcoin-cli && strip bitcoin-tx
