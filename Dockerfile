@@ -1,8 +1,5 @@
 FROM registry.suse.com/bci/bci-base:15.6 AS builder
 
-#COPY start.sh /usr/local/bin/
-#RUN chmod +x /usr/local/bin/start.sh
-#RUN /usr/local/bin/start.sh
 RUN zypper ref -s && zypper --non-interactive install git wget libevent-devel awk libdb-4_8-devel sqlite3-devel libleveldb1 clang7 && zypper --non-interactive install -t pattern devel_basis
 RUN wget https://archives.boost.io/release/1.86.0/source/boost_1_86_0.tar.gz
 RUN tar -xvf boost_1_86_0.tar.gz
@@ -15,7 +12,9 @@ RUN zypper --non-interactive install gcc10 gcc10-c++
 ENV CC=gcc-10
 ENV CXX=g++-10
 
-RUN chmod +x bootstrap.sh && ./bootstrap.sh && ./b2 || ./b2 headers #boost1.86.0
+RUN chmod +x bootstrap.sh #boost1.86.0
+RUN ./bootstrap.sh #boost1.86.0
+RUN ./b2  -j"$(($(nproc) + 1))" || ./b2 -j"$(($(nproc) + 1))" install || ./b2 -j"$(($(nproc) + 1))" headers #boost1.86.0
 RUN git clone https://github.com/bitcoin/bitcoin.git /bitcoin
 WORKDIR /bitcoin
 RUN git fetch --all --tags
