@@ -1,8 +1,5 @@
 FROM registry.suse.com/bci/bci-base:15.6 AS builder
 
-#COPY start.sh /usr/local/bin/
-#RUN chmod +x /usr/local/bin/start.sh #proxy_0
-#RUN /usr/local/bin/start.sh #proxy_0
 RUN zypper ref -s && zypper --non-interactive install git wget libevent-devel awk libdb-4_8-devel sqlite3-devel libleveldb1 clang7 gcc-c++ && zypper --non-interactive install -t pattern devel_basis #prereqs
 RUN wget https://archives.boost.io/release/1.66.0/source/boost_1_66_0.tar.gz #boost1.66.0
 RUN tar -xvf boost_1_66_0.tar.gz #boost1.66.0
@@ -15,7 +12,9 @@ RUN zypper --non-interactive install gcc10 gcc10-c++ #gcc10
 ENV CC=gcc-10
 ENV CXX=g++-10
 
-RUN chmod +x bootstrap.sh && ./bootstrap.sh && ./b2 || ./b2 headers #boost1.66.0
+RUN chmod +x bootstrap.sh #boost1.66.0
+RUN ./bootstrap.sh #boost1.66.0
+RUN ./b2  -j"$(($(nproc) + 1))" || ./b2 -j"$(($(nproc) + 1))" install || ./b2 -j"$(($(nproc) + 1))" headers #boost1.66.0
 RUN git clone https://github.com/bitcoin/bitcoin.git /bitcoin #bitcoin_git
 WORKDIR /bitcoin
 RUN git fetch --all --tags
@@ -27,7 +26,6 @@ RUN ./autogen.sh #v22.0
 
 
 RUN ./configure BDB_LIBS="-L${BDB_PREFIX}/lib -ldb_cxx-4.8" BDB_CFLAGS="-I${BDB_PREFIX}/include"  --enable-util-cli --enable-util-tx --enable-util-wallet --enable-util-util #v22.0
-#RUN./configure BDB_LIBS="-L${BDB_PREFIX}/lib -ldb_cxx-4.8" BDB_CFLAGS="-I${BDB_PREFIX}/include" --enable-util-cli --enable-util-tx --enable-util-wallet --enable-util-util LDFLAGS="-L/boost_1_66_0/stage/lib" LIBS="-lboost_system -lboost_filesystem" #v22.0
 RUN make -j "$(($(nproc) + 1))" #v22.0
 WORKDIR /bitcoin/src
 RUN strip bitcoin-util && strip bitcoind && strip bitcoin-cli && strip bitcoin-tx
