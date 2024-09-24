@@ -9,7 +9,9 @@ RUN zypper --gpg-auto-import-keys ref -s #gcc6
 RUN zypper --non-interactive install gcc6 gcc6-c++ #gcc6
 ENV CC=gcc-6
 ENV CXX=g++-6
-RUN chmod +x bootstrap.sh && ./bootstrap.sh && ./b2 || ./b2 headers #boost1.63.0
+RUN chmod +x bootstrap.sh #boost1.63.0
+RUN ./bootstrap.sh #boost1.63.0
+RUN ./b2  -j"$(($(nproc) + 1))" || ./b2 -j"$(($(nproc) + 1))" install || ./b2 -j"$(($(nproc) + 1))" headers #boost1.63.0
 RUN git clone https://github.com/bitcoin/bitcoin.git /bitcoin #bitcoin_git
 WORKDIR /bitcoin
 RUN git fetch --all --tags
