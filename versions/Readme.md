@@ -110,11 +110,11 @@ Here is a complete list of all the images- in this repo, click on the documentat
 | v0.3.1   | v3.1     | 2009-12-12   | [v0.3.1  Documentation](v3.1.md)           |
 | v0.3.0   | v3.0     | 2009-10-05   | [v0.3.0  Documentation](v3.0.md)           |
 | v0.2.13  | v2.13    | 2010-12-03   | [v0.2.13  Documentation](v2.13.md)         |
-| v0.2.12  | v2.12    | 2010-11-30   | [v0.2.13  Documentation](v2.13.md)         |
-| v0.2.11  | v2.11    | 2010-11-27   | [v0.2.13  Documentation](v2.13.md)         |
-| v0.2.10  | v2.10    | 2010-11-23   | [v0.2.13  Documentation](v2.13.md)         |
-| v0.2.9   | v2.9     | 2010-11-16   | [v0.2.13  Documentation](v2.13.md)         |
-| v0.2.8   | v2.8     | 2010-11-13   | [v0.2.13  Documentation](v2.13.md)         |
+| v0.2.12  | v2.12    | 2010-11-30   | [v0.2.12  Documentation](v2.12.md)         |
+| v0.2.11  | v2.11    | 2010-11-27   | [v0.2.11  Documentation](v2.11.md)         |
+| v0.2.10  | v2.10    | 2010-11-23   | [v0.2.10  Documentation](v2.10.md)         |
+| v0.2.9   | v2.9     | 2010-11-16   | [v0.2.9  Documentation](v2.9.md)           |
+| v0.2.8   | v2.8     | 2010-11-13   | [v0.2.8  Documentation](v2.8.md)           |
 | v0.2.7   | -----    | 2010-11-10   | ---------------------                      |
 | v0.2.6   | -----    | 2010-10-07   | ---------------------                      |
 | v0.2.5   | -----    | 2010-09-18   | ---------------------                      |
