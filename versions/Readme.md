@@ -136,4 +136,3 @@ It's actually suprisingly hard to find the actual release dates... Usually, a ne
 If this bugs you, and you know the actual 'official' release dates, don't hesitate to fork my repo, enter the correct dates and create a pull request.
 
 [Back to main page](../Readme.md)
-
