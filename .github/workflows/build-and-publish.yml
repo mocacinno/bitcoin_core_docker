@@ -25,9 +25,9 @@ jobs:
           echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
 
       # Step 4: Build and push multi-platform Docker image (Linux and Windows x86)
-      - name: Build and Push Docker image for Linux and Windows
+      - name: Build and Push Docker image for Linux 
         run: |
           docker buildx build \
-            --platform linux/amd64,windows/amd64 \
+            --platform linux/amd64,linux/arm64 \
             -t ghcr.io/${{ github.repository_owner }}/${{ github.repository }}:${{ github.ref_name }} \
             --push .
