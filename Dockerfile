@@ -104,12 +104,12 @@ WORKDIR /wxWidgets-2.9.0
 
 
 WORKDIR /
-RUN wget https://github.com/bitcoin/bitcoin/archive/refs/tags/v0.2.7.zip && \
-    unzip v0.2.7.zip
-WORKDIR /bitcoin-0.2.7
+RUN wget https://github.com/bitcoin/bitcoin/archive/refs/tags/v0.2.6.zip && \
+    unzip v0.2.6.zip
+WORKDIR /bitcoin-0.2.6
 RUN mkdir -p obj/nogui && \
-    sed -i '24s/-mt//g' makefile.unix && \
-    make -f makefile.unix bitcoind CFLAGS="-fpermissive -pthread -I/openssl-0.9.8k/include -I/usr/local/lib/wx/include/gtk2-unicode-debug-static-2.9 -I/usr/local/include/wx-2.9 -D_FILE_OFFSET_BITS=64 -D__WXDEBUG__ -D__WXGTK__ -I/db-4.7.25.NC/build_unix -I/usr/local/lib/wx/include/gtk2-unicode-2.9 -I/boost_1_57_0 -I/usr/local/wxwidgets/lib -I/wxWidgets-2.9.0/lib/ -I/wxWidgets-2.9.0/include -I/usr/lib64/wx/include/gtk2-unicode-debug-2.9" && \
+    sed -i '18s/-mt//g' makefile.unix && \
+    make -f makefile.unix bitcoin CFLAGS="-fpermissive -pthread -I/openssl-0.9.8k/include -I/usr/local/lib/wx/include/gtk2-unicode-debug-static-2.9 -I/usr/local/include/wx-2.9 -D_FILE_OFFSET_BITS=64 -D__WXDEBUG__ -D__WXGTK__ -I/db-4.7.25.NC/build_unix -I/usr/local/lib/wx/include/gtk2-unicode-2.9 -I/boost_1_57_0 -I/usr/local/wxwidgets/lib -I/wxWidgets-2.9.0/lib/ -I/wxWidgets-2.9.0/include -I/usr/lib64/wx/include/gtk2-unicode-debug-2.9" && \
     strip bitcoind
 
 
