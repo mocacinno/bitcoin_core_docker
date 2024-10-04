@@ -104,17 +104,17 @@ WORKDIR /wxWidgets-2.9.0
     ldconfig 
 
 WORKDIR /
-RUN wget https://github.com/bitcoin/bitcoin/archive/refs/tags/v0.2.2.zip && \
-    unzip v0.2.2.zip
-WORKDIR /bitcoin-0.2.2
+RUN wget https://github.com/mocacinno/bitcoin_core_history/archive/refs/heads/v0.2.1.zip && \
+    unzip v0.2.1.zip
+WORKDIR /bitcoin_core_history-0.2.1
 RUN mkdir -p obj/nogui && \
     zypper --non-interactive install dos2unix && \
-    dos2unix makefile.unix && \
-    cp makefile.unix makefile.unix.orig && \
-    sed -i '18s/-mt//g' makefile.unix && \
-    sed -i '/-Wl,-Bstatic/,/-Wl,-Bdynamic/ s/-l wx_gtk2ud-2.9//' makefile.unix && \
-    sed -i '/-l SM/ s/-l SM/-l SM -l wx_gtk2ud-2.9/' makefile.unix && \
-    make -f makefile.unix bitcoin CFLAGS="-I/usr/local/wxwidgets/include/wx-2.9 -I/usr/lib64/wx/include/gtk2-unicode-debug-2.9 -I/openssl-0.9.8k/include -I/usr/local/BerkeleyDB.4.7/include -fpermissive -I/wxWidgets-2.9.0/lib/wx/include/gtk2-unicode-debug-2.9 -I/wxWidgets-2.9.0/include -D_FILE_OFFSET_BITS=64 -D__WXDEBUG__ -DWXUSINGDLL -D__WXGTK__ -pthread" && \
+    dos2unix makefile.unix.wx2.9 && \
+    cp makefile.unix.wx2.9 makefile.unix.orig && \
+    sed -i '29s/-mt//g' makefile.unix.wx2.9 && \
+    sed -i '/-Wl,-Bstatic/,/-Wl,-Bdynamic/ s/-l wx_gtk2u\$(D)-2.9//' makefile.unix.wx2.9 && \
+    sed -i '/-l SM/ s/-l SM/-l SM -l wx_gtk2ud-2.9/' makefile.unix.wx2.9 && \
+    CFLAGS="-fPIC -fpermissive" make -f makefile.unix.wx2.9 bitcoin CFLAGS="-I/usr/local/wxwidgets/include/wx-2.9 -I/usr/lib64/wx/include/gtk2-unicode-debug-2.9 -I/openssl-0.9.8k/include -I/usr/local/BerkeleyDB.4.7/include -fpermissive -I/wxWidgets-2.9.0/lib/wx/include/gtk2-unicode-debug-2.9 -I/wxWidgets-2.9.0/include -D_FILE_OFFSET_BITS=64 -D__WXDEBUG__ -DWXUSINGDLL -D__WXGTK__ -pthread" && \
     strip bitcoin
 
 
@@ -122,7 +122,7 @@ FROM registry.suse.com/bci/bci-base:15.6
 RUN zypper addrepo https://download.opensuse.org/repositories/X11:XOrg/openSUSE_Leap_15.6/X11:XOrg.repo && \
     zypper --gpg-auto-import-keys ref -s && \
     zypper --non-interactive install xauth
-COPY --from=builder /bitcoin-0.2.2/bitcoin /usr/local/bin
+COPY --from=builder /bitcoin_core_history-0.2.1/bitcoin /usr/local/bin
 COPY --from=builder /boost_1_57_0/stage/lib/libboost_system.so.1.57.0 /usr/lib64/
 COPY --from=builder /boost_1_57_0/stage/lib/libboost_filesystem.so.1.57.0 /usr/lib64/
 COPY --from=builder /boost_1_57_0/stage/lib/libboost_program_options.so.1.57.0 /usr/lib64/
