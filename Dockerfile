@@ -118,7 +118,10 @@ RUN mkdir -p obj/nogui && \
     strip bitcoin
 
 
-FROM registry.suse.com/bci/bci-minimal:15.6
+FROM registry.suse.com/bci/bci-base:15.6
+RUN zypper addrepo https://download.opensuse.org/repositories/X11:XOrg/openSUSE_Leap_15.6/X11:XOrg.repo && \
+    zypper --gpg-auto-import-keys ref -s && \
+    zypper --non-interactive install xauth
 COPY --from=builder /bitcoin-0.2.6/bitcoin /usr/local/bin
 COPY --from=builder /boost_1_57_0/stage/lib/libboost_system.so.1.57.0 /usr/lib64/
 COPY --from=builder /boost_1_57_0/stage/lib/libboost_filesystem.so.1.57.0 /usr/lib64/
