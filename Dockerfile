@@ -104,9 +104,9 @@ WORKDIR /wxWidgets-2.9.0
     ldconfig 
 
 WORKDIR /
-RUN wget https://github.com/bitcoin/bitcoin/archive/refs/tags/v0.2.5.zip && \
-    unzip v0.2.5.zip
-WORKDIR /bitcoin-0.2.5
+RUN wget https://github.com/bitcoin/bitcoin/archive/refs/tags/v0.2.4.zip && \
+    unzip v0.2.4.zip
+WORKDIR /bitcoin-0.2.4
 RUN mkdir -p obj/nogui && \
     zypper --non-interactive install dos2unix && \
     dos2unix makefile.unix && \
@@ -122,7 +122,7 @@ FROM registry.suse.com/bci/bci-base:15.6
 RUN zypper addrepo https://download.opensuse.org/repositories/X11:XOrg/openSUSE_Leap_15.6/X11:XOrg.repo && \
     zypper --gpg-auto-import-keys ref -s && \
     zypper --non-interactive install xauth
-COPY --from=builder /bitcoin-0.2.5/bitcoin /usr/local/bin
+COPY --from=builder /bitcoin-0.2.4/bitcoin /usr/local/bin
 COPY --from=builder /boost_1_57_0/stage/lib/libboost_system.so.1.57.0 /usr/lib64/
 COPY --from=builder /boost_1_57_0/stage/lib/libboost_filesystem.so.1.57.0 /usr/lib64/
 COPY --from=builder /boost_1_57_0/stage/lib/libboost_program_options.so.1.57.0 /usr/lib64/
