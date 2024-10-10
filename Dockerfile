@@ -5,12 +5,12 @@ RUN zypper addrepo https://download.opensuse.org/repositories/devel:gcc/SLE-15/d
     zypper addrepo https://download.opensuse.org/repositories/devel:libraries:c_c++/SLE_12_SP5/devel:libraries:c_c++.repo && \
     zypper addrepo https://download.opensuse.org/repositories/home:steffens:branches:Application:Geo:qgis/SLE_11_SP4/home:steffens:branches:Application:Geo:qgis.repo && \
     zypper --gpg-auto-import-keys ref -s && \
-    zypper --non-interactive install gcc48 gcc48-c++ make automake makeinfo git gawk wget libicu-devel mlocate vim unzip cmake xz meson patch libtool gtk-doc libatk-1_0-0 libICE-devel libSM-devel libXt-devel gtk2 gtk2-devel
-ENV CC=gcc-4.8
-ENV CXX=g++-4.8
+    zypper --non-interactive install gcc43 gcc43-c++ make automake makeinfo git gawk wget libicu-devel mlocate vim unzip cmake xz meson patch libtool gtk-doc libatk-1_0-0 libICE-devel libSM-devel libXt-devel gtk2 gtk2-devel
+ENV CC=gcc-4.3
+ENV CXX=g++-4.3
 ENV PERL5LIB=.
-RUN ln -s /usr/bin/gcc-4.8 /usr/bin/gcc && \
-    ln -s /usr/bin/g++-4.8 /usr/bin/g++
+RUN ln -s /usr/bin/gcc-4.3 /usr/bin/gcc && \
+    ln -s /usr/bin/g++-4.3 /usr/bin/g++
 
 
 WORKDIR /
@@ -30,20 +30,6 @@ WORKDIR /db-4.7.25.NC/build_unix
 RUN ../dist/configure --enable-cxx && \
     make -j"$(($(nproc) + 1))" && make install && \
     ln -s /usr/local/BerkeleyDB.4.7/lib/* /usr/lib64/
-
-
-WORKDIR /
-RUN wget https://sourceforge.net/projects/boost/files/boost/1.57.0/boost_1_57_0.tar.gz/download -O boost_1_57_0.tar.gz && \
-    tar -xvf boost_1_57_0.tar.gz
-ENV BOOST_ROOT=/boost_1_57_0
-WORKDIR /boost_1_57_0
-RUN chmod +x bootstrap.sh  && \
-    ./bootstrap.sh  && \
-    ./b2  -j"$(($(nproc) + 1))" && \
-    ./b2 install  && \
-    ./b2 headers  && \
-    ln -s /boost_1_57_0/stage/lib/* /usr/lib64
-
 
 
 
@@ -88,20 +74,31 @@ RUN CPPFLAGS="-I/usr/local/include/freetype1" ./configure && \
     cp -r /pango-1.24.5/pango/.libs/* /usr/lib64/
 
 WORKDIR /
-
-
-RUN wget https://github.com/wxWidgets/wxWidgets/archive/refs/tags/v2.9.0.zip && \
-    unzip v2.9.0.zip
-WORKDIR /wxWidgets-2.9.0
- RUN ./autogen.sh && \
+RUN wget https://github.com/wxWidgets/wxWidgets/archive/refs/tags/v2.8.9.zip && \
+    unzip v2.8.9.zip
+WORKDIR /wxWidgets-2.8.9
+RUN ./autogen.sh && \
+    find . -type f -exec sed -i 's/GSocket/wxGSocket/g' {} \; && \
+    find . -type f -exec sed -i 's/typedef struct _GSocket/typedef struct _wxGSocket/' {} \; && \
+    find . -type f -exec sed -i 's/class GSocket/class wxGSocket/' {} \; && \
     CXXFLAGS="-fPIC -fpermissive" CFLAGS="-fPIC -fpermissive" ./configure --enable-unicode --enable-debug --prefix=/usr/local/wxwidgets  --with-gtk --enable-shared --enable-monolithic && \
     ln -s /usr/lib64/libjpeg.so.8 /usr/lib64/libjpeg8.so && \
     unlink /usr/lib64/libjpeg.so && \
     ln -s /usr/lib64/libjpeg.so.8.2.2 /usr/lib64/libjpeg.so && \
     CXXFLAGS="-fPIC -fpermissive" CFLAGS="-fPIC" make -j"$(($(nproc) + 1))" LDFLAGS="-lpangocairo-1.0 -lX11 -lcairo -ljpeg8" && \
     make install && \
-    cp -R /wxWidgets-2.9.0/lib/* /usr/lib64/ && \
     ldconfig 
+
+
+WORKDIR /
+RUN wget https://sourceforge.net/projects/boost/files/boost/1.40.0/boost_1_40_0.tar.gz/download -O boost_1_40_0.tar.gz && \
+    tar -xvf boost_1_40_0.tar.gz
+ENV BOOST_ROOT=/boost_1_40_0
+WORKDIR /boost_1_40_0
+RUN chmod +x bootstrap.sh && \
+    ./bootstrap.sh && \
+    ./bjam -j"$(($(nproc) + 1))" install || echo 1
+
 
 WORKDIR /
 RUN wget https://github.com/mocacinno/bitcoin_core_history/archive/refs/heads/v0.2.0.zip && \
@@ -109,12 +106,51 @@ RUN wget https://github.com/mocacinno/bitcoin_core_history/archive/refs/heads/v0
 WORKDIR /bitcoin_core_history-0.2.0
 RUN mkdir -p obj/nogui && \
     zypper --non-interactive install dos2unix && \
-    dos2unix makefile.unix && \
-    cp makefile.unix makefile.unix.orig && \
-    sed -i '/-Wl,-Bstatic/,/-Wl,-Bdynamic/ s/-l wx_gtk2u\$(D)-2.8//' makefile.unix && \
-    sed -i '/-l SM/ s/-l SM/-l SM -l wx_gtk2ud-2.9/' makefile.unix && \
-    CFLAGS="-fPIC -fpermissive" make -f makefile.unix bitcoin CFLAGS="-I/usr/local/wxwidgets/include/wx-2.9 -I/usr/lib64/wx/include/gtk2-unicode-debug-2.9 -I/openssl-0.9.8k/include -I/usr/local/BerkeleyDB.4.7/include -fpermissive -I/wxWidgets-2.9.0/lib/wx/include/gtk2-unicode-debug-2.9 -I/wxWidgets-2.9.0/include -D_FILE_OFFSET_BITS=64 -D__WXDEBUG__ -DWXUSINGDLL -D__WXGTK__ -pthread" && \
-    strip bitcoin
+    dos2unix * && \
+    sed -i '463s/min(nSize - i, 1 + 4999999 \/ sizeof(T))/min(static_cast<unsigned long>(nSize - i), static_cast<unsigned long>(1 + 4999999 \/ sizeof(T)))/' serialize.h && \
+    CFLAGS="-fPIC -fpermissive -Wno-invalid-offsetof" make -f makefile.unix bitcoin CFLAGS="-I/usr/local/wxwidgets/include/wx-2.8/ -I/usr/local/wxwidgets/lib/wx/include/gtk2-unicode-debug-2.8 -I/usr/local/lib/ -I/usr/lib64/wx/include/gtk2-unicode-debug-2.9 -I/openssl-0.9.8k/include -I/usr/local/BerkeleyDB.4.7/include -fpermissive -D_FILE_OFFSET_BITS=64 -D__WXDEBUG__ -DWXUSINGDLL -D__WXGTK__ -pthread"
+
+
+    sed -i 's/const std::string& defaultValue = ""/const wxString& defaultValue = wxString("")/' ui.h && \
+    sed -i 's/CGetTextFromUserDialog(wxWindow\* parent, const std::string& message, const std::string& caption = "", const std::string& defaultValue = "", const std::string& style = "", const std::string& name = "")/CGetTextFromUserDialog(wxWindow\* parent, const wxString& message, const wxString& caption = "", const wxString& defaultValue = "", const wxString& style = "", const wxString& name = "")/' ui.h && \
+    sed -i 's/wxStaticText->SetLabel(label)/wxStaticText->SetLabel(wxString(label))/' ui.h && \
+    sed -i 's/wxTextCtrl->SetValue(value)/wxTextCtrl->SetValue(wxString(value))/' ui.h && \
+    sed -i 's/offsetof(CMessageHeader, nMessageSize)/offsetof(struct CMessageHeader, nMessageSize)/' net.h && \
+    sed -i 's/offsetof(CMessageHeader, pchCommand)/offsetof(struct CMessageHeader, pchCommand)/' net.h
+    sed -i 's/std::string CGetTextFromUserDialog::GetValue()/std::string CGetTextFromUserDialog::GetValue() { return std::string(wxStringToStdString(m_textCtrl->GetValue())); }/' ui.h && \
+    sed -i 's/std::string CGetTextFromUserDialog::GetValue1()/std::string CGetTextFromUserDialog::GetValue1() { return std::string(wxStringToStdString(m_textCtrl->GetValue())); }/' ui.h && \
+
+    #sed -i 's/std::string/wxString/g' *.h *.cpp
+    #sed -i 's/const std::string/&/g' *.h *.cpp
+
+
+
+# RUN sed -i 's/min(\(.*unsigned int.*\), \(.*size_t.*\))/min(\1, static_cast<unsigned int>(\2))/' serialize.h && \
+#     sed -i 's/min(\(.*size_t.*\), \(.*unsigned int.*\))/min(static_cast<unsigned int>(\1), \2)/' serialize.h && \
+#     sed -i 's/min(\(.*unsigned int.*\), \(.*long unsigned int.*\))/min(\1, static_cast<unsigned int>(\2))/' serialize.h && \
+#     sed -i 's/min(\(.*long unsigned int.*\), \(.*unsigned int.*\))/min(static_cast<unsigned int>(\1), \2)/' serialize.h && \
+#     sed -i 's/\(min(\([^,]*\), \([^)]*\))\)/min(\2, static_cast<unsigned int>(\3))/g' serialize.h && \
+#     sed -i 's/\bIconized\b()/IsIconized()/g' ui.cpp && \
+#     sed -i 's/\bAddPendingEvent\b(\([^)]*\))/QueueEvent(\1.Clone())/g' ui.cpp && \
+#     sed -i 's/QueueEvent(\([^)]*\))/ProcessEvent(\1)/g' ui.cpp && \
+#     sed -i 's/ProcessEvent(\([^)]*\))/ProcessEvent(*\1)/g' ui.cpp && \
+#     sed -i 's/ProcessEvent(\*ProcessEvent/ProcessEvent(/g' ui.cpp
+
+
+
+
+   
+    
+#RUN CFLAGS="-fPIC -fpermissive -Wno-invalid-offsetof" make -f makefile.unix bitcoin CFLAGS="-I/usr/local/lib/ -I/usr/local/wxwidgets/include/wx-2.9 -I/usr/lib64/wx/include/gtk2-unicode-debug-2.9 -I/openssl-0.9.8k/include -I/usr/local/BerkeleyDB.4.7/include -fpermissive -I/wxWidgets-2.9.0/lib/wx/include/gtk2-unicode-debug-2.9 -I/wxWidgets-2.9.0/include -D_FILE_OFFSET_BITS=64 -D__WXDEBUG__ -DWXUSINGDLL -D__WXGTK__ -pthread" 
+
+# RUN mkdir -p obj/nogui && \
+#     zypper --non-interactive install dos2unix && \
+#     dos2unix * && \
+#     cp makefile.unix makefile.unix.orig && \
+#     sed -i '/-Wl,-Bstatic/,/-Wl,-Bdynamic/ s/-l wx_gtk2u\$(D)-2.8//' makefile.unix && \
+#     sed -i '/-l SM/ s/-l SM/-l SM -l wx_gtk2ud-2.9/' makefile.unix && \
+#     CFLAGS="-fPIC -fpermissive" make -f makefile.unix bitcoin CFLAGS="-I/usr/local/wxwidgets/include/wx-2.9 -I/usr/lib64/wx/include/gtk2-unicode-debug-2.9 -I/openssl-0.9.8k/include -I/usr/local/BerkeleyDB.4.7/include -fpermissive -I/wxWidgets-2.9.0/lib/wx/include/gtk2-unicode-debug-2.9 -I/wxWidgets-2.9.0/include -D_FILE_OFFSET_BITS=64 -D__WXDEBUG__ -DWXUSINGDLL -D__WXGTK__ -pthread" && \
+#     strip bitcoin
 
 
 # FROM registry.suse.com/bci/bci-base:15.6
