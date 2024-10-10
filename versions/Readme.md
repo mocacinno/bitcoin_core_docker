@@ -6,7 +6,6 @@ Here is a complete list of all the images- in this repo, click on the documentat
 
 | Version  | Tag      | Release Date | Documentation Link                         |
 |----------|----------|--------------|--------------------------------------------|
-| v28.0    | v28.0    | 2024-10-04   | [v28.0 Documentation](v28.0.md)            |
 | v27.1    | v27.1    | 2024-08-10   | [v27.1 Documentation](v27.1.md)            |
 | v27.0    | v27.0    | 2024-07-27   | [v27.0 Documentation](v27.0.md)            |
 | v26.1    | v26.1    | 2024-05-23   | [v26.1 Documentation](v26.1.md)            |
@@ -106,7 +105,7 @@ Here is a complete list of all the images- in this repo, click on the documentat
 | v0.3.8   | v3.8     | 2010-07-10   | [v0.3.8  Documentation](v3.8.md)           |
 | v0.3.7   | v3.7     | 2010-07-06   | [v0.3.7  Documentation](v3.7.md)           |
 | v0.3.6   | v3.6     | 2010-07-05   | [v0.3.6  Documentation](v3.6.md)           |
-| v0.3.5   | -----    | 2010-07-01   | ---------------------                      |
+| v0.3.5   | v3.5     | 2010-07-01   | [v0.3.5  Documentation](v3.5.md)           |
 | v0.3.4   | v3.4     | 2010-06-26   | [v0.3.4  Documentation](v3.4.md)           |
 | v0.3.3   | v3.3     | 2010-06-25   | [v0.3.3  Documentation](v3.3.md)           |
 | v0.3.2   | v3.2     | 2009-12-16   | [v0.3.2  Documentation](v3.2.md)           |
@@ -120,18 +119,18 @@ Here is a complete list of all the images- in this repo, click on the documentat
 | v0.2.8   | v2.8     | 2010-11-13   | [v0.2.8  Documentation](v2.8.md)           |
 | v0.2.7   | v2.7     | 2010-11-10   | [v0.2.7  Documentation](v2.7.md)           |
 | v0.2.6   | v2.6     | 2010-10-07   | [v0.2.6  Documentation](v2.6.md)           |
-| v0.2.5   | v2.5     | 2010-09-18   | [v0.2.5  Documentation](v2.5.md)           |
-| v0.2.4   | v2.4     | 2010-08-15   | [v0.2.4  Documentation](v2.4.md)           |
-| v0.2.3   | v2.3     | 2010-08-12   | [v0.2.3  Documentation](v2.3.md)           |
-| v0.2.2   | v2.2     | 2010-07-01   | [v0.2.2  Documentation](v2.2.md)           |
-| v0.2.1   | v2.1     | 2010-06-30   | [v0.2.1  Documentation](v2.1.md)           |
-| v0.2.0   | -----    | 2009-12-16   | probably won't be built                    |
-| v0.1.5   | -----    | 2009-12-11   | MS windows only - not built                |
-| v0.1.4   | -----    | 2009-09-15   | MS windows only - not built                |
-| v0.1.3   | -----    | 2009-08-15   | MS windows only - not built                |
-| v0.1.2   | -----    | 2009-08-01   | MS windows only - not built                |
-| v0.1.1   | -----    | 2009-06-16   | MS windows only - not built                |
-| v0.1.0   | -----    | 2009-01-09   | MS windows only - not built                |
+| v0.2.5   | -----    | 2010-09-18   | ---------------------                      |
+| v0.2.4   | -----    | 2010-08-15   | ---------------------                      |
+| v0.2.3   | -----    | 2010-08-12   | ---------------------                      |
+| v0.2.2   | -----    | 2010-07-01   | ---------------------                      |
+| v0.2.1   | -----    | 2010-06-30   | ---------------------                      |
+| v0.2.0   | -----    | 2009-12-16   | ---------------------                      |
+| v0.1.5   | -----    | 2009-12-11   | ---------------------                      |
+| v0.1.4   | -----    | 2009-09-15   | ---------------------                      |
+| v0.1.3   | -----    | 2009-08-15   | ---------------------                      |
+| v0.1.2   | -----    | 2009-08-01   | ---------------------                      |
+| v0.1.1   | -----    | 2009-06-16   | ---------------------                      |
+| v0.1.0   | -----    | 2009-01-09   | ---------------------                      |
 
 It's actually suprisingly hard to find the actual release dates... Usually, a new release is advertised on bitcointalk, but usually it's pretty hard to find the actual "hard" release date for a certain version.  
 If this bugs you, and you know the actual 'official' release dates, don't hesitate to fork my repo, enter the correct dates and create a pull request.
