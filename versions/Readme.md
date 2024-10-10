@@ -94,14 +94,14 @@ Here is a complete list of all the images- in this repo, click on the documentat
 | v0.3.19  | v3.19    | 2010-12-13   | [v0.3.19 Documentation](v3.19.md)          |
 | v0.3.18  | v3.18    | 2010-12-09   | [v0.3.18 Documentation](v3.18.md)          |
 | v0.3.17  | v3.17    | 2010-10-07   | [v0.3.17 Documentation](v3.17.md)          |
-| v0.3.16  | -----    | 2010-09-18   | ---------------------                      |
+| v0.3.16  | v3.16    | 2010-09-18   | [v0.3.16 Documentation](v3.16.md)          |
 | v0.3.15  | v3.15    | 2010-08-19   | [v0.3.15 Documentation](v3.15.md)          |
 | v0.3.14  | v3.14    | 2010-08-17   | [v0.3.14 Documentation](v3.14.md)          |
 | v0.3.13  | v3.13    | 2010-08-15   | [v0.3.13 Documentation](v3.13.md)          |
 | v0.3.12  | v3.12    | 2010-08-12   | [v0.3.12 Documentation](v3.12.md)          |
-| v0.3.11  | -----    | 2010-08-06   | ---------------------                      |
+| v0.3.11  | v3.11    | 2010-08-06   | [v0.3.11 Documentation](v3.11.md)          |
 | v0.3.10  | v3.10    | 2010-07-27   | [v0.3.10 Documentation](v3.10.md)          |
-| v0.3.9   | -----    | 2010-07-16   | ---------------------                      |
+| v0.3.9   | v3.9     | 2010-07-16   | [v0.3.9  Documentation](v3.9.md)           |
 | v0.3.8   | v3.8     | 2010-07-10   | [v0.3.8  Documentation](v3.8.md)           |
 | v0.3.7   | v3.7     | 2010-07-06   | [v0.3.7  Documentation](v3.7.md)           |
 | v0.3.6   | v3.6     | 2010-07-05   | [v0.3.6  Documentation](v3.6.md)           |
