@@ -62,9 +62,9 @@ RUN meson compile -C _build                 # build GLib
 RUN meson install -C _build                 # install GLib
 
 WORKDIR /
-RUN wget https://github.com/mocacinno/bitcoin_core_history/archive/refs/heads/v0.3.4.zip
-RUN unzip v0.3.4.zip
-WORKDIR /bitcoin_core_history-0.3.4
+RUN wget https://github.com/mocacinno/bitcoin_core_history/archive/refs/heads/v0.3.5.zip
+RUN unzip v0.3.5.zip
+WORKDIR /bitcoin_core_history-0.3.5
 RUN mkdir -p obj/nogui
 RUN mkdir -p cryptopp/obj
 #run g++ -v -c util.cpp
@@ -72,7 +72,7 @@ RUN make -f makefile.unix bitcoind CFLAGS="-I/openssl-0.9.8g/include -I/openssl-
 RUN strip bitcoind
 
 FROM registry.suse.com/bci/bci-minimal:15.6
-COPY --from=builder /bitcoin_core_history-0.3.4/bitcoind /usr/local/bin
+COPY --from=builder /bitcoin_core_history-0.3.5/bitcoind /usr/local/bin
 COPY --from=builder /boost_1_57_0/stage/lib/libboost_system.so.1.57.0 /usr/lib64/
 COPY --from=builder /boost_1_57_0/stage/lib/libboost_filesystem.so.1.57.0 /usr/lib64/
 COPY --from=builder /boost_1_57_0/stage/lib/libboost_program_options.so.1.57.0 /usr/lib64/
