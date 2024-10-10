@@ -133,6 +133,6 @@ Here is a complete list of all the images- in this repo, click on the documentat
 | v0.1.0   | -----    | 2009-01-09   | ---------------------                      |
 
 It's actually suprisingly hard to find the actual release dates... Usually, a new release is advertised on bitcointalk, but usually it's pretty hard to find the actual "hard" release date for a certain version.  
-If this bugs you, and you know the actual 'official' release dates, don't hesitate to fork my repo, enter the correct dates and create a pull request.
+If this bugs you, and you know the actual 'official' release dates, don't hesitate to fork my repo, enter the correct dates and create a pull request.  
 
 [Back to main page](../Readme.md)
