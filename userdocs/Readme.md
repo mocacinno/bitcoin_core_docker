@@ -1,3 +1,8 @@
+---
+layout: default
+title: Bitcoin core compilation project: Enduser documentation
+---
+
 # User Documentation
 
 This guide will help users set up Docker and run the Bitcoin Core images provided in this repository.
