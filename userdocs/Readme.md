@@ -28,6 +28,30 @@ This guide will help users set up Docker and run the Bitcoin Core images provide
     docker run -it --network none mocacinno/btc_core:v27.1
     ```
 
+## Use cases
+
+1. **Running a full node**:
+   In this usecase, we'll investigate how to run a full node, using the latest version available (currently v28.0) with persistent data (and wallet.dat) locations using our own entrypoint script...
+
+   ```bash
+   #add any command to entrypoint.sh that needs to be executed, "bitcoind -daemon &" is usually a good starting point. I use vi here, but you can use any editor you like
+   vi entrypoint.sh
+   #make entrypoint.sh executable
+   chmod +x entrypoint.sh
+   #make a directory to store all blockchain data and wallets for persistence
+   mkdir mybtcdata
+   #run the actual command, map mybtcdata directory, map entrypoint.sh, make sure entrypoint.sh is used as en entrypoint and make sure you start detached
+   docker run --privileged -v /root/mybtcdata:/root/.bitcoin -v $(pwd)/entrypoint.sh:/entrypoint.sh --entrypoint /entrypoint.sh -d  mocacinno/btc_core:v28.0 
+   #you can use the same way to inject a custom bitcoin.conf, just create one locally and add "-v $(pwd)/bitcoin.conf:/root/.bitcoin/bitcoin.conf" to the docker command
+   ```
+
+   <link rel="stylesheet" href="https://mocacinno.com/asciinema-player.css">
+   <div id="fullnode"></div>
+   <script src="https://mocacinno.com/asciinema-player.min.js"></script>
+   <script>
+      AsciinemaPlayer.create('casts/fullnode.cast', document.getElementById('fullnode'));
+   </script>
+
 ## Building the Docker Image Yourself
 
 1. **Clone the Repository**:
