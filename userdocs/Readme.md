@@ -33,6 +33,10 @@ This guide will help users set up Docker and run the Bitcoin Core images provide
 1. **Running a full node**:
    In this usecase, we'll investigate how to run a full node, using the latest version available (currently v28.0) with persistent data (and wallet.dat) locations using our own entrypoint script...
 
+   **Warning**
+
+   BEFORE running any container (including this one), it might be a good idear to validate the content of the image (and even better build it yourself)!!! In order to do so, read the next chapter (validate and build your own image)
+
    ```bash
    #add any command to entrypoint.sh that needs to be executed, "bitcoind -daemon &" is usually a good starting point. I use vi here, but you can use any editor you like
    vi entrypoint.sh
@@ -52,17 +56,25 @@ This guide will help users set up Docker and run the Bitcoin Core images provide
       AsciinemaPlayer.create('casts/fullnode.cast', document.getElementById('fullnode'));
    </script>
 
-## Building the Docker Image Yourself
+2. **validate and build your own image**:
+   It's never a good idear to blindly run images from anybody... even if you trust them. It's actually pretty simple to validate and build these images yourself!!!
 
-1. **Clone the Repository**:
+   **option 1: use github actions**
+   my [repo](https://github.com/mocacinno/bitcoin_core_docker) actually uses github actions to automatically build every time i push any changes to any branch... Offcourse, the images are not pushed to dockerhub, but to ghcr.io (github's own image repo). If you just clone my repo, and make sure all permissions are set correctly, you could just switch to the branch you want to build, verify the Dockerfile inside this branch, then modify the .actiontrigger file off this branch, and github will just build the image for you... After 10-20 minutes, you'll see a "packages" link on the left menu on your public repo page, and all built images will be stored here... Quick and easy :)
 
-    ```bash
-    git clone https://github.com/mocacinno/bitcoin_core_docker.git
-    cd bitcoin_core_docker
-    ```
+   **option 2: build it yourself**
+   This option isn't that hard either... You need a running docker (or podman) on a linux host, preferably with buildx installed (not tested, but it should also work without buildx).
 
-2. **Build the image**:
+   ```bash
+   git clone https://github.com/mocacinno/bitcoin_core_docker
+   cd bitcoin_core_docker
+   git switch v28.0
+   vi Dockerfile
+   docker build  -t btc_core:v28.0 .
+   docker run --entrypoint /bin/bash --network none -it btc_core:v28.0
+   ```
 
-    ```bash
-    docker build -t my_btc_core:v27.1 .
-    ```
+   <div id="build_image"></div>
+   <script>
+      AsciinemaPlayer.create('casts/build_image.cast', document.getElementById('build_image'));
+   </script>
