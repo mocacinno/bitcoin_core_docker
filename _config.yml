@@ -3,3 +3,14 @@ description: A repository van most major releases back to 2009, inside a clean d
 show_downloads: false
 google_analytics:
 theme: jekyll-theme-leap-day
+navbar:
+  - title: "Home"
+    url: "/"
+  - title: "Versions"
+    url: "/versions/"
+  - title: "User Docs"
+    url: "/userdocs/"
+  - title: "Dev Docs"
+    url: "/developers/"
+  - title: "Tips"
+    url: "/tip.html"
