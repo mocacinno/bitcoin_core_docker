@@ -30,10 +30,11 @@ This guide will help users set up Docker and run the Bitcoin Core images provide
 
 ## Use cases
 
-1. **Running a full node**:
+### **Running a full node**
+
    In this usecase, we'll investigate how to run a full node, using the latest version available (currently v28.0) with persistent data (and wallet.dat) locations using our own entrypoint script...
 
-   **Warning**
+   ***Warning***
 
    BEFORE running any container (including this one), it might be a good idear to validate the content of the image (and even better build it yourself)!!! In order to do so, read the next chapter (validate and build your own image)
 
@@ -56,7 +57,8 @@ This guide will help users set up Docker and run the Bitcoin Core images provide
       AsciinemaPlayer.create('casts/fullnode.cast', document.getElementById('fullnode'));
    </script>
 
-2. **validate and build your own image**:
+### **validate and build your own image**
+
    It's never a good idear to blindly run images from anybody... even if you trust them. It's actually pretty simple to validate and build these images yourself!!!
 
    **option 1: use github actions**
