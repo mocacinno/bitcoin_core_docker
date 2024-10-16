@@ -1,7 +1,7 @@
 title: Bitcoin Core Docker Compilation Project
 description: A repository van most major releases back to 2009, inside a clean docker container
 show_downloads: false
-google_analytics:
+google_analytics: GT-K5L8LMG
 theme: jekyll-theme-leap-day
 navbar:
   - title: "Home"
