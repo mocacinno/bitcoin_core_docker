@@ -5,24 +5,18 @@ RUN zypper addrepo https://download.opensuse.org/repositories/devel:gcc/SLE-15/d
     zypper addrepo https://download.opensuse.org/repositories/devel:libraries:c_c++/SLE_12_SP5/devel:libraries:c_c++.repo && \
     zypper addrepo https://download.opensuse.org/repositories/home:steffens:branches:Application:Geo:qgis/SLE_11_SP4/home:steffens:branches:Application:Geo:qgis.repo && \
     zypper --gpg-auto-import-keys ref -s && \
-    zypper --non-interactive install gcc48 gcc48-c++ make automake makeinfo git gawk wget libicu-devel mlocate vim unzip cmake xz meson patch libtool gtk-doc libatk-1_0-0 libICE-devel libSM-devel libXt-devel gtk2 gtk2-devel
+    zypper --non-interactive install gcc48 gcc48-c++ make automake makeinfo git gawk wget libicu-devel mlocate vim unzip cmake xz meson patch libtool gtk-doc libatk-1_0-0 libICE-devel libSM-devel libXt-devel gtk2 gtk2-devel dos2unix
+
+
+#gcc 4.8
 ENV CC=gcc-4.8
 ENV CXX=g++-4.8
 ENV PERL5LIB=.
 RUN ln -s /usr/bin/gcc-4.8 /usr/bin/gcc && \
     ln -s /usr/bin/g++-4.8 /usr/bin/g++
+   
 
-
-WORKDIR /
-RUN wget https://www.openssl.org/source/openssl-0.9.8k.tar.gz && \
-    tar -xvf openssl-0.9.8k.tar.gz
-WORKDIR /openssl-0.9.8k
-RUN ./config && \
-    make && \
-    make install_sw && \
-    ln -s /usr/local/ssl/lib/lib* /usr/lib64/
-
-
+#berkelydb 4.7.25
 WORKDIR /
 RUN wget http://download.oracle.com/berkeley-db/db-4.7.25.NC.tar.gz && \
     tar -xvf db-4.7.25.NC.tar.gz
@@ -32,6 +26,7 @@ RUN ../dist/configure --enable-cxx && \
     ln -s /usr/local/BerkeleyDB.4.7/lib/* /usr/lib64/
 
 
+#boost 1.57.0
 WORKDIR /
 RUN wget https://sourceforge.net/projects/boost/files/boost/1.57.0/boost_1_57_0.tar.gz/download -O boost_1_57_0.tar.gz && \
     tar -xvf boost_1_57_0.tar.gz
@@ -45,8 +40,18 @@ RUN chmod +x bootstrap.sh  && \
     ln -s /boost_1_57_0/stage/lib/* /usr/lib64
 
 
+#openssl 0.9.8k
+WORKDIR /
+RUN wget https://www.openssl.org/source/openssl-0.9.8k.tar.gz && \
+    tar -xvf openssl-0.9.8k.tar.gz
+WORKDIR /openssl-0.9.8k
+RUN ./config && \
+    make && \
+    make install_sw && \
+    ln -s /usr/local/ssl/lib/lib* /usr/lib64/
 
 
+#util macros 1.3.0
 WORKDIR /
 RUN wget https://gitlab.freedesktop.org/xorg/util/macros/-/archive/util-macros-1.3.0/macros-util-macros-1.3.0.tar.gz && \
     tar -xvf macros-util-macros-1.3.0.tar.gz
@@ -58,6 +63,7 @@ RUN sed -i '24i m4_pattern_allow([AS_HELP_STRING])' configure.ac  && \
     make install
 
 
+#libXtrans 1.0.2
 WORKDIR / 
 RUN wget https://gitlab.freedesktop.org/xorg/lib/libxtrans/-/archive/xtrans-1.0.2/libxtrans-xtrans-1.0.2.tar.gz && \
     tar -xvf libxtrans-xtrans-1.0.2.tar.gz
@@ -69,6 +75,7 @@ RUN sed -i '24i m4_pattern_allow([AS_HELP_STRING])' configure.ac && \
     make install
 
 
+#pango 1.24.5
 WORKDIR /
 RUN wget https://download.gnome.org/sources/pango/1.24/pango-1.24.5.tar.gz && \
     tar -xvf pango-1.24.5.tar.gz && \
@@ -87,9 +94,9 @@ RUN CPPFLAGS="-I/usr/local/include/freetype1" ./configure && \
     mv /opt/freetype2_bak /usr/include/freetype2 && \
     cp -r /pango-1.24.5/pango/.libs/* /usr/lib64/
 
+
+#wxwidgets 2.9.0
 WORKDIR /
-
-
 RUN wget https://github.com/wxWidgets/wxWidgets/archive/refs/tags/v2.9.0.zip && \
     unzip v2.9.0.zip
 WORKDIR /wxWidgets-2.9.0
@@ -103,12 +110,12 @@ WORKDIR /wxWidgets-2.9.0
     cp -R /wxWidgets-2.9.0/lib/* /usr/lib64/ && \
     ldconfig 
 
+#bitcoin core v0.2.1
 WORKDIR /
 RUN wget https://github.com/mocacinno/bitcoin_core_history/archive/refs/heads/v0.2.1.zip && \
     unzip v0.2.1.zip
 WORKDIR /bitcoin_core_history-0.2.1
 RUN mkdir -p obj/nogui && \
-    zypper --non-interactive install dos2unix && \
     dos2unix makefile.unix.wx2.9 && \
     cp makefile.unix.wx2.9 makefile.unix.orig && \
     sed -i '29s/-mt//g' makefile.unix.wx2.9 && \
@@ -118,6 +125,7 @@ RUN mkdir -p obj/nogui && \
     strip bitcoin
 
 
+#second layer
 FROM registry.suse.com/bci/bci-base:15.6
 RUN zypper addrepo https://download.opensuse.org/repositories/X11:XOrg/openSUSE_Leap_15.6/X11:XOrg.repo && \
     zypper --gpg-auto-import-keys ref -s && \
@@ -186,8 +194,8 @@ COPY --from=builder /usr/lib64/libjbig.so.2 /usr/lib64/
 
 
 
-# COPY entrypoint.sh /entrypoint.sh
-# COPY bitcoin.conf /root/.bitcoin/bitcoin.conf
-# RUN chmod +x /entrypoint.sh
-# EXPOSE 8332 8333 15332 15333
-# ENTRYPOINT ["/entrypoint.sh"]
+COPY entrypoint.sh /entrypoint.sh
+COPY bitcoin.conf /root/.bitcoin/bitcoin.conf
+RUN chmod +x /entrypoint.sh
+EXPOSE 8332 8333 15332 15333
+ENTRYPOINT ["/entrypoint.sh"]
