@@ -1,53 +1,46 @@
 FROM registry.suse.com/bci/bci-base:15.6 AS builder
 
-RUN zypper addrepo https://download.opensuse.org/repositories/devel:gcc/SLE-15/devel:gcc.repo
-RUN zypper addrepo https://download.opensuse.org/repositories/home:MaxxedSUSE:Compiler-Tools-15.6/15.6/home:MaxxedSUSE:Compiler-Tools-15.6.repo
-RUN zypper addrepo https://download.opensuse.org/repositories/devel:libraries:c_c++/SLE_12_SP5/devel:libraries:c_c++.repo
-RUN zypper --gpg-auto-import-keys ref -s #gcc48
-RUN zypper --non-interactive install gcc48 gcc48-c++ make automake makeinfo git gawk wget libicu-devel mlocate vim unzip cmake xz meson patch #gcc48
+RUN zypper addrepo https://download.opensuse.org/repositories/devel:gcc/SLE-15/devel:gcc.repo && \
+    zypper addrepo https://download.opensuse.org/repositories/home:MaxxedSUSE:Compiler-Tools-15.6/15.6/home:MaxxedSUSE:Compiler-Tools-15.6.repo && \
+    zypper addrepo https://download.opensuse.org/repositories/devel:libraries:c_c++/SLE_12_SP5/devel:libraries:c_c++.repo && \
+    zypper addrepo https://download.opensuse.org/repositories/home:steffens:branches:Application:Geo:qgis/SLE_11_SP4/home:steffens:branches:Application:Geo:qgis.repo && \
+    zypper --gpg-auto-import-keys ref -s && \
+    zypper --non-interactive install gcc48 gcc48-c++ make automake makeinfo git gawk wget libicu-devel mlocate vim unzip cmake xz meson patch libtool gtk-doc libatk-1_0-0 libICE-devel libSM-devel libXt-devel gtk2 gtk2-devel dos2unix
+
+
+#gcc 4.8
 ENV CC=gcc-4.8
 ENV CXX=g++-4.8
-RUN ln -s /usr/bin/gcc-4.8 /usr/bin/gcc
-RUN ln -s /usr/bin/g++-4.8 /usr/bin/g++
+ENV PERL5LIB=.
+RUN ln -s /usr/bin/gcc-4.8 /usr/bin/gcc && \
+    ln -s /usr/bin/g++-4.8 /usr/bin/g++
+   
 
-RUN wget https://sourceforge.net/projects/boost/files/boost/1.57.0/boost_1_57_0.tar.gz/download -O boost_1_57_0.tar.gz #boost1.57.0
-RUN tar -xvf boost_1_57_0.tar.gz #boost1.57.0
+#berkelydb 4.7.25
+WORKDIR /
+RUN wget http://download.oracle.com/berkeley-db/db-4.7.25.NC.tar.gz && \
+    tar -xvf db-4.7.25.NC.tar.gz
+WORKDIR /db-4.7.25.NC/build_unix
+RUN ../dist/configure --enable-cxx && \
+    make -j"$(($(nproc) + 1))" && make install && \
+    ln -s /usr/local/BerkeleyDB.4.7/lib/* /usr/lib64/
+
+
+#boost 1.57.0
+WORKDIR /
+RUN wget https://sourceforge.net/projects/boost/files/boost/1.57.0/boost_1_57_0.tar.gz/download -O boost_1_57_0.tar.gz && \
+    tar -xvf boost_1_57_0.tar.gz
 ENV BOOST_ROOT=/boost_1_57_0
 WORKDIR /boost_1_57_0
-RUN chmod +x bootstrap.sh #boost1.57.0
-RUN ./bootstrap.sh #boost1.57.0
-RUN ./b2  -j"$(($(nproc) + 1))" || ./b2 -j"$(($(nproc) + 1))" install || ./b2 -j"$(($(nproc) + 1))" headers #boost1.57.0
-RUN ln -s /boost_1_57_0/stage/lib/* /usr/lib64
+RUN chmod +x bootstrap.sh  && \
+    ./bootstrap.sh  && \
+    ./b2  -j"$(($(nproc) + 1))" && \
+    ./b2 install  && \
+    ./b2 headers  && \
+    ln -s /boost_1_57_0/stage/lib/* /usr/lib64
+	
 
-WORKDIR /
-RUN wget http://miniupnp.free.fr/files/download.php?file=miniupnpc-1.5.tar.gz -O miniupnpc-1.5.tar.gz
-RUN tar -xvf miniupnpc-1.5.tar.gz
-WORKDIR /miniupnpc-1.5
-RUN make -j"$(($(nproc) + 1))" && make install
-RUN ln -s /usr/lib/libminiupnpc.so.5 /usr/lib64
-RUN ln -s /usr/lib/libminiupnpc.so /usr/lib64
-RUN ln -s /usr/lib/libminiupnpc.a /usr/lib64
-
-WORKDIR /
-RUN wget http://download.oracle.com/berkeley-db/db-4.7.25.NC.tar.gz
-RUN tar -xvf db-4.7.25.NC.tar.gz
-WORKDIR /db-4.7.25.NC/build_unix
-RUN ../dist/configure --enable-cxx
-RUN make -j"$(($(nproc) + 1))" && make install
-RUN ln -s /usr/local/BerkeleyDB.4.7/lib/* /usr/lib64/
-
-WORKDIR /
-RUN wget https://www.openssl.org/source/openssl-0.9.8g.tar.gz
-RUN tar -xvf openssl-0.9.8g.tar.gz
-WORKDIR /openssl-0.9.8g
-RUN ./config
-RUN make 
-RUN make install_sw
-RUN ./config shared --prefix=/usr/local/ssl
-RUN make  
-RUN make install_sw
-RUN ln -s /usr/local/ssl/lib/lib* /usr/lib64/
-
+#glib 2.78.3
 WORKDIR /
 RUN wget https://download.gnome.org/sources/glib/2.78/glib-2.78.3.tar.xz
 RUN xz -d glib-2.78.3.tar.xz
@@ -61,6 +54,31 @@ RUN meson setup _build --wrap-mode=forcefallback -Dc_args="-Wno-error=unused-res
 RUN meson compile -C _build                 # build GLib
 RUN meson install -C _build                 # install GLib
 
+
+#openssl 0.9.8g
+WORKDIR /
+RUN wget https://www.openssl.org/source/openssl-0.9.8g.tar.gz
+RUN tar -xvf openssl-0.9.8g.tar.gz
+WORKDIR /openssl-0.9.8g
+RUN ./config
+RUN make 
+RUN make install_sw
+RUN ./config shared --prefix=/usr/local/ssl
+RUN make  
+RUN make install_sw
+RUN ln -s /usr/local/ssl/lib/lib* /usr/lib64/
+
+#miniupnpc 1.5
+WORKDIR /
+RUN wget http://miniupnp.free.fr/files/download.php?file=miniupnpc-1.5.tar.gz -O miniupnpc-1.5.tar.gz
+RUN tar -xvf miniupnpc-1.5.tar.gz
+WORKDIR /miniupnpc-1.5
+RUN make -j"$(($(nproc) + 1))" && make install
+RUN ln -s /usr/lib/libminiupnpc.so.5 /usr/lib64
+RUN ln -s /usr/lib/libminiupnpc.so /usr/lib64
+RUN ln -s /usr/lib/libminiupnpc.a /usr/lib64
+
+#bitcoin core v0.3.23
 WORKDIR /
 RUN wget https://github.com/bitcoin/bitcoin/archive/refs/tags/v0.3.23.zip
 RUN unzip v0.3.23.zip
