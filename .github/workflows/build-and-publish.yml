@@ -3,7 +3,7 @@ name: Build and Publish Docker Images
 on:
   push:
     branches:
-      - 'v*.*' 
+      - 'v*.*'
   workflow_dispatch:
 
 jobs:
@@ -15,17 +15,30 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v3
 
-    # Step 2: Set up Docker Buildx (optional for multi-arch images)
+    # Step 2: Set up Docker Buildx
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v2
 
-    # Step 3: Build the Docker image
-    - name: Build Docker image
-      run: |
-        docker build -t ghcr.io/${{ github.repository_owner }}/${{ github.repository }}:${{ github.ref_name }} .
-
-    # Step 4: Push the Docker image to GHCR
-    - name: Push Docker image
+    # Step 3: Log in to Docker Hub or GHCR
+    - name: Log in to Docker Hub or GHCR
       run: |
         echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+    # Step 4: Pull the cache image from Docker Hub or GHCR (if available)
+    - name: Pull cache image
+      run: |
+        docker pull ghcr.io/${{ github.repository_owner }}/${{ github.repository }}:cache || echo "No cache available"
+
+    # Step 5: Build Docker image using cache
+    - name: Build Docker image with cache
+      run: |
+        docker buildx build \
+          --cache-from=ghcr.io/${{ github.repository_owner }}/${{ github.repository }}:cache \
+          --cache-to=type=registry,ref=ghcr.io/${{ github.repository_owner }}/${{ github.repository }}:cache,mode=max \
+          --tag ghcr.io/${{ github.repository_owner }}/${{ github.repository }}:${{ github.ref_name }} --load \
+          .
+
+    # Step 6: Push Docker image to GHCR
+    - name: Push Docker image
+      run: |
         docker push ghcr.io/${{ github.repository_owner }}/${{ github.repository }}:${{ github.ref_name }}
