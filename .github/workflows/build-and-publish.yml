@@ -24,9 +24,10 @@ jobs:
       uses: actions/cache@v3
       with:
         path: /tmp/.buildx-cache
-        key: ${{ runner.os }}-buildx-bitcoincore-cache
+        key: ${{ runner.os }}-buildx-${{ github.ref_name }}-cache
         restore-keys: |
-          ${{ runner.os }}-buildx-cache
+          ${{ runner.os }}-buildx-bitcoincore-cache  # Global fallback cache
+          ${{ runner.os }}-buildx-                   # Broad fallback for any other version
 
     # Step 4: Build Docker image with cache
     - name: Build Docker image
@@ -36,11 +37,12 @@ jobs:
           --cache-to=type=local,dest=/tmp/.buildx-cache,mode=max \
           --tag ghcr.io/${{ github.repository_owner }}/${{ github.repository }}:${{ github.ref_name }} --load .
   
+    # Step 5: Build Docker image list (optional step to check images)
     - name: Build Docker image list
       run: |
         docker images
     
-    # Step 5: Push Docker image to GHCR
+    # Step 6: Push Docker image to GHCR
     - name: Push Docker image
       run: |
         echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
