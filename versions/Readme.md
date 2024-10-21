@@ -136,3 +136,13 @@ It's actually suprisingly hard to find the actual release dates... Usually, a ne
 If this bugs you, and you know the actual 'official' release dates, don't hesitate to fork my repo, enter the correct dates and create a pull request.  
 
 [Back to main page](../Readme.md)
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-BPC6NC6FF9"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-BPC6NC6FF9');
+</script>
