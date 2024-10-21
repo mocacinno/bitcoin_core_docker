@@ -6,6 +6,7 @@ Here is a complete list of all the images- in this repo, click on the documentat
 
 | Version  | Tag      | Release Date | Documentation Link                         |
 |----------|----------|--------------|--------------------------------------------|
+| v28.0    | v28.0    | 2024-10-02   | [v28.0 Documentation](v28.0.md)            |
 | v27.1    | v27.1    | 2024-08-10   | [v27.1 Documentation](v27.1.md)            |
 | v27.0    | v27.0    | 2024-07-27   | [v27.0 Documentation](v27.0.md)            |
 | v26.1    | v26.1    | 2024-05-23   | [v26.1 Documentation](v26.1.md)            |
