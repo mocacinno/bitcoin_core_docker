@@ -34,6 +34,7 @@ Happy experimenting!
 
 -- Mocacinno
 
+[return to the homepage](https://mocacinno.com)
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-BPC6NC6FF9"></script>
 <script>

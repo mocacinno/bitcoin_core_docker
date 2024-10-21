@@ -14,3 +14,14 @@ You're never forced to tip, i will never charge for these images and my support 
 * BTG: ASVXPWCDYTG7RM36asUTTRk2qxq7CK7jXc
 * DOGE: DRVicEVEhS4S9W8aiKrGAdvbMEGUbdKQ2u
 * ZEC: t1TgrhueLEhwhBpuutMRymt2SVYNqZkhs7e
+
+[return to the homepage](https://mocacinno.com)
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-BPC6NC6FF9"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-BPC6NC6FF9');
+</script>
