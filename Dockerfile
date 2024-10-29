@@ -1,7 +1,4 @@
 FROM registry.suse.com/bci/bci-base:15.6 AS builder
-#RUN zypper addrepo https://download.opensuse.org/repositories/home:MaxxedSUSE:Compiler-Tools-15.6/15.6/home:MaxxedSUSE:Compiler-Tools-15.6.repo
-#RUN zypper addrepo https://download.opensuse.org/repositories/devel:gcc/SLE-15/devel:gcc.repo
-#RUN zypper --gpg-auto-import-keys ref -s
 RUN zypper ref -s && zypper --non-interactive install git wget libevent-devel awk libdb-4_8-devel sqlite3-devel libleveldb1 clang7 gcc-c++ libopenssl-devel unzip && zypper --non-interactive install -t pattern devel_basis
 
 #boost 1.63.0
