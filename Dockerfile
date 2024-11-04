@@ -1,39 +1,40 @@
 FROM registry.suse.com/bci/bci-base:15.6 AS builder
+RUN zypper addrepo https://download.opensuse.org/repositories/devel:gcc/SLE-15/devel:gcc.repo
+RUN zypper --gpg-auto-import-keys ref -s
+RUN zypper ref -s && zypper --non-interactive install git wget libevent-devel awk libdb-4_8-devel sqlite3-devel libleveldb1 clang7 gcc10 gcc10-c++ unzip && zypper --non-interactive install -t pattern devel_basis
 
-RUN zypper ref -s && zypper --non-interactive install git wget libevent-devel awk libdb-4_8-devel sqlite3-devel libleveldb1 clang7 && zypper --non-interactive install -t pattern devel_basis
+#gcc 10
+ENV CC=gcc-10
+ENV CXX=g++-10
+
+#boost 1.86.0
 RUN wget https://archives.boost.io/release/1.86.0/source/boost_1_86_0.tar.gz
 RUN tar -xvf boost_1_86_0.tar.gz
 ENV BOOST_ROOT=/boost_1_86_0
 WORKDIR /boost_1_86_0
+RUN chmod +x bootstrap.sh 
+RUN ./bootstrap.sh 
+RUN ./b2  -j"$(($(nproc) + 1))" || ./b2 -j"$(($(nproc) + 1))" install || ./b2 -j"$(($(nproc) + 1))" headers 
 
-RUN zypper addrepo https://download.opensuse.org/repositories/devel:gcc/SLE-15/devel:gcc.repo
-RUN zypper --gpg-auto-import-keys ref -s
-RUN zypper --non-interactive install gcc10 gcc10-c++
-ENV CC=gcc-10
-ENV CXX=g++-10
-
-RUN chmod +x bootstrap.sh #boost1.86.0
-RUN ./bootstrap.sh #boost1.86.0
-RUN ./b2  -j"$(($(nproc) + 1))" || ./b2 -j"$(($(nproc) + 1))" install || ./b2 -j"$(($(nproc) + 1))" headers #boost1.86.0
-RUN git clone https://github.com/bitcoin/bitcoin.git /bitcoin
-WORKDIR /bitcoin
-RUN git fetch --all --tags
-RUN git checkout tags/v23.2 -b v23.2
+#bitcoin v23.2
+WORKDIR /
+RUN wget https://github.com/bitcoin/bitcoin/archive/refs/tags/v23.2.zip && \
+    unzip v23.2.zip
+WORKDIR /bitcoin-23.2
 RUN ./contrib/install_db4.sh `pwd`
-
-ENV BDB_PREFIX='/bitcoin/db4'
+ENV BDB_PREFIX='/bitcoin-23.2/db4'
 RUN ./autogen.sh
-
-
 RUN ./configure BDB_LIBS="-L${BDB_PREFIX}/lib -ldb_cxx-4.8" BDB_CFLAGS="-I${BDB_PREFIX}/include"  --enable-util-cli --enable-util-tx --enable-util-wallet --enable-util-util
-RUN make -j "$(($(nproc) + 1))" #v23.2
-WORKDIR /bitcoin/src
-RUN strip bitcoin-util && strip bitcoind && strip bitcoin-cli && strip bitcoin-tx  #v23.2
+RUN make -j "$(($(nproc) + 1))" 
+WORKDIR /bitcoin-23.2/src
+RUN strip bitcoin-util && strip bitcoind && strip bitcoin-cli && strip bitcoin-tx  
+
+
 FROM registry.suse.com/bci/bci-minimal:15.6
-COPY --from=builder /bitcoin/src/bitcoin-util /usr/local/bin
-COPY --from=builder /bitcoin/src/bitcoin-cli /usr/local/bin
-COPY --from=builder /bitcoin/src/bitcoin-tx /usr/local/bin
-COPY --from=builder /bitcoin/src/bitcoind /usr/local/bin
+COPY --from=builder /bitcoin-23.2/src/bitcoin-util /usr/local/bin
+COPY --from=builder /bitcoin-23.2/src/bitcoin-cli /usr/local/bin
+COPY --from=builder /bitcoin-23.2/src/bitcoin-tx /usr/local/bin
+COPY --from=builder /bitcoin-23.2/src/bitcoind /usr/local/bin
 COPY --from=builder /usr/lib64/libevent_pthreads-2.1.so.7 /usr/lib64/
 COPY --from=builder /usr/lib64/libevent-2.1.so.7 /usr/lib64/
 COPY --from=builder /usr/lib64/libdb_cxx-4.8.so /usr/lib64/
