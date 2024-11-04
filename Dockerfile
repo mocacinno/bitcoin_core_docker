@@ -18,6 +18,8 @@ WORKDIR /
 RUN wget https://github.com/bitcoin/bitcoin/archive/refs/tags/v0.16.0.zip && \
     unzip v0.16.0.zip
 WORKDIR /bitcoin-0.16.0
+RUN ./contrib/install_db4.sh `pwd` 
+ENV BDB_PREFIX='/bitcoin-0.16.0/db4'
 RUN ./autogen.sh
 RUN ./configure BDB_LIBS="-L${BDB_PREFIX}/lib -ldb_cxx-4.8" BDB_CFLAGS="-I${BDB_PREFIX}/include"  --enable-util-cli --enable-util-tx --enable-util-wallet --enable-util-util CXX="g++ -std=c++98"
 RUN make -j "$(($(nproc) + 1))" #v0.16.0
