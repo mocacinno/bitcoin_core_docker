@@ -16,13 +16,18 @@ RUN chmod +x bootstrap.sh
 RUN ./bootstrap.sh 
 RUN ./b2  -j"$(($(nproc) + 1))" || ./b2 -j"$(($(nproc) + 1))" install || ./b2 -j"$(($(nproc) + 1))" headers 
 
+#BerkeleyDB 4.8.30.NC
+WORKDIR /berkeleydb
+RUN wget https://raw.githubusercontent.com/bitcoin/bitcoin/refs/tags/v24.2/contrib/install_db4.sh
+RUN chmod +x install_db4.sh
+RUN ./install_db4.sh `pwd` 
+ENV BDB_PREFIX='/berkeleydb/db4'
+
 #bitcoin v24.1
 WORKDIR /
 RUN wget https://github.com/bitcoin/bitcoin/archive/refs/tags/v24.1.zip && \
     unzip v24.1.zip
 WORKDIR /bitcoin-24.1
-RUN ./contrib/install_db4.sh `pwd`
-ENV BDB_PREFIX='/bitcoin-24.1/db4'
 RUN ./autogen.sh
 RUN ./configure BDB_LIBS="-L${BDB_PREFIX}/lib -ldb_cxx-4.8" BDB_CFLAGS="-I${BDB_PREFIX}/include"  --enable-util-cli --enable-util-tx --enable-util-wallet --enable-util-util
 RUN make -j "$(($(nproc) + 1))" 
