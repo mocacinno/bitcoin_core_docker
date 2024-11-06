@@ -101,56 +101,14 @@ RUN chmod +x bootstrap.sh && \
 
 
 WORKDIR /
-RUN wget https://github.com/mocacinno/bitcoin_core_history/archive/refs/heads/v0.2.0.zip && \
-    unzip v0.2.0.zip
-WORKDIR /bitcoin_core_history-0.2.0
+RUN wget https://github.com/mocacinno/bitcoin_core_history/archive/refs/heads/v0.2.0_patched.zip  && \
+    unzip v0.2.0_patched.zip
+WORKDIR /bitcoin_core_history-0.2.0_patched
 RUN mkdir -p obj/nogui && \
     zypper --non-interactive install dos2unix && \
     dos2unix * && \
-    sed -i '463s/min(nSize - i, 1 + 4999999 \/ sizeof(T))/min(static_cast<unsigned long>(nSize - i), static_cast<unsigned long>(1 + 4999999 \/ sizeof(T)))/' serialize.h && \
-    CFLAGS="-fPIC -fpermissive -Wno-invalid-offsetof" make -f makefile.unix bitcoin CFLAGS="-I/usr/local/wxwidgets/include/wx-2.8/ -I/usr/local/wxwidgets/lib/wx/include/gtk2-unicode-debug-2.8 -I/usr/local/lib/ -I/usr/lib64/wx/include/gtk2-unicode-debug-2.9 -I/openssl-0.9.8k/include -I/usr/local/BerkeleyDB.4.7/include -fpermissive -D_FILE_OFFSET_BITS=64 -D__WXDEBUG__ -DWXUSINGDLL -D__WXGTK__ -pthread"
-
-
-    sed -i 's/const std::string& defaultValue = ""/const wxString& defaultValue = wxString("")/' ui.h && \
-    sed -i 's/CGetTextFromUserDialog(wxWindow\* parent, const std::string& message, const std::string& caption = "", const std::string& defaultValue = "", const std::string& style = "", const std::string& name = "")/CGetTextFromUserDialog(wxWindow\* parent, const wxString& message, const wxString& caption = "", const wxString& defaultValue = "", const wxString& style = "", const wxString& name = "")/' ui.h && \
-    sed -i 's/wxStaticText->SetLabel(label)/wxStaticText->SetLabel(wxString(label))/' ui.h && \
-    sed -i 's/wxTextCtrl->SetValue(value)/wxTextCtrl->SetValue(wxString(value))/' ui.h && \
-    sed -i 's/offsetof(CMessageHeader, nMessageSize)/offsetof(struct CMessageHeader, nMessageSize)/' net.h && \
-    sed -i 's/offsetof(CMessageHeader, pchCommand)/offsetof(struct CMessageHeader, pchCommand)/' net.h
-    sed -i 's/std::string CGetTextFromUserDialog::GetValue()/std::string CGetTextFromUserDialog::GetValue() { return std::string(wxStringToStdString(m_textCtrl->GetValue())); }/' ui.h && \
-    sed -i 's/std::string CGetTextFromUserDialog::GetValue1()/std::string CGetTextFromUserDialog::GetValue1() { return std::string(wxStringToStdString(m_textCtrl->GetValue())); }/' ui.h && \
-
-    #sed -i 's/std::string/wxString/g' *.h *.cpp
-    #sed -i 's/const std::string/&/g' *.h *.cpp
-
-
-
-# RUN sed -i 's/min(\(.*unsigned int.*\), \(.*size_t.*\))/min(\1, static_cast<unsigned int>(\2))/' serialize.h && \
-#     sed -i 's/min(\(.*size_t.*\), \(.*unsigned int.*\))/min(static_cast<unsigned int>(\1), \2)/' serialize.h && \
-#     sed -i 's/min(\(.*unsigned int.*\), \(.*long unsigned int.*\))/min(\1, static_cast<unsigned int>(\2))/' serialize.h && \
-#     sed -i 's/min(\(.*long unsigned int.*\), \(.*unsigned int.*\))/min(static_cast<unsigned int>(\1), \2)/' serialize.h && \
-#     sed -i 's/\(min(\([^,]*\), \([^)]*\))\)/min(\2, static_cast<unsigned int>(\3))/g' serialize.h && \
-#     sed -i 's/\bIconized\b()/IsIconized()/g' ui.cpp && \
-#     sed -i 's/\bAddPendingEvent\b(\([^)]*\))/QueueEvent(\1.Clone())/g' ui.cpp && \
-#     sed -i 's/QueueEvent(\([^)]*\))/ProcessEvent(\1)/g' ui.cpp && \
-#     sed -i 's/ProcessEvent(\([^)]*\))/ProcessEvent(*\1)/g' ui.cpp && \
-#     sed -i 's/ProcessEvent(\*ProcessEvent/ProcessEvent(/g' ui.cpp
-
-
-
-
-   
-    
-#RUN CFLAGS="-fPIC -fpermissive -Wno-invalid-offsetof" make -f makefile.unix bitcoin CFLAGS="-I/usr/local/lib/ -I/usr/local/wxwidgets/include/wx-2.9 -I/usr/lib64/wx/include/gtk2-unicode-debug-2.9 -I/openssl-0.9.8k/include -I/usr/local/BerkeleyDB.4.7/include -fpermissive -I/wxWidgets-2.9.0/lib/wx/include/gtk2-unicode-debug-2.9 -I/wxWidgets-2.9.0/include -D_FILE_OFFSET_BITS=64 -D__WXDEBUG__ -DWXUSINGDLL -D__WXGTK__ -pthread" 
-
-# RUN mkdir -p obj/nogui && \
-#     zypper --non-interactive install dos2unix && \
-#     dos2unix * && \
-#     cp makefile.unix makefile.unix.orig && \
-#     sed -i '/-Wl,-Bstatic/,/-Wl,-Bdynamic/ s/-l wx_gtk2u\$(D)-2.8//' makefile.unix && \
-#     sed -i '/-l SM/ s/-l SM/-l SM -l wx_gtk2ud-2.9/' makefile.unix && \
-#     CFLAGS="-fPIC -fpermissive" make -f makefile.unix bitcoin CFLAGS="-I/usr/local/wxwidgets/include/wx-2.9 -I/usr/lib64/wx/include/gtk2-unicode-debug-2.9 -I/openssl-0.9.8k/include -I/usr/local/BerkeleyDB.4.7/include -fpermissive -I/wxWidgets-2.9.0/lib/wx/include/gtk2-unicode-debug-2.9 -I/wxWidgets-2.9.0/include -D_FILE_OFFSET_BITS=64 -D__WXDEBUG__ -DWXUSINGDLL -D__WXGTK__ -pthread" && \
-#     strip bitcoin
+    make -f makefile.mocacinno bitcoin CFLAGS="-I/usr/local/wxwidgets/include/wx-2.8/ -I/usr/local/wxwidgets/lib/wx/include/gtk2-unicode-debug-2.8 -I/usr/local/lib/ -I/usr/lib64/wx/include/gtk2-unicode-debug-2.9 -I/openssl-0.9.8k/include -I/usr/local/wxwidgets/lib/ -I/usr/local/BerkeleyDB.4.7/include -I/wxWidgets-2.8.9/lib -fpermissive -D_FILE_OFFSET_BITS=64 -D__WXDEBUG__ -DWXUSINGDLL -D__WXGTK__ -pthread"
+RUN strip bitcoin
 
 
 # FROM registry.suse.com/bci/bci-base:15.6
