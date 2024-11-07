@@ -56,10 +56,9 @@ RUN sed -i '24i m4_pattern_allow([AS_HELP_STRING])' configure.ac && \
 
 
 WORKDIR /
-RUN wget https://download.gnome.org/sources/pango/1.24/pango-1.24.5.tar.gz
+RUN wget http://ftp.cse.buffalo.edu/mirror/X11/Gnome/platform/2.27/2.27.5/sources/pango-1.24.5.tar.gz
 RUN ls -ltrh
 RUN file pango-1.24.5.tar.gz
-RUN cat pango-1.24.5.tar.gz
 RUN tar -xvf pango-1.24.5.tar.gz
 RUN mv /usr/include/freetype2 /opt/freetype2_bak && \
     mkdir -p /usr/local/include/freetype1 && \
