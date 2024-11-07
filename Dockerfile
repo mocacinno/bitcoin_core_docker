@@ -128,12 +128,7 @@ RUN mkdir -p obj/nogui && \
     sed -i '/-l SM/ s/-l SM/-l SM -l wx_gtk2ud-2.9/' makefile.unix.wx2.9 && \
     CFLAGS="-fPIC -fpermissive" make -f makefile.unix.wx2.9 bitcoin CFLAGS="-I/usr/local/wxwidgets/include/wx-2.9 -I/usr/lib64/wx/include/gtk2-unicode-debug-2.9 -I/openssl-0.9.8k/include -I/usr/local/BerkeleyDB.4.7/include -fpermissive -I/wxWidgets-2.9.0/lib/wx/include/gtk2-unicode-debug-2.9 -I/wxWidgets-2.9.0/include -D_FILE_OFFSET_BITS=64 -D__WXDEBUG__ -DWXUSINGDLL -D__WXGTK__ -pthread" && \
     strip bitcoin
-RUN ln -s /bitcoin_core_history-0.2.1/bitcoin /usr/local/bin && \
-    ln -s /boost_1_57_0/stage/lib/libboost_system.so.1.57.0 /usr/lib64/ && \
-    ln -s /boost_1_57_0/stage/lib/libboost_filesystem.so.1.57.0 /usr/lib64/ && \
-    ln -s /boost_1_57_0/stage/lib/libboost_program_options.so.1.57.0 /usr/lib64/ && \
-    ln -s /boost_1_57_0/stage/lib/libboost_thread.so.1.57.0 /usr/lib64/ && \
-    ln -s /boost_1_57_0/stage/lib/libboost_chrono.so.1.57.0 /usr/lib64/
+RUN ln -s /bitcoin_core_history-0.2.1/bitcoin /usr/local/bin
 
 
 COPY entrypoint.sh /entrypoint.sh
