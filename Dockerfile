@@ -5,7 +5,7 @@ RUN zypper addrepo https://download.opensuse.org/repositories/devel:gcc/SLE-15/d
     zypper addrepo https://download.opensuse.org/repositories/devel:libraries:c_c++/SLE_12_SP5/devel:libraries:c_c++.repo && \
     zypper addrepo https://download.opensuse.org/repositories/home:steffens:branches:Application:Geo:qgis/SLE_11_SP4/home:steffens:branches:Application:Geo:qgis.repo && \
     zypper --gpg-auto-import-keys ref -s && \
-    zypper --non-interactive install gcc43 gcc43-c++ make automake makeinfo git gawk wget libicu-devel mlocate vim unzip cmake xz meson patch libtool gtk-doc libatk-1_0-0 libICE-devel libSM-devel libXt-devel gtk2 gtk2-devel
+    zypper --non-interactive install gcc43 gcc43-c++ make automake makeinfo git gawk wget libicu-devel mlocate vim unzip cmake xz meson patch libtool gtk-doc libatk-1_0-0 libICE-devel libSM-devel libXt-devel gtk2 gtk2-devel dejavu-fonts
 ENV CC=gcc-4.3
 ENV CXX=g++-4.3
 ENV PERL5LIB=.
