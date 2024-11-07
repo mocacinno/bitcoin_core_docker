@@ -125,7 +125,7 @@ Here is a complete list of all the images- in this repo, click on the documentat
 | v0.2.3   | v2.3     | 2010-08-12   | [v0.2.3  Documentation](v2.3.md)           |
 | v0.2.2   | v2.2     | 2010-07-01   | [v0.2.2  Documentation](v2.2.md)           |
 | v0.2.1   | v2.1     | 2010-06-30   | [v0.2.1  Documentation](v2.1.md)           |
-| v0.2.0   | -----    | 2009-12-16   | won't be built                             |
+| v0.2.0   | v2.0     | 2009-12-16   | [v0.2.0  Documentation](v2.0.md)           |
 | v0.1.5   | -----    | 2009-12-11   | can't be built on linux (MS only)          |
 | v0.1.4   | -----    | 2009-09-15   | can't be built on linux (MS only)          |
 | v0.1.3   | -----    | 2009-08-15   | can't be built on linux (MS only)          |
