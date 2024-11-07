@@ -56,14 +56,14 @@ RUN sed -i '24i m4_pattern_allow([AS_HELP_STRING])' configure.ac && \
 
 
 WORKDIR /
-RUN wget https://download.gnome.org/sources/pango/1.24/pango-1.24.5.tar.gz && \
-    tar -xvf pango-1.24.5.tar.gz && \
-    mv /usr/include/freetype2 /opt/freetype2_bak && \
+RUN wget https://download.gnome.org/sources/pango/1.24/pango-1.24.5.tar.gz
+RUN tar -xvf pango-1.24.5.tar.gz
+RUN mv /usr/include/freetype2 /opt/freetype2_bak && \
     mkdir -p /usr/local/include/freetype1 && \
-    mkdir -p /usr/local/include/freetype && \
-    wget https://github.com/LuaDist/freetype/archive/refs/heads/master.zip && \
-    unzip master.zip && \
-    cp -r /freetype-master/include/freetype/* /usr/local/include/freetype1 && \
+    mkdir -p /usr/local/include/freetype
+RUN wget https://github.com/LuaDist/freetype/archive/refs/heads/master.zip && \
+    unzip master.zip
+RUN cp -r /freetype-master/include/freetype/* /usr/local/include/freetype1 && \
     cp -r /freetype-master/include/*.h /usr/local/include/freetype1 && \
     cp -r /usr/local/include/freetype1/* /usr/local/include/freetype
 WORKDIR /pango-1.24.5
