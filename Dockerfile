@@ -115,6 +115,7 @@ RUN zypper addrepo https://download.opensuse.org/repositories/X11:XOrg/openSUSE_
     zypper --gpg-auto-import-keys ref -s && \
     zypper --non-interactive install xauth
 RUN ln -s /usr/local/wxwidgets/lib/libwx_gtk2ud-2.8.so.0 /usr/lib64/libwx_gtk2ud-2.8.so.0
+RUN ln -s /bitcoin_core_history-0.2.0_patched/bitcoin /usr/local/bin
 
 # FROM registry.suse.com/bci/bci-base:15.6
 # RUN zypper addrepo https://download.opensuse.org/repositories/X11:XOrg/openSUSE_Leap_15.6/X11:XOrg.repo && \
