@@ -110,6 +110,11 @@ WORKDIR /wxWidgets-2.9.0
     cp -R /wxWidgets-2.9.0/lib/* /usr/lib64/ && \
     ldconfig 
 
+#xauth and fonts for gui
+RUN zypper addrepo https://download.opensuse.org/repositories/X11:XOrg/openSUSE_Leap_15.6/X11:XOrg.repo && \
+    zypper --gpg-auto-import-keys ref -s && \
+    zypper --non-interactive install xauth dejavu-fonts
+
 #bitcoin core v0.2.1
 WORKDIR /
 RUN wget https://github.com/mocacinno/bitcoin_core_history/archive/refs/heads/v0.2.1.zip && \
@@ -123,75 +128,12 @@ RUN mkdir -p obj/nogui && \
     sed -i '/-l SM/ s/-l SM/-l SM -l wx_gtk2ud-2.9/' makefile.unix.wx2.9 && \
     CFLAGS="-fPIC -fpermissive" make -f makefile.unix.wx2.9 bitcoin CFLAGS="-I/usr/local/wxwidgets/include/wx-2.9 -I/usr/lib64/wx/include/gtk2-unicode-debug-2.9 -I/openssl-0.9.8k/include -I/usr/local/BerkeleyDB.4.7/include -fpermissive -I/wxWidgets-2.9.0/lib/wx/include/gtk2-unicode-debug-2.9 -I/wxWidgets-2.9.0/include -D_FILE_OFFSET_BITS=64 -D__WXDEBUG__ -DWXUSINGDLL -D__WXGTK__ -pthread" && \
     strip bitcoin
-
-
-#second layer
-FROM registry.suse.com/bci/bci-base:15.6
-RUN zypper addrepo https://download.opensuse.org/repositories/X11:XOrg/openSUSE_Leap_15.6/X11:XOrg.repo && \
-    zypper --gpg-auto-import-keys ref -s && \
-    zypper --non-interactive install xauth
-COPY --from=builder /bitcoin_core_history-0.2.1/bitcoin /usr/local/bin
-COPY --from=builder /boost_1_57_0/stage/lib/libboost_system.so.1.57.0 /usr/lib64/
-COPY --from=builder /boost_1_57_0/stage/lib/libboost_filesystem.so.1.57.0 /usr/lib64/
-COPY --from=builder /boost_1_57_0/stage/lib/libboost_program_options.so.1.57.0 /usr/lib64/
-COPY --from=builder /boost_1_57_0/stage/lib/libboost_thread.so.1.57.0 /usr/lib64/
-COPY --from=builder /boost_1_57_0/stage/lib/libboost_chrono.so.1.57.0 /usr/lib64/
-COPY --from=builder /usr/lib64/libgthread-2.0.so.0 /usr/lib64/
-COPY --from=builder /usr/lib64/libpangocairo-1.0.so.0 /usr/lib64/
-COPY --from=builder /usr/lib64/libX11.so.6 /usr/lib64/
-COPY --from=builder /usr/lib64/libcairo.so.2 /usr/lib64/
-COPY --from=builder /usr/lib64/libjpeg.so.8 /usr/lib64/
-COPY --from=builder /usr/lib64/libglib-2.0.so.0 /usr/lib64/
-COPY --from=builder /usr/lib64/libpango-1.0.so.0 /usr/lib64/
-COPY --from=builder /usr/lib64/libpangoft2-1.0.so.0 /usr/lib64/
-COPY --from=builder /usr/lib64/libgobject-2.0.so.0 /usr/lib64/
-COPY --from=builder /usr/lib64/libharfbuzz.so.0 /usr/lib64/
-COPY --from=builder /usr/lib64/libfontconfig.so.1 /usr/lib64/
-COPY --from=builder /usr/lib64/libxcb.so.1 /usr/lib64/
-COPY --from=builder /usr/lib64/libpng16.so.16 /usr/lib64/
-COPY --from=builder /usr/lib64/libfreetype.so.6 /usr/lib64/
-COPY --from=builder /usr/lib64/libXext.so.6 /usr/lib64/
-COPY --from=builder /usr/lib64/libXrender.so.1 /usr/lib64/
-COPY --from=builder /usr/lib64/libxcb-render.so.0 /usr/lib64/
-COPY --from=builder /usr/lib64/libxcb-shm.so.0 /usr/lib64/
-COPY --from=builder /usr/lib64/libpixman-1.so.0 /usr/lib64/
-COPY --from=builder /usr/lib64/libgio-2.0.so.0 /usr/lib64/
-COPY --from=builder /usr/lib64/libfribidi.so.0 /usr/lib64/
-COPY --from=builder /usr/lib64/libthai.so.0 /usr/lib64/
-COPY --from=builder /usr/lib64/libgobject-2.0.so.0 /usr/lib64/
-COPY --from=builder /usr/lib64/libffi.so.7 /usr/lib64/
-COPY --from=builder /usr/lib64/libgraphite2.so.3 /usr/lib64/
-COPY --from=builder /usr/lib64/libexpat.so.1 /usr/lib64/
-COPY --from=builder /usr/lib64/libXau.so.6 /usr/lib64/
-COPY --from=builder /usr/lib64/libbrotlidec.so.1 /usr/lib64/
-COPY --from=builder /usr/lib64/libgmodule-2.0.so.0 /usr/lib64/
-COPY --from=builder /usr/lib64/libmount.so.1 /usr/lib64/
-COPY --from=builder /usr/lib64/libdatrie.so.1 /usr/lib64/
-COPY --from=builder /usr/lib64/libbrotlicommon.so.1 /usr/lib64/
-COPY --from=builder /usr/lib64/libblkid.so.1 /usr/lib64/
-COPY --from=builder /usr/lib64/libgtk-x11-2.0.so.0 /usr/lib64/
-COPY --from=builder /usr/lib64/libSM.so.6 /usr/lib64/
-COPY --from=builder /usr/lib64/libwx_gtk2ud-2.9.so.0 /usr/lib64/
-COPY --from=builder /usr/lib64/libgdk-x11-2.0.so.0 /usr/lib64/
-COPY --from=builder /usr/lib64/libXfixes.so.3 /usr/lib64/
-COPY --from=builder /usr/lib64/libatk-1.0.so.0 /usr/lib64/
-COPY --from=builder /usr/lib64/libICE.so.6 /usr/lib64/
-COPY --from=builder /usr/lib64/libuuid.so.1 /usr/lib64/
-COPY --from=builder /usr/lib64/libgdk_pixbuf-2.0.so.0 /usr/lib64/
-COPY --from=builder /usr/lib64/libtiff.so.6 /usr/lib64/
-COPY --from=builder /usr/lib64/libXinerama.so.1 /usr/lib64/
-COPY --from=builder /usr/lib64/libXi.so.6 /usr/lib64/
-COPY --from=builder /usr/lib64/libXrandr.so.2 /usr/lib64/
-COPY --from=builder /usr/lib64/libXcursor.so.1 /usr/lib64/
-COPY --from=builder /usr/lib64/libXcomposite.so.1 /usr/lib64/
-COPY --from=builder /usr/lib64/libXdamage.so.1 /usr/lib64/
-COPY --from=builder /usr/lib64/libgdk_pixbuf-2.0.so.0 /usr/lib64/
-COPY --from=builder /usr/lib64/libjbig.so.2 /usr/lib64/
-
-
-
-
-
+RUN ln -s /bitcoin_core_history-0.2.1/bitcoin /usr/local/bin && \
+    ln -s /boost_1_57_0/stage/lib/libboost_system.so.1.57.0 /usr/lib64/ && \
+    ln -s /boost_1_57_0/stage/lib/libboost_filesystem.so.1.57.0 /usr/lib64/ && \
+    ln -s /boost_1_57_0/stage/lib/libboost_program_options.so.1.57.0 /usr/lib64/ && \
+    ln -s /boost_1_57_0/stage/lib/libboost_thread.so.1.57.0 /usr/lib64/ && \
+    ln -s /boost_1_57_0/stage/lib/libboost_chrono.so.1.57.0 /usr/lib64/
 
 
 COPY entrypoint.sh /entrypoint.sh
