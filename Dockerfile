@@ -109,7 +109,7 @@ WORKDIR /bitcoin_core_history-0.2.0_patched
 RUN mkdir -p obj/nogui && \
     zypper --non-interactive install dos2unix && \
     dos2unix * && \
-    make -f makefile.mocacinno bitcoin CFLAGS="-I/usr/local/wxwidgets/include/wx-2.8/ -I/usr/local/wxwidgets/lib/wx/include/gtk2-unicode-debug-2.8 -I/usr/local/lib/ -I/usr/lib64/wx/include/gtk2-unicode-debug-2.9 -I/openssl-0.9.8k/include -I/usr/local/wxwidgets/lib/ -I/usr/local/BerkeleyDB.4.7/include -I/wxWidgets-2.8.9/lib -fpermissive -D_FILE_OFFSET_BITS=64 -D__WXDEBUG__ -DWXUSINGDLL -D__WXGTK__ -pthread"
+    make -f makefile.mocacinno bitcoin CFLAGS="-I/usr/local/wxwidgets/include/wx-2.8/ -I/usr/local/wxwidgets/lib/wx/include/gtk2-unicode-debug-2.8 -I/usr/local/lib/ -I/usr/lib64/wx/include/gtk2-unicode-debug-2.9 -I/openssl-0.9.8k/include -I/usr/local/wxwidgets/lib/ -I/usr/local/BerkeleyDB.4.7/include -I/wxWidgets-2.8.9/lib -fpermissive -D_FILE_OFFSET_BITS=64 -D__WXDEBUG__ -DWXUSINGDLL -D__WXGTK__ -pthread -march=x86-64 -mtune=generic"
 RUN strip bitcoin
 RUN zypper addrepo https://download.opensuse.org/repositories/X11:XOrg/openSUSE_Leap_15.6/X11:XOrg.repo && \
     zypper --gpg-auto-import-keys ref -s && \
