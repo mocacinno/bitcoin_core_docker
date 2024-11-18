@@ -139,11 +139,13 @@ If this bugs you, and you know the actual 'official' release dates, don't hesita
 [Back to main page](../Readme.md)
 
 <!-- Google tag (gtag.js) -->
+{% raw %}
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-BPC6NC6FF9"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-
   gtag('config', 'G-BPC6NC6FF9');
 </script>
+{% endraw %}
+

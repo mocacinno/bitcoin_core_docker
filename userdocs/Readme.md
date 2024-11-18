@@ -83,11 +83,13 @@ This guide will help users set up Docker and run the Bitcoin Core images provide
 
 [return to the homepage](https://mocacinno.com)
 <!-- Google tag (gtag.js) -->
+{% raw %}
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-BPC6NC6FF9"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-
   gtag('config', 'G-BPC6NC6FF9');
 </script>
+{% endraw %}
+
