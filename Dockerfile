@@ -95,13 +95,13 @@ RUN CPPFLAGS="-I/usr/local/include/freetype1" ./configure && \
     cp -r /pango-1.24.5/pango/.libs/* /usr/lib64/
 
 
-#wxwidgets 2.9.0 changed vs bitcoin v0.2.6
+#wxwidgets 2.9.0
 WORKDIR /
 RUN wget https://github.com/wxWidgets/wxWidgets/archive/refs/tags/v2.9.0.zip && \
     unzip v2.9.0.zip
 WORKDIR /wxWidgets-2.9.0
  RUN ./autogen.sh && \
-    CXXFLAGS="-fPIC -fpermissive" CFLAGS="-fPIC" ./configure --enable-unicode --enable-debug --enable-shared --prefix=/usr/local/wxwidgets && \
+    CXXFLAGS="-fPIC -fpermissive" CFLAGS="-fPIC -fpermissive" ./configure --enable-unicode --enable-debug --prefix=/usr/local/wxwidgets  --with-gtk --enable-shared --enable-monolithic && \
     ln -s /usr/lib64/libjpeg.so.8 /usr/lib64/libjpeg8.so && \
     unlink /usr/lib64/libjpeg.so && \
     ln -s /usr/lib64/libjpeg.so.8.2.2 /usr/lib64/libjpeg.so && \
@@ -110,63 +110,23 @@ WORKDIR /wxWidgets-2.9.0
     cp -R /wxWidgets-2.9.0/lib/* /usr/lib64/ && \
     ldconfig 
 
+
+#xauth and fonts for gui
+RUN zypper addrepo https://download.opensuse.org/repositories/X11:XOrg/openSUSE_Leap_15.6/X11:XOrg.repo && \
+    zypper --gpg-auto-import-keys ref -s && \
+    zypper --non-interactive install xauth dejavu-fonts
+
 #bitcoin v0.2.7
 WORKDIR /
 RUN wget https://github.com/bitcoin/bitcoin/archive/refs/tags/v0.2.7.zip && \
     unzip v0.2.7.zip
 WORKDIR /bitcoin-0.2.7
+COPY makefile.mocacinno /bitcoin-0.2.7/makefile.mocacinno
 RUN mkdir -p obj/nogui && \
     sed -i '24s/-mt//g' makefile.unix && \
-    make -f makefile.unix bitcoind CFLAGS="-fpermissive -pthread -I/openssl-0.9.8k/include -I/usr/local/lib/wx/include/gtk2-unicode-debug-static-2.9 -I/usr/local/include/wx-2.9 -D_FILE_OFFSET_BITS=64 -D__WXDEBUG__ -D__WXGTK__ -I/db-4.7.25.NC/build_unix -I/usr/local/lib/wx/include/gtk2-unicode-2.9 -I/boost_1_57_0 -I/usr/local/wxwidgets/lib -I/wxWidgets-2.9.0/lib/ -I/wxWidgets-2.9.0/include -I/usr/lib64/wx/include/gtk2-unicode-debug-2.9" && \
-    strip bitcoind
-
-
-FROM registry.suse.com/bci/bci-minimal:15.6
-COPY --from=builder /bitcoin-0.2.7/bitcoind /usr/local/bin
-COPY --from=builder /boost_1_57_0/stage/lib/libboost_system.so.1.57.0 /usr/lib64/
-COPY --from=builder /boost_1_57_0/stage/lib/libboost_filesystem.so.1.57.0 /usr/lib64/
-COPY --from=builder /boost_1_57_0/stage/lib/libboost_program_options.so.1.57.0 /usr/lib64/
-COPY --from=builder /boost_1_57_0/stage/lib/libboost_thread.so.1.57.0 /usr/lib64/
-COPY --from=builder /boost_1_57_0/stage/lib/libboost_chrono.so.1.57.0 /usr/lib64/
-COPY --from=builder /usr/lib64/libwx_baseud-2.9.so.0 /usr/lib64/
-COPY --from=builder /usr/lib64/libgthread-2.0.so.0 /usr/lib64/
-COPY --from=builder /usr/lib64/libpangocairo-1.0.so.0 /usr/lib64/
-COPY --from=builder /usr/lib64/libX11.so.6 /usr/lib64/
-COPY --from=builder /usr/lib64/libcairo.so.2 /usr/lib64/
-COPY --from=builder /usr/lib64/libjpeg.so.8 /usr/lib64/
-COPY --from=builder /usr/lib64/libglib-2.0.so.0 /usr/lib64/
-COPY --from=builder /usr/lib64/libpango-1.0.so.0 /usr/lib64/
-COPY --from=builder /usr/lib64/libpangoft2-1.0.so.0 /usr/lib64/
-COPY --from=builder /usr/lib64/libgobject-2.0.so.0 /usr/lib64/
-COPY --from=builder /usr/lib64/libharfbuzz.so.0 /usr/lib64/
-COPY --from=builder /usr/lib64/libfontconfig.so.1 /usr/lib64/
-COPY --from=builder /usr/lib64/libxcb.so.1 /usr/lib64/
-COPY --from=builder /usr/lib64/libpng16.so.16 /usr/lib64/
-COPY --from=builder /usr/lib64/libfreetype.so.6 /usr/lib64/
-COPY --from=builder /usr/lib64/libXext.so.6 /usr/lib64/
-COPY --from=builder /usr/lib64/libXrender.so.1 /usr/lib64/
-COPY --from=builder /usr/lib64/libxcb-render.so.0 /usr/lib64/
-COPY --from=builder /usr/lib64/libxcb-shm.so.0 /usr/lib64/
-COPY --from=builder /usr/lib64/libpixman-1.so.0 /usr/lib64/
-COPY --from=builder /usr/lib64/libgio-2.0.so.0 /usr/lib64/
-COPY --from=builder /usr/lib64/libfribidi.so.0 /usr/lib64/
-COPY --from=builder /usr/lib64/libthai.so.0 /usr/lib64/
-COPY --from=builder /usr/lib64/libgobject-2.0.so.0 /usr/lib64/
-COPY --from=builder /usr/lib64/libffi.so.7 /usr/lib64/
-COPY --from=builder /usr/lib64/libgraphite2.so.3 /usr/lib64/
-COPY --from=builder /usr/lib64/libexpat.so.1 /usr/lib64/
-COPY --from=builder /usr/lib64/libXau.so.6 /usr/lib64/
-COPY --from=builder /usr/lib64/libbrotlidec.so.1 /usr/lib64/
-COPY --from=builder /usr/lib64/libgmodule-2.0.so.0 /usr/lib64/
-COPY --from=builder /usr/lib64/libmount.so.1 /usr/lib64/
-COPY --from=builder /usr/lib64/libdatrie.so.1 /usr/lib64/
-COPY --from=builder /usr/lib64/libbrotlicommon.so.1 /usr/lib64/
-COPY --from=builder /usr/lib64/libblkid.so.1 /usr/lib64/
-
-
-
-
-
+    make -f makefile.mocacinno bitcoin CFLAGS="-fpermissive -pthread -I/openssl-0.9.8k/include -I/usr/local/lib/wx/include/gtk2-unicode-debug-static-2.9 -I/usr/local/include/wx-2.9 -D_FILE_OFFSET_BITS=64 -D__WXDEBUG__ -D__WXGTK__ -I/db-4.7.25.NC/build_unix -I/usr/local/lib/wx/include/gtk2-unicode-2.9 -I/boost_1_57_0 -I/usr/local/wxwidgets/lib -I/wxWidgets-2.9.0/lib/ -I/wxWidgets-2.9.0/include -I/usr/lib64/wx/include/gtk2-unicode-debug-2.9 -I/usr/local/wxwidgets/lib" && \
+    strip bitcoin && \
+    ln -s /bitcoin-0.2.7/bitcoin /usr/local/bin
 
 
 COPY entrypoint.sh /entrypoint.sh
