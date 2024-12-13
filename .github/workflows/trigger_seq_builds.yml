@@ -2,6 +2,11 @@ name: Trigger Sequential Builds
 
 on:
   workflow_dispatch:
+    inputs:
+      branch_filter:
+        description: "Optional: Specify a branch name or pattern to filter (e.g., 'v2.')"
+        required: false
+        default: ""
 
 jobs:
   trigger-builds:
@@ -21,8 +26,18 @@ jobs:
       run: |
         git fetch --all
         git branch -r | grep -o 'v[0-9]*\.[0-9]*' | sort -V > branches.txt
+
+        # Filter branches if branch_filter is provided
+        if [[ "${{ github.event.inputs.branch_filter }}" != "" ]]; then
+          echo "Applying branch filter: ${{ github.event.inputs.branch_filter }}"
+          grep "${{ github.event.inputs.branch_filter }}" branches.txt > filtered_branches.txt
+        else
+          echo "No branch filter provided. Building all branches."
+          cp branches.txt filtered_branches.txt
+        fi
+
         echo "Branches to build:"
-        cat branches.txt
+        cat filtered_branches.txt
 
     - name: Trigger branch builds
       run: |
@@ -31,7 +46,7 @@ jobs:
           gh workflow run build-and-publish.yml -R ${{ github.repository }} --ref "$branch"
           
           echo "Waiting for the new workflow to start for branch: $branch"
-          sleep 10  # Give GitHub Actions some time to register the new run
+          sleep 30  # Increased sleep to 30 seconds
           
           echo "Fetching new workflow run ID for branch: $branch"
           run_id=$(gh run list -R ${{ github.repository }} --branch "$branch" --workflow build-and-publish.yml --json databaseId,status -q '.[0] | select(.status == "in_progress" or .status == "queued").databaseId')
@@ -43,4 +58,4 @@ jobs:
 
           echo "Watching workflow run ID: $run_id"
           gh run watch -R ${{ github.repository }} "$run_id"
-        done < branches.txt
+        done < filtered_branches.txt
