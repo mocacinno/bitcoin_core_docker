@@ -41,6 +41,10 @@ jobs:
 
     - name: Trigger branch builds
       run: |
+        retry_count=0
+        max_retries=5
+        delay=30  # Initial delay of 30 seconds
+        
         while read -r branch; do
           echo "Triggering build for branch: $branch"
           gh workflow run build-and-publish.yml -R ${{ github.repository }} --ref "$branch"
@@ -57,5 +61,20 @@ jobs:
           fi
 
           echo "Watching workflow run ID: $run_id"
-          gh run watch -R ${{ github.repository }} "$run_id"
+
+          # Retry logic in case of HTTP 500 error
+          while :; do
+            gh run watch -R ${{ github.repository }} "$run_id" || {
+              echo "Error: Failed to watch run for $branch. Retrying..."
+              ((retry_count++))
+              if [[ $retry_count -ge $max_retries ]]; then
+                echo "Max retries reached. Exiting for branch $branch."
+                break
+              fi
+              echo "Retrying in $((delay * retry_count)) seconds..."
+              sleep $((delay * retry_count))  # Exponential backoff
+              continue
+            }
+            break
+          done
         done < filtered_branches.txt
