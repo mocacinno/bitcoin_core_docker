@@ -49,6 +49,7 @@ WORKDIR /glib-2.78.3/subprojects
 RUN wget https://github.com/PCRE2Project/pcre2/archive/refs/tags/pcre2-10.37.tar.gz -O pcre2-10.37.tar.gz
 RUN tar -xvf pcre2-10.37.tar.gz
 RUN mv pcre2-pcre2-10.37/ pcre2
+RUN echo "[wrap-file]\ndirectory=pcre2" > pcre2.wrap
 WORKDIR /glib-2.78.3
 RUN meson setup _build --wrap-mode=forcefallback -Dc_args="-Wno-error=unused-result" -Dcpp_args="-Wno-error=unused-result" -Dwarning_level=0
 RUN meson compile -C _build                 # build GLib
