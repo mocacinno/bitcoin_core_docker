@@ -1,25 +1,22 @@
 name: Trigger Sequential Builds
 
 on:
-  workflow_dispatch: # Allows manual triggering of this workflow
+  workflow_dispatch:
 
 jobs:
   trigger-builds:
     runs-on: ubuntu-latest
 
     steps:
-    # Step 0: Check out the repository
     - name: Checkout repository
       uses: actions/checkout@v3
 
-    # Step 1: Install GitHub CLI
     - name: Install GitHub CLI
       run: |
         sudo apt-get update
         sudo apt-get install -y gh
         echo "${{ secrets.GITHUB_TOKEN }}" | gh auth login --with-token
 
-    # Step 2: Fetch all branches and sort them
     - name: Fetch branches
       run: |
         git fetch --all
@@ -27,16 +24,23 @@ jobs:
         echo "Branches to build:"
         cat branches.txt
 
-    # Step 3: Trigger builds for each branch sequentially
     - name: Trigger branch builds
       run: |
         while read -r branch; do
           echo "Triggering build for branch: $branch"
           gh workflow run build-and-publish.yml -R ${{ github.repository }} --ref "$branch"
           
-          echo "Fetching workflow run ID for branch: $branch"
-          run_id=$(gh run list -R ${{ github.repository }} --branch "$branch" --workflow build-and-publish.yml --json databaseId -q '.[0].databaseId')
+          echo "Waiting for the new workflow to start for branch: $branch"
+          sleep 10  # Give GitHub Actions some time to register the new run
           
+          echo "Fetching new workflow run ID for branch: $branch"
+          run_id=$(gh run list -R ${{ github.repository }} --branch "$branch" --workflow build-and-publish.yml --json databaseId,status -q '.[0] | select(.status == "in_progress" or .status == "queued").databaseId')
+
+          if [[ -z "$run_id" ]]; then
+            echo "No active workflow found for branch $branch. Skipping."
+            continue
+          fi
+
           echo "Watching workflow run ID: $run_id"
           gh run watch -R ${{ github.repository }} "$run_id"
         done < branches.txt
