@@ -33,6 +33,10 @@ jobs:
         while read -r branch; do
           echo "Triggering build for branch: $branch"
           gh workflow run build-and-publish.yml -R ${{ github.repository }} --ref "$branch"
-          echo "Waiting for the build to finish for branch: $branch"
-          gh run watch -R ${{ github.repository }} --workflow build-and-publish.yml --branch "$branch"
+          
+          echo "Fetching workflow run ID for branch: $branch"
+          run_id=$(gh run list -R ${{ github.repository }} --branch "$branch" --workflow build-and-publish.yml --json databaseId -q '.[0].databaseId')
+          
+          echo "Watching workflow run ID: $run_id"
+          gh run watch -R ${{ github.repository }} "$run_id"
         done < branches.txt
