@@ -113,7 +113,7 @@ WORKDIR /wxWidgets-2.9.0
 
 #xauth and fonts for gui
 RUN zypper addrepo https://download.opensuse.org/repositories/home:plasmaregataos/15.6/home:plasmaregataos.repo && \
-    zypper addrepo zypper addrepo https://download.opensuse.org/repositories/X11:XOrg/openSUSE_Leap_15.6/X11:XOrg.repo && \
+    zypper addrepo https://download.opensuse.org/repositories/X11:XOrg/openSUSE_Leap_15.6/X11:XOrg.repo && \
     zypper --gpg-auto-import-keys ref -s && \
     zypper --non-interactive install xauth dejavu-fonts
 
