@@ -1,4 +1,4 @@
-FROM registry.suse.com/bci/bci-base:15.6 AS builder
+FROM registry.suse.com/bci/bci-base:15.7 AS builder
 
 RUN zypper addrepo https://download.opensuse.org/repositories/devel:gcc/SLE-15/devel:gcc.repo && \
     zypper addrepo https://download.opensuse.org/repositories/home:MaxxedSUSE:Compiler-Tools-15.6/15.6/home:MaxxedSUSE:Compiler-Tools-15.6.repo && \
