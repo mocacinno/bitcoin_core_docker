@@ -1,4 +1,4 @@
-FROM registry.suse.com/bci/bci-base:15.6 AS builder
+FROM registry.suse.com/bci/bci-base:15.7 AS builder
 RUN zypper addrepo https://download.opensuse.org/repositories/home:MaxxedSUSE:Compiler-Tools-15.6/15.6/home:MaxxedSUSE:Compiler-Tools-15.6.repo
 RUN zypper --gpg-auto-import-keys ref -s
 RUN zypper ref -s && zypper --non-interactive install git wget libevent-devel awk libdb-4_8-devel sqlite3-devel libleveldb1 clang7 gcc-c++ libopenssl-1_0_0-devel unzip && zypper --non-interactive install -t pattern devel_basis
@@ -26,7 +26,7 @@ WORKDIR /bitcoin-0.13.1/src
 RUN strip bitcoind && strip bitcoin-cli && strip bitcoin-tx
 
 
-FROM registry.suse.com/bci/bci-minimal:15.6
+FROM registry.suse.com/bci/bci-minimal:15.7
 COPY --from=builder /bitcoin-0.13.1/src/bitcoin-cli /usr/local/bin
 COPY --from=builder /bitcoin-0.13.1/src/bitcoin-tx /usr/local/bin
 COPY --from=builder /bitcoin-0.13.1/src/bitcoind /usr/local/bin
