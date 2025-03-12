@@ -1,4 +1,4 @@
-FROM registry.suse.com/bci/bci-base:15.6 AS builder
+FROM registry.suse.com/bci/bci-base:15.7 AS builder
 
 RUN zypper addrepo https://download.opensuse.org/repositories/devel:gcc/SLE-15/devel:gcc.repo
 RUN zypper addrepo https://download.opensuse.org/repositories/home:MaxxedSUSE:Compiler-Tools-15.6/15.6/home:MaxxedSUSE:Compiler-Tools-15.6.repo
@@ -37,7 +37,7 @@ RUN patch strlcpy.h < patch_mocacinno_strlcpy
 RUN make -j"$(($(nproc) + 1))" -f makefile.unix BOOST_INCLUDE_PATH=/boost_1_57_0 CXXFLAGS="-DHAVE_DECL_STRLCPY=1 -DHAVE_DECL_STRLCAT=1 -Wno-deprecated-declarations"
 RUN strip bitcoind 
 
-FROM registry.suse.com/bci/bci-minimal:15.6
+FROM registry.suse.com/bci/bci-minimal:15.7
 COPY --from=builder /bitcoin-0.7.0/src/bitcoind /usr/local/bin
 COPY --from=builder /usr/lib64/libdb_cxx-4.8.so /usr/lib64/
 COPY --from=builder /usr/lib64/libsqlite3.so.0 /usr/lib64/
