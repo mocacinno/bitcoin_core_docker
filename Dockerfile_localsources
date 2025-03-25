@@ -1,7 +1,6 @@
 FROM registry.suse.com/bci/bci-base:15.6 AS builder
 
-COPY *.rpm /tmp
-COPY *.tar.gz *.zip /
+COPY gcc43.rpm gcc43-c++.rpm libstdc++43-devel.rpm cpp43.rpm xauth.rpm /tmp/
 WORKDIR /tmp
 RUN zypper --non-interactive --no-gpg-checks install gcc43.rpm gcc43-c++.rpm libstdc++43-devel.rpm cpp43.rpm xauth.rpm
 RUN zypper --non-interactive install gcc43 gcc43-c++ make automake makeinfo git gawk wget libicu-devel mlocate vim unzip cmake xz meson patch libtool gtk-doc libatk-1_0-0 libICE-devel libSM-devel libXt-devel gtk2 gtk2-devel dejavu-fonts
@@ -12,6 +11,7 @@ RUN ln -s /usr/bin/gcc-4.3 /usr/bin/gcc && \
     ln -s /usr/bin/g++-4.3 /usr/bin/g++
 
 
+COPY openssl-0.9.8k.tar.gz /
 WORKDIR /
 RUN tar -xvf openssl-0.9.8k.tar.gz
 WORKDIR /openssl-0.9.8k
@@ -21,6 +21,7 @@ RUN ./config && \
     ln -s /usr/local/ssl/lib/lib* /usr/lib64/
 
 
+COPY db-4.7.25.NC.tar.gz /
 WORKDIR /
 RUN tar -xvf db-4.7.25.NC.tar.gz
 WORKDIR /db-4.7.25.NC/build_unix
@@ -29,7 +30,7 @@ RUN ../dist/configure --enable-cxx && \
     ln -s /usr/local/BerkeleyDB.4.7/lib/* /usr/lib64/
 
 
-
+COPY macros-util-macros-1.3.0.tar.gz /
 WORKDIR /
 RUN tar -xvf macros-util-macros-1.3.0.tar.gz
 WORKDIR /macros-util-macros-1.3.0
@@ -40,6 +41,7 @@ RUN sed -i '24i m4_pattern_allow([AS_HELP_STRING])' configure.ac  && \
     make install
 
 
+COPY libxtrans-xtrans-1.0.2.tar.gz /
 WORKDIR / 
 RUN tar -xvf libxtrans-xtrans-1.0.2.tar.gz
 WORKDIR /libxtrans-xtrans-1.0.2
@@ -50,6 +52,7 @@ RUN sed -i '24i m4_pattern_allow([AS_HELP_STRING])' configure.ac && \
     make install
 
 
+COPY pango-1.24.5.tar.gz freetype.zip /
 WORKDIR /
 RUN ls -ltrh
 RUN tar -xvf pango-1.24.5.tar.gz
@@ -67,6 +70,7 @@ RUN CPPFLAGS="-I/usr/local/include/freetype1" ./configure && \
     mv /opt/freetype2_bak /usr/include/freetype2 && \
     cp -r /pango-1.24.5/pango/.libs/* /usr/lib64/
 
+COPY v2.8.9.zip /
 WORKDIR /
 RUN unzip v2.8.9.zip
 WORKDIR /wxWidgets-2.8.9
@@ -83,6 +87,7 @@ RUN ./autogen.sh && \
     ldconfig 
 
 
+COPY boost_1_40_0.tar.gz /
 WORKDIR /
 RUN tar -xvf boost_1_40_0.tar.gz
 ENV BOOST_ROOT=/boost_1_40_0
@@ -92,6 +97,7 @@ RUN chmod +x bootstrap.sh && \
     ./bjam -j"$(($(nproc) + 1))" install || echo 1
 
 
+COPY v0.2.0_patched.zip /
 WORKDIR /
 RUN unzip v0.2.0_patched.zip
 WORKDIR /bitcoin_core_history-0.2.0_patched
