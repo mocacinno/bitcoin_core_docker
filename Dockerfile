@@ -1,7 +1,8 @@
-FROM registry.suse.com/bci/bci-base:15.6 AS builder
+FROM registry.suse.com/bci/bci-base:15.7 AS builder
 RUN zypper addrepo https://download.opensuse.org/repositories/home:MaxxedSUSE:Compiler-Tools-15.6/15.6/home:MaxxedSUSE:Compiler-Tools-15.6.repo
 RUN zypper --gpg-auto-import-keys ref -s
-RUN zypper ref -s && zypper --non-interactive install git wget libevent-devel awk libdb-4_8-devel sqlite3-devel libleveldb1 clang7 gcc-c++ unzip libopenssl-1_0_0-devel && zypper --non-interactive install -t pattern devel_basis
+RUN zypper ref -s && zypper --non-interactive install git wget libevent-devel gawk libdb-4_8-devel sqlite3-devel libleveldb1 clang7 gcc14-c++ libopenssl-1_0_0-devel unzip && zypper --non-interactive install -t pattern devel_basis
+RUN ln -s /usr/bin/g++-14 /usr/bin/g++
 
 #boost 1.57.0
 RUN wget https://sourceforge.net/projects/boost/files/boost/1.57.0/boost_1_57_0.tar.gz/download -O boost_1_57_0.tar.gz
@@ -25,7 +26,7 @@ RUN make -j "$(($(nproc) + 1))"
 WORKDIR /bitcoin-0.10.5/src
 RUN strip bitcoind && strip bitcoin-cli && strip bitcoin-tx
 
-FROM registry.suse.com/bci/bci-minimal:15.6
+FROM registry.suse.com/bci/bci-minimal:15.7
 COPY --from=builder /bitcoin-0.10.5/src/bitcoin-cli /usr/local/bin
 COPY --from=builder /bitcoin-0.10.5/src/bitcoin-tx /usr/local/bin
 COPY --from=builder /bitcoin-0.10.5/src/bitcoind /usr/local/bin
