@@ -1,4 +1,4 @@
-FROM registry.suse.com/bci/bci-base:15.6 AS builder
+FROM registry.suse.com/bci/bci-base:15.7 AS builder
 #RUN zypper ref -s && zypper --non-interactive install git wget libevent-devel awk libdb-4_8-devel sqlite3-devel libleveldb1 clang7 gcc-c++ && zypper --non-interactive install -t pattern devel_basis #prereqs
 
 RUN zypper addrepo https://download.opensuse.org/repositories/devel:gcc/SLE-15/devel:gcc.repo
@@ -35,7 +35,7 @@ RUN make -j "$(($(nproc) + 1))" -f makefile.unix BOOST_INCLUDE_PATH=/boost_1_57_
 WORKDIR /bitcoin-0.8.2/src
 RUN strip bitcoind 
 
-FROM registry.suse.com/bci/bci-minimal:15.6
+FROM registry.suse.com/bci/bci-minimal:15.7
 COPY --from=builder /bitcoin-0.8.2/src/bitcoind /usr/local/bin
 COPY --from=builder /usr/lib64/libdb_cxx-4.8.so /usr/lib64/
 COPY --from=builder /usr/lib64/libsqlite3.so.0 /usr/lib64/
