@@ -1,4 +1,4 @@
-FROM registry.suse.com/bci/bci-base:15.6 AS builder
+FROM registry.suse.com/bci/bci-base:15.7 AS builder
 
 RUN zypper addrepo https://download.opensuse.org/repositories/devel:gcc/SLE-15/devel:gcc.repo
 RUN zypper addrepo https://download.opensuse.org/repositories/home:MaxxedSUSE:Compiler-Tools-15.6/15.6/home:MaxxedSUSE:Compiler-Tools-15.6.repo
@@ -86,7 +86,7 @@ ENV LD_RUN_PATH=/usr/local/BerkeleyDB.4.8/lib:/usr/local/ssl/lib
 RUN make -j"$(($(nproc) + 1))" -f makefile.unix bitcoind LDFLAGS="-L/usr/local/BerkeleyDB.4.8/lib -L/usr/local/ssl/lib" CXXFLAGS="-I/usr/local/ssl/include -I/usr/local/BerkeleyDB.4.8/include/"
 RUN strip bitcoind 
 
-FROM registry.suse.com/bci/bci-minimal:15.6
+FROM registry.suse.com/bci/bci-minimal:15.7
 COPY --from=builder /bitcoin-0.4.0/src/bitcoind /usr/local/bin
 COPY --from=builder /boost_1_57_0/stage/lib/libboost_system.so.1.57.0 /usr/lib64/
 COPY --from=builder /boost_1_57_0/stage/lib/libboost_filesystem.so.1.57.0 /usr/lib64/
