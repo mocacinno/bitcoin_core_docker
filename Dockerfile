@@ -1,6 +1,7 @@
 FROM registry.suse.com/bci/bci-base:15.6 AS builder
 
-RUN zypper ref -s && zypper --non-interactive install git wget unzip awk cmake gcc14 gcc14-c++ autoconf automake binutils  bison cpp14 flex gdbm-devel gettext-tools glibc-devel libtool m4 make makeinfo ncurses-devel patch zlib-devel patch pkg-config sqlite3-devel libevent-devel python311 valgrind
+#RUN zypper ref -s && zypper --non-interactive install git wget unzip awk cmake gcc14 gcc14-c++ autoconf automake binutils  bison cpp14 flex gdbm-devel gettext-tools glibc-devel libtool m4 make makeinfo ncurses-devel patch zlib-devel patch pkg-config sqlite3-devel libevent-devel python311 valgrind
+RUN zypper ref -s && zypper --non-interactive install git wget unzip awk cmake gcc14 gcc14-c++ autoconf automake binutils  bison cpp14 flex  gettext-tools glibc-devel libtool m4 make makeinfo  patch zlib-devel patch pkg-config python311 valgrind valgrind-devel ccache doxygen
 RUN ln -s /usr/bin/gcc-14 /usr/bin/gcc
 RUN ln -s /usr/bin/g++-14 /usr/bin/g++
 
@@ -9,12 +10,12 @@ WORKDIR /
 RUN wget https://github.com/bitcoin/bitcoin/archive/refs/tags/v29.0.zip && \
     unzip v29.0.zip
 WORKDIR /bitcoin-29.0
-RUN make -C depends NO_QT=1
-RUN cmake -B build --toolchain /bitcoin-29.0/depends/x86_64-pc-linux-gnu/toolchain.cmake
-RUN cmake --build build -j "$(($(nproc) + 1))"
+RUN make -j "$(($(nproc) + 1))"  -C depends NO_QT=1 MULTIPROCESS=1 
+RUN cmake -B build --toolchain /bitcoin-29.0/depends/x86_64-pc-linux-gnu/toolchain.cmake -DCMAKE_SYSTEM_NAME=Linux -DCMAKE_BUILD_TYPE=Release
+RUN cmake --build build -j "$(($(nproc) + 1))" 
+#cmake -B build -LH
 WORKDIR /bitcoin-29.0/build/bin
 RUN strip bitcoin-util && strip bitcoin-cli && strip bitcoin-tx && strip bitcoin-wallet && strip bitcoind && strip test_bitcoin
-#docker run -it --network none
 
 FROM registry.suse.com/bci/bci-minimal:15.6
 COPY --from=builder /bitcoin-29.0/build/bin/bitcoin-util /usr/local/bin
