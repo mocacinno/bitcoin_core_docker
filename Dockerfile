@@ -2,11 +2,11 @@ FROM registry.suse.com/bci/bci-base:15.6 AS builder
 
 RUN zypper ref -s && zypper --non-interactive install git gcc13-c++ wget libevent-devel awk gcc-c++ libdb-4_8-devel sqlite3-devel unzip && zypper --non-interactive install -t pattern devel_basis
 
-#boost 1.86.0
-RUN wget https://archives.boost.io/release/1.86.0/source/boost_1_86_0.tar.gz
-RUN tar -xvf boost_1_86_0.tar.gz
-ENV BOOST_ROOT=/boost_1_86_0
-WORKDIR /boost_1_86_0
+#boost 1.88.0
+RUN wget https://archives.boost.io/release/1.88.0/source/boost_1_88_0.tar.gz
+RUN tar -xvf boost_1_88_0.tar.gz
+ENV BOOST_ROOT=/boost_1_88_0
+WORKDIR /boost_1_88_0
 RUN chmod +x bootstrap.sh 
 RUN ./bootstrap.sh 
 RUN ./b2  -j"$(($(nproc) + 1))" || ./b2 -j"$(($(nproc) + 1))" install || ./b2 -j"$(($(nproc) + 1))" headers 
