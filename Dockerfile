@@ -20,20 +20,20 @@ ENV BDB_PREFIX='/berkeleydb/db4'
 
 #bitcoin v28.1
 WORKDIR /
-RUN wget https://github.com/bitcoin/bitcoin/archive/refs/tags/v28.1.zip && \
-    unzip v28.1.zip
-WORKDIR /bitcoin-28.1
+RUN wget https://github.com/bitcoin/bitcoin/archive/refs/tags/v29.0.zip && \
+    unzip v29.0.zip
+WORKDIR /bitcoin-29.0
 RUN ./autogen.sh 
 RUN BDB_LIBS="-L${BDB_PREFIX}/lib -ldb_cxx-4.8" BDB_CFLAGS="-I${BDB_PREFIX}/include" ./configure --with-gui=no --enable-wallet --with-sqlite=yes --with-utils --with-daemon CXX=g++-13 
 RUN make -j "$(($(nproc) + 1))" 
-WORKDIR /bitcoin-28.1/src
+WORKDIR /bitcoin-29.0/src
 RUN strip bitcoin-util && strip bitcoind && strip bitcoin-cli && strip bitcoin-tx  
 
 FROM registry.suse.com/bci/bci-minimal:15.6
-COPY --from=builder /bitcoin-28.1/src/bitcoin-util /usr/local/bin
-COPY --from=builder /bitcoin-28.1/src/bitcoin-cli /usr/local/bin
-COPY --from=builder /bitcoin-28.1/src/bitcoin-tx /usr/local/bin
-COPY --from=builder /bitcoin-28.1/src/bitcoind /usr/local/bin
+COPY --from=builder /bitcoin-29.0/src/bitcoin-util /usr/local/bin
+COPY --from=builder /bitcoin-29.0/src/bitcoin-cli /usr/local/bin
+COPY --from=builder /bitcoin-29.0/src/bitcoin-tx /usr/local/bin
+COPY --from=builder /bitcoin-29.0/src/bitcoind /usr/local/bin
 COPY --from=builder /usr/lib64/libevent_pthreads-2.1.so.7 /usr/lib64/
 COPY --from=builder /usr/lib64/libevent-2.1.so.7 /usr/lib64/
 COPY --from=builder /usr/lib64/libdb_cxx-4.8.so /usr/lib64/
