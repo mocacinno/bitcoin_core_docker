@@ -1,4 +1,4 @@
-FROM registry.suse.com/bci/bci-base:15.6 AS builder
+FROM registry.suse.com/bci/bci-base:15.7 AS builder
 
 #RUN zypper ref -s && zypper --non-interactive install git wget unzip awk cmake gcc14 gcc14-c++ autoconf automake binutils  bison cpp14 flex gdbm-devel gettext-tools glibc-devel libtool m4 make makeinfo ncurses-devel patch zlib-devel patch pkg-config sqlite3-devel libevent-devel python311 valgrind
 RUN zypper ref -s && zypper --non-interactive install git wget unzip awk cmake gcc14 gcc14-c++ autoconf automake binutils  bison cpp14 flex  gettext-tools glibc-devel libtool m4 make makeinfo  patch zlib-devel patch pkg-config python311 valgrind valgrind-devel ccache doxygen
