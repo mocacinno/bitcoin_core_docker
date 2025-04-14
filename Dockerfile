@@ -15,7 +15,7 @@ RUN cmake -B build --toolchain /bitcoin-29.0/depends/x86_64-pc-linux-gnu/toolcha
 RUN cmake --build build -j "$(($(nproc) + 1))" 
 #cmake -B build -LH
 WORKDIR /bitcoin-29.0/build/bin
-RUN strip bitcoin-util && strip bitcoin-cli && strip bitcoin-tx && strip bitcoin-wallet && strip bitcoind && strip test_bitcoin
+RUN strip bitcoin-util && strip bitcoin-cli && strip bitcoin-tx && strip bitcoin-wallet && strip bitcoind && strip test_bitcoin && strip bitcoin-node
 
 FROM registry.suse.com/bci/bci-minimal:15.6
 COPY --from=builder /bitcoin-29.0/build/bin/bitcoin-util /usr/local/bin
@@ -24,6 +24,7 @@ COPY --from=builder /bitcoin-29.0/build/bin/bitcoin-tx /usr/local/bin
 COPY --from=builder /bitcoin-29.0/build/bin/bitcoin-wallet /usr/local/bin
 COPY --from=builder /bitcoin-29.0/build/bin/bitcoind /usr/local/bin
 COPY --from=builder /bitcoin-29.0/build/bin/test_bitcoin /usr/local/bin
+COPY --from=builder /bitcoin-29.0/build/bin/bitcoin-node /usr/local/bin
 
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
