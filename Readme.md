@@ -34,7 +34,12 @@ Happy experimenting!
 
 -- Mocacinno
 
-![Docker Pulls](https://img.shields.io/docker/pulls/mocacinno/btc_core)
+![Docker Pulls](https://img.shields.io/docker/pulls/mocacinno/btc_core)  
+![Number of branches](https://badgen.net/github/branches/mocacinno/bitcoin_core_docker)  
+![Number of starts](https://badgen.net/github/stars/mocacinno/bitcoin_core_docker)  
+![Number of forks](https://badgen.net/github/forks/mocacinno/bitcoin_core_docker)  
+![Number of contributors](https://badgen.net/github/contributors/mocacinno/bitcoin_core_docker)  
+![Bitcoin - Bitcoin](https://img.shields.io/badge/bitcoin-2F3134?style=for-the-badge&logo=bitcoin&logoColor=white)
 
 [return to the homepage](https://mocacinno.com)
 <!-- Google tag (gtag.js) -->
