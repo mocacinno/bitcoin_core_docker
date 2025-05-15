@@ -34,6 +34,8 @@ Happy experimenting!
 
 -- Mocacinno
 
+![Docker Pulls](https://img.shields.io/docker/pulls/mocacinno/btc_core)
+
 [return to the homepage](https://mocacinno.com)
 <!-- Google tag (gtag.js) -->
 {% raw %}
