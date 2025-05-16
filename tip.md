@@ -1,7 +1,7 @@
 I've been spending days (even weeks) to write the Dockerfiles, regularly compile them and write some basic information. So far, i've always done this for free, i've even payed the compute resources out of my own pocket (compiling all images takes about 6 hours on a 16 core modern server with recent xeon cpu's, a fast SAN, ample memory!!!).  
 If you want to help me rent compute power, or if you just want to buy me a coffee because you're either using my images or think it's important for the community to have access to most historical bitcoin core versions, you're always free to tip.  
 
-You're never forced to tip, i will never charge for these images and my support will always be best efford (even to those who tipped in the past).
+You're never forced to tip, i will never charge for these images and my support will always be best effort (even to those who tipped in the past).
 
 * preferred tipping method: Bitcoin
 
