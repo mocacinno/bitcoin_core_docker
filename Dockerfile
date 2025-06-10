@@ -4,12 +4,12 @@ RUN zypper addrepo https://download.opensuse.org/repositories/devel:gcc/SLE-15/d
     zypper addrepo https://download.opensuse.org/repositories/home:MaxxedSUSE:Compiler-Tools-15.6/15.6/home:MaxxedSUSE:Compiler-Tools-15.6.repo && \
     zypper addrepo https://download.opensuse.org/repositories/devel:libraries:c_c++/15.6/devel:libraries:c_c++.repo && \
     zypper --gpg-auto-import-keys ref -s && \
-    zypper --non-interactive install gcc43 gcc43-c++ make automake makeinfo git gawk wget libicu-devel mlocate vim unzip cmake xz meson patch libtool gtk-doc libatk-1_0-0 libICE-devel libSM-devel libXt-devel gtk2 gtk2-devel dejavu-fonts
-ENV CC=gcc-4.3
-ENV CXX=g++-4.3
+    zypper --non-interactive install gcc48 gcc48-c++ make automake makeinfo git gawk wget libicu-devel mlocate vim unzip cmake xz meson patch libtool gtk-doc libatk-1_0-0 libICE-devel libSM-devel libXt-devel gtk2 gtk2-devel dejavu-fonts
+ENV CC=gcc-4.8
+ENV CXX=g++-4.8
 ENV PERL5LIB=.
-RUN ln -s /usr/bin/gcc-4.3 /usr/bin/gcc && \
-    ln -s /usr/bin/g++-4.3 /usr/bin/g++
+RUN ln -s /usr/bin/gcc-4.8 /usr/bin/gcc && \
+    ln -s /usr/bin/g++-4.8 /usr/bin/g++
 
 
 WORKDIR /
