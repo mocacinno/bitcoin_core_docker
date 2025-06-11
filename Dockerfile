@@ -4,14 +4,14 @@ RUN zypper addrepo https://download.opensuse.org/repositories/devel:gcc/SLE-15/d
 RUN zypper addrepo https://download.opensuse.org/repositories/home:MaxxedSUSE:Compiler-Tools-15.6/15.6/home:MaxxedSUSE:Compiler-Tools-15.6.repo
 RUN zypper addrepo https://download.opensuse.org/repositories/devel:libraries:c_c++/15.6/devel:libraries:c_c++.repo
 RUN zypper --gpg-auto-import-keys ref -s
-RUN zypper --non-interactive install gcc6 gcc6-c++ make automake makeinfo git gawk libdb-4_8-devel libopenssl-1_0_0-devel wget libicu-devel libminiupnpc-devel libupnp-devel patch unzip
+RUN zypper --non-interactive install gcc7 gcc7-c++ make automake makeinfo git gawk libdb-4_8-devel libopenssl-1_0_0-devel wget libicu-devel libminiupnpc-devel libupnp-devel patch unzip
 
-#gcc 6
-ENV CC=gcc-6
-ENV CXX=g++-6
+#gcc 7
+ENV CC=gcc-7
+ENV CXX=g++-7
 ENV PERL5LIB=.
-RUN ln -s /usr/bin/gcc-6 /usr/bin/gcc && \
-    ln -s /usr/bin/g++-6 /usr/bin/g++
+RUN ln -s /usr/bin/gcc-7 /usr/bin/gcc && \
+    ln -s /usr/bin/g++-7 /usr/bin/g++
 
 
 #boost 1.57.0
