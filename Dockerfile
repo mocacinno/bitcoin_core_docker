@@ -1,4 +1,4 @@
-FROM registry.suse.com/bci/bci-base:15.6 AS builder
+FROM registry.suse.com/bci/bci-base:15.7 AS builder
 RUN zypper ref -s && zypper --non-interactive install git wget libevent-devel awk libdb-4_8-devel sqlite3-devel libleveldb1 clang7 gcc gcc-c++ unzip libopenssl-devel && zypper --non-interactive install -t pattern devel_basis
 
 #boost 1.66.0
@@ -12,7 +12,7 @@ RUN ./b2  -j"$(($(nproc) + 1))" || ./b2 -j"$(($(nproc) + 1))" install || ./b2 -j
 
 #BerkeleyDB 4.8.30.NC
 WORKDIR /berkeleydb
-RUN wget https://raw.githubusercontent.com/bitcoin/bitcoin/refs/tags/v24.2/contrib/install_db4.sh
+RUN wget https://raw.githubusercontent.com/bitcoin/bitcoin/refs/tags/v0.16.0/contrib/install_db4.sh
 RUN chmod +x install_db4.sh
 RUN ./install_db4.sh `pwd` 
 ENV BDB_PREFIX='/berkeleydb/db4'
@@ -29,7 +29,7 @@ RUN make -j "$(($(nproc) + 1))"
 WORKDIR /bitcoin-0.17.0/src
 RUN strip bitcoind && strip bitcoin-cli && strip bitcoin-tx
 
-FROM registry.suse.com/bci/bci-minimal:15.6
+FROM registry.suse.com/bci/bci-minimal:15.7
 COPY --from=builder /bitcoin-0.17.0/src/bitcoin-cli /usr/local/bin
 COPY --from=builder /bitcoin-0.17.0/src/bitcoin-tx /usr/local/bin
 COPY --from=builder /bitcoin-0.17.0/src/bitcoind /usr/local/bin
