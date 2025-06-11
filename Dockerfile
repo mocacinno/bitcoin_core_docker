@@ -1,5 +1,3 @@
-
-
 FROM registry.suse.com/bci/bci-base:15.7 AS builder
 
 RUN zypper addrepo https://download.opensuse.org/repositories/devel:gcc/SLE-15/devel:gcc.repo && \
