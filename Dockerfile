@@ -18,7 +18,7 @@ RUN ./b2  -j"$(($(nproc) + 1))" || ./b2 -j"$(($(nproc) + 1))" install || ./b2 -j
 
 #BerkeleyDB 4.8.30.NC
 WORKDIR /berkeleydb
-RUN wget https://raw.githubusercontent.com/bitcoin/bitcoin/refs/tags/v24.2/contrib/install_db4.sh
+RUN wget https://raw.githubusercontent.com/bitcoin/bitcoin/refs/tags/v0.16.0/contrib/install_db4.sh
 RUN chmod +x install_db4.sh
 RUN ./install_db4.sh `pwd` 
 ENV BDB_PREFIX='/berkeleydb/db4'
