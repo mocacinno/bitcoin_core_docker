@@ -4,13 +4,13 @@ RUN zypper addrepo https://download.opensuse.org/repositories/devel:gcc/SLE-15/d
 RUN zypper addrepo https://download.opensuse.org/repositories/home:MaxxedSUSE:Compiler-Tools-15.6/15.6/home:MaxxedSUSE:Compiler-Tools-15.6.repo
 RUN zypper addrepo https://download.opensuse.org/repositories/devel:libraries:c_c++/15.6/devel:libraries:c_c++.repo
 RUN zypper --gpg-auto-import-keys ref -s 
-RUN zypper --non-interactive install  mlocate cmake xz meson gcc6 gcc6-c++ make automake makeinfo git gawk wget libicu-devel patch vim unzip
+RUN zypper --non-interactive install  mlocate cmake xz meson gcc7 gcc7-c++ make automake makeinfo git gawk wget libicu-devel patch vim unzip
 
-#gcc 6
-ENV CC=gcc-6
-ENV CXX=g++-6
-RUN ln -s /usr/bin/gcc-6 /usr/bin/gcc
-RUN ln -s /usr/bin/g++-6 /usr/bin/g++
+#gcc 7
+ENV CC=gcc-7
+ENV CXX=g++-7
+RUN ln -s /usr/bin/gcc-7 /usr/bin/gcc
+RUN ln -s /usr/bin/g++-7 /usr/bin/g++
 
 #berkelydb 4.8.30.NC
 WORKDIR /
