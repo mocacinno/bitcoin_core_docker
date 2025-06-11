@@ -1,7 +1,7 @@
 FROM registry.suse.com/bci/bci-base:15.7 AS builder
 RUN zypper addrepo https://download.opensuse.org/repositories/devel:gcc/SLE-15/devel:gcc.repo
 RUN zypper --gpg-auto-import-keys ref -s
-RUN zypper ref -s && zypper --non-interactive install git wget libevent-devel awk libdb-4_8-devel sqlite3-devel libleveldb1 clang7 gcc10 gcc10-c++ unzip && zypper --non-interactive install -t pattern devel_basis
+RUN zypper ref -s && zypper --non-interactive install git wget libevent-devel awk libdb-4_8-devel sqlite3-devel libleveldb1 clang7 gcc11 gcc11-c++ unzip && zypper --non-interactive install -t pattern devel_basis
 
 #gcc 10
 ENV CC=gcc-10
@@ -18,7 +18,7 @@ RUN ./b2  -j"$(($(nproc) + 1))" || ./b2 -j"$(($(nproc) + 1))" install || ./b2 -j
 
 #BerkeleyDB 4.8.30.NC
 WORKDIR /berkeleydb
-RUN wget https://raw.githubusercontent.com/bitcoin/bitcoin/refs/tags/v24.2/contrib/install_db4.sh
+RUN wget https://raw.githubusercontent.com/bitcoin/bitcoin/refs/tags/v0.16.0/contrib/install_db4.sh
 RUN chmod +x install_db4.sh
 RUN ./install_db4.sh `pwd` 
 ENV BDB_PREFIX='/berkeleydb/db4'
