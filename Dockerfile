@@ -1,3 +1,4 @@
+
 FROM registry.suse.com/bci/bci-base:15.7 AS builder
 
 RUN zypper addrepo https://download.opensuse.org/repositories/devel:gcc/SLE-15/devel:gcc.repo && \
@@ -136,4 +137,3 @@ COPY bitcoin.conf /root/.bitcoin/bitcoin.conf
 RUN chmod +x /entrypoint.sh
 EXPOSE 8332 8333 15332 15333
 ENTRYPOINT ["/entrypoint.sh"]
-
