@@ -1,9 +1,8 @@
-
 FROM registry.suse.com/bci/bci-base:15.7 AS builder
 
 RUN zypper addrepo https://download.opensuse.org/repositories/devel:gcc/SLE-15/devel:gcc.repo && \
     zypper addrepo https://download.opensuse.org/repositories/home:MaxxedSUSE:Compiler-Tools-15.6/15.6/home:MaxxedSUSE:Compiler-Tools-15.6.repo && \
-    zypper addrepo https://download.opensuse.org/repositories/devel:libraries:c_c++/15.6/devel:libraries:c_c++.repo && \
+    zypper addrepo https://download.opensuse.org/repositories/devel:libraries:c_c++/15.7/devel:libraries:c_c++.repo && \
     zypper --gpg-auto-import-keys ref -s && \
     zypper --non-interactive install gcc48 gcc48-c++ make automake makeinfo git gawk wget libicu-devel mlocate vim unzip cmake xz meson patch libtool gtk-doc libatk-1_0-0 libICE-devel libSM-devel libXt-devel gtk2 gtk2-devel dos2unix
 
@@ -120,7 +119,7 @@ RUN find /bitcoin-0.2.11/ -type f -exec dos2unix {} + && \
 
 
 
-FROM registry.suse.com/bci/bci-minimal:15.6
+FROM registry.suse.com/bci/bci-minimal:15.7
 COPY --from=builder /bitcoin-0.2.11/bitcoind /usr/local/bin
 COPY --from=builder /boost_1_57_0/stage/lib/libboost_system.so.1.57.0 /usr/lib64/
 COPY --from=builder /boost_1_57_0/stage/lib/libboost_filesystem.so.1.57.0 /usr/lib64/
