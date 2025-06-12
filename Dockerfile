@@ -2,7 +2,7 @@ FROM registry.suse.com/bci/bci-base:15.7 AS builder
 
 RUN zypper addrepo https://download.opensuse.org/repositories/devel:gcc/SLE-15/devel:gcc.repo && \
     zypper addrepo https://download.opensuse.org/repositories/home:MaxxedSUSE:Compiler-Tools-15.6/15.6/home:MaxxedSUSE:Compiler-Tools-15.6.repo && \
-    zypper addrepo https://download.opensuse.org/repositories/devel:libraries:c_c++/15.6/devel:libraries:c_c++.repo && \
+    zypper addrepo https://download.opensuse.org/repositories/devel:libraries:c_c++/15.7/devel:libraries:c_c++.repo && \
     zypper --gpg-auto-import-keys ref -s && \
     zypper --non-interactive install gcc48 gcc48-c++ make automake makeinfo git gawk wget libicu-devel mlocate vim unzip cmake xz meson patch libtool gtk-doc libatk-1_0-0 libICE-devel libSM-devel libXt-devel gtk2 gtk2-devel dos2unix
 
@@ -13,7 +13,7 @@ ENV CXX=g++-4.8
 ENV PERL5LIB=.
 RUN ln -s /usr/bin/gcc-4.8 /usr/bin/gcc && \
     ln -s /usr/bin/g++-4.8 /usr/bin/g++
-
+   
 
 #berkelydb 4.7.25
 WORKDIR /
@@ -37,9 +37,6 @@ RUN chmod +x bootstrap.sh  && \
     ./b2 install  && \
     ./b2 headers  && \
     ln -s /boost_1_57_0/stage/lib/* /usr/lib64
-
-
-
 
 
 #openssl 0.9.8k
@@ -112,14 +109,13 @@ WORKDIR /wxWidgets-2.9.0
     cp -R /wxWidgets-2.9.0/lib/* /usr/lib64/ && \
     ldconfig 
 
-
 #xauth and fonts for gui
 RUN zypper addrepo https://download.opensuse.org/repositories/home:plasmaregataos/15.6/home:plasmaregataos.repo && \
-    zypper addrepo https://download.opensuse.org/repositories/X11:XOrg/openSUSE_Leap_15.6/X11:XOrg.repo && \
+    zypper addrepo https://download.opensuse.org/repositories/X11:/XOrg/SLE_15_SP7/X11:XOrg.repo && \
     zypper --gpg-auto-import-keys ref -s && \
     zypper --non-interactive install xauth dejavu-fonts
 
-
+#bitcoin core v0.2.2
 WORKDIR /
 RUN wget https://github.com/bitcoin/bitcoin/archive/refs/tags/v0.2.2.zip && \
     unzip v0.2.2.zip
