@@ -1,4 +1,3 @@
-
 FROM registry.suse.com/bci/bci-base:15.7 AS builder
 
 RUN zypper addrepo https://download.opensuse.org/repositories/devel:gcc/SLE-15/devel:gcc.repo && \
@@ -107,7 +106,6 @@ RUN ./autogen.sh && \
 
 
 #bitcoin v0.2.9
-
 WORKDIR /
 RUN wget https://github.com/bitcoin/bitcoin/archive/refs/tags/v0.2.9.zip && \
     unzip v0.2.9.zip
