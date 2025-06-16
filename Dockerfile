@@ -2,7 +2,7 @@ FROM registry.suse.com/bci/bci-base:15.7 AS builder
 
 RUN zypper addrepo https://download.opensuse.org/repositories/devel:gcc/SLE-15/devel:gcc.repo && \
     zypper addrepo https://download.opensuse.org/repositories/home:MaxxedSUSE:Compiler-Tools-15.6/15.6/home:MaxxedSUSE:Compiler-Tools-15.6.repo && \
-    zypper addrepo https://download.opensuse.org/repositories/devel:libraries:c_c++/15.6/devel:libraries:c_c++.repo && \
+    zypper addrepo https://download.opensuse.org/repositories/devel:libraries:c_c++/15.7/devel:libraries:c_c++.repo && \
     zypper --gpg-auto-import-keys ref -s && \
     zypper --non-interactive install gcc48 gcc48-c++ make automake makeinfo git gawk wget libicu-devel mlocate vim unzip cmake xz meson patch libtool gtk-doc libatk-1_0-0 libICE-devel libSM-devel libXt-devel gtk2 gtk2-devel dos2unix
 
@@ -135,4 +135,3 @@ COPY bitcoin.conf /root/.bitcoin/bitcoin.conf
 RUN chmod +x /entrypoint.sh
 EXPOSE 8332 8333 15332 15333
 ENTRYPOINT ["/entrypoint.sh"]
-
