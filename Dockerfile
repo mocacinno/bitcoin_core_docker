@@ -105,5 +105,5 @@ COPY --from=builder /usr/lib64/libglib-2.0.so.0 /usr/lib64/
 COPY entrypoint.sh /entrypoint.sh
 COPY bitcoin.conf /root/.bitcoin/bitcoin.conf
 RUN chmod +x /entrypoint.sh
-EXPOSE 8332 8333 17332 17333
+EXPOSE 8332 8333 15332 15333
 ENTRYPOINT ["/entrypoint.sh"]
