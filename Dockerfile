@@ -20,9 +20,9 @@ ENV BDB_PREFIX='/berkeleydb/db4'
 
 #bitcoin v26.1
 WORKDIR /
-RUN wget https://github.com/bitcoin/bitcoin/archive/refs/tags/v26.0.zip && \
-    unzip v26.0.zip
-WORKDIR /bitcoin-26.0
+RUN wget https://github.com/bitcoin/bitcoin/archive/refs/tags/v26.1.zip && \
+    unzip v26.1.zip
+WORKDIR /bitcoin-26.1
 RUN ./autogen.sh 
 RUN BDB_LIBS="-L${BDB_PREFIX}/lib -ldb_cxx-4.8" BDB_CFLAGS="-I${BDB_PREFIX}/include" ./configure --with-gui=no --enable-wallet --with-sqlite=yes --with-utils --with-daemon CXX=g++-14
 RUN make -j "$(($(nproc) + 1))" 
