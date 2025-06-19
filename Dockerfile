@@ -15,7 +15,7 @@ RUN cmake --build build -j "$(($(nproc) + 1))"
 WORKDIR /bitcoin-29.0/build/bin
 RUN strip bitcoin-util && strip bitcoin-cli && strip bitcoin-tx && strip bitcoin-wallet && strip bitcoind && strip test_bitcoin && strip bitcoin-node
 
-FROM registry.suse.com/bci/bci-minimal:15.7
+FROM registry.suse.com/bci/bci-micro:latest
 COPY --from=builder /bitcoin-29.0/build/bin/bitcoin-util /usr/local/bin
 COPY --from=builder /bitcoin-29.0/build/bin/bitcoin-cli /usr/local/bin
 COPY --from=builder /bitcoin-29.0/build/bin/bitcoin-tx /usr/local/bin
