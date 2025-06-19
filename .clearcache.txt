@@ -1,1 +1,0 @@
-this file is here to remember you to clear the ghcr.io cache repo before starting a new build cycle
