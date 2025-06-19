@@ -162,11 +162,8 @@ COPY --from=builder /usr/lib64/libdatrie.so.1 /usr/lib64/
 COPY --from=builder /usr/lib64/libbrotlicommon.so.1 /usr/lib64/
 COPY --from=builder /usr/lib64/libblkid.so.1 /usr/lib64/
 COPY --from=builder /usr/lib64/libeconf.so.0 /usr/lib64/
-
-
-
-
-
+COPY --from=builder /usr/lib64/libz.so.1 /usr/lib64/
+COPY --from=builder /usr/lib64/libbz2.so.1 /usr/lib64/
 
 COPY entrypoint.sh /entrypoint.sh
 COPY bitcoin.conf /root/.bitcoin/bitcoin.conf
