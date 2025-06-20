@@ -129,6 +129,7 @@ COPY --from=builder /boost_1_57_0/stage/lib/libboost_chrono.so.1.57.0 /usr/lib64
 COPY --from=builder /usr/local/lib/libwx_baseu-2.9.so.5 /usr/lib64/
 COPY --from=builder /usr/lib64/libgthread-2.0.so.0 /usr/lib64/
 COPY --from=builder /usr/lib64/libglib-2.0.so.0 /usr/lib64/
+COPY --from=builder /usr/lib64/libz.so.1 /usr/lib64
 
 
 COPY entrypoint.sh /entrypoint.sh
