@@ -119,7 +119,7 @@ RUN find /bitcoin-0.2.8/ -type f -exec dos2unix {} + && \
 
 
 
-FROM registry.suse.com/bci/bci-minimal:15.7
+FROM registry.suse.com/bci/bci-micro:latest
 COPY --from=builder /bitcoin-0.2.8/bitcoind /usr/local/bin
 COPY --from=builder /boost_1_57_0/stage/lib/libboost_system.so.1.57.0 /usr/lib64/
 COPY --from=builder /boost_1_57_0/stage/lib/libboost_filesystem.so.1.57.0 /usr/lib64/
@@ -135,4 +135,5 @@ COPY entrypoint.sh /entrypoint.sh
 COPY bitcoin.conf /root/.bitcoin/bitcoin.conf
 RUN chmod +x /entrypoint.sh
 EXPOSE 8332 8333 15332 15333
+LABEL org.opencontainers.image.revision="manual-trigger-20250620"
 ENTRYPOINT ["/entrypoint.sh"]
