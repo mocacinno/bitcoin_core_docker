@@ -46,4 +46,5 @@ COPY --from=builder /usr/lib64/libcrypto.so.1.0.0 /usr/lib64/
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 EXPOSE 8332 8333 18332 18333
+LABEL org.opencontainers.image.revision="manual-trigger-20250819"
 ENTRYPOINT ["/entrypoint.sh"]
