@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - 'v*.*'
+    paths:
+      - 'Dockerfile'
   workflow_dispatch:
 
 jobs:
