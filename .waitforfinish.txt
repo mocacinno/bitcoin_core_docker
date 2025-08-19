@@ -1,4 +1,0 @@
-This file has no real function. It is here to indicate that, when building all versions of bitcoin core using these Dockerfiles, it would be wise to wait untill this particular image is built before starting the build of the next image
-
-This way, the buildx build cache is optimized. Proceeding builds will use a big part of this cache, and you'll save time and a lot of compute resources.
-If you have an unlimited build "budget", you can safely ignore this message!
