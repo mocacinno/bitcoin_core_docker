@@ -27,5 +27,6 @@ COPY --from=builder /bitcoin-29.0/build/bin/bitcoin-node /usr/local/bin
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 EXPOSE 8332 8333 18332 18333
-LABEL org.opencontainers.image.revision="manual-trigger-20250619"
+LABEL org.opencontainers.image.revision="manual-trigger-20250819"
+#wait for finish
 ENTRYPOINT ["/entrypoint.sh"]
