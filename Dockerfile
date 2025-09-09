@@ -116,7 +116,7 @@ RUN zypper addrepo https://download.opensuse.org/repositories/home:plasmaregatao
 RUN ln -s /usr/local/wxwidgets/lib/libwx_gtk2ud-2.8.so.0 /usr/lib64/libwx_gtk2ud-2.8.so.0
 RUN ln -s /bitcoin_core_history-0.2.0_patched/bitcoin /usr/local/bin
 RUN curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh | sh
-RUN ./syft packages dir:/ -o syft-json > /sbom.json
+RUN /bin/syft scan dir:/ -o syft-json > /sbom.json
 RUN useradd -m -u 10001 bitcoinuser
 USER bitcoinuser
 
