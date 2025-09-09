@@ -1,4 +1,4 @@
-name: Build and Publish Docker Images
+name: Build, Sign and Publish to GHCR
 
 on:
   push:
@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    # Step 1: Check out the repository
+    # Step 1: Checkout repository
     - name: Checkout repository
       uses: actions/checkout@v3
 
@@ -21,26 +21,42 @@ jobs:
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v2
 
-    # Step 3: Log in to Docker Hub or GHCR
-    - name: Log in to Docker Hub or GHCR
+    # Step 3: Log in to GHCR
+    - name: Log in to GHCR
       run: |
-        echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+        echo "${{ secrets.GITHUB_TOKEN }}" | \
+        docker login ghcr.io -u ${{ github.actor }} --password-stdin
 
-    # Step 4: Pull the cache image from Docker Hub or GHCR (if available)
-    - name: Pull cache image
+    # Step 4: Pull cache (optional)
+    - name: Pull cache
       run: |
         docker pull ghcr.io/${{ github.repository_owner }}/${{ github.repository }}:cache || echo "No cache available"
 
-    # Step 5: Build Docker image using cache
+    # Step 5: Build image
     - name: Build Docker image with cache
       run: |
         docker buildx build \
           --cache-from=ghcr.io/${{ github.repository_owner }}/${{ github.repository }}:cache \
           --cache-to=type=registry,ref=ghcr.io/${{ github.repository_owner }}/${{ github.repository }}:cache,mode=max \
-          --tag ghcr.io/${{ github.repository_owner }}/${{ github.repository }}:${{ github.ref_name }} --load \
+          --tag ghcr.io/${{ github.repository_owner }}/${{ github.repository }}:${{ github.ref_name }} \
+          --push \
           .
 
-    # Step 6: Push Docker image to GHCR
-    - name: Push Docker image
+    # Step 6: Install cosign
+    - name: Install cosign
+      uses: sigstore/cosign-installer@v3
+
+    # Step 7: Sign image (keyless, via GitHub OIDC)
+    - name: Sign Docker image
       run: |
-        docker push ghcr.io/${{ github.repository_owner }}/${{ github.repository }}:${{ github.ref_name }}
+        cosign sign --yes \
+          ghcr.io/${{ github.repository_owner }}/${{ github.repository }}:${{ github.ref_name }}
+
+    # Step 8: Attach SBOM attestation
+    - name: Attach SBOM with cosign
+      run: |
+        syft packages ghcr.io/${{ github.repository_owner }}/${{ github.repository }}:${{ github.ref_name }} -o spdx-json | \
+        cosign attest --yes \
+          --predicate - \
+          --type spdx \
+          ghcr.io/${{ github.repository_owner }}/${{ github.repository }}:${{ github.ref_name }}
