@@ -12,6 +12,10 @@ jobs:
   build-and-publish:
     runs-on: ubuntu-latest
 
+    permissions:
+      contents: read
+      id-token: write  # Required for keyless cosign signing
+
     steps:
     # Step 1: Check out the repository
     - name: Checkout repository
@@ -21,10 +25,12 @@ jobs:
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v2
 
-    # Step 3: Log in to Docker Hub or GHCR
-    # NOTE: Removed login for GHCR when using keyless Cosign signing
+    # Step 3: Log in to GHCR (required for cache export)
+    - name: Log in to GHCR
+      run: |
+        echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
 
-    # Step 4: Pull the cache image from Docker Hub or GHCR (if available)
+    # Step 4: Pull the cache image from GHCR (if available)
     - name: Pull cache image
       run: |
         docker pull ghcr.io/${{ github.repository_owner }}/${{ github.repository }}:cache || echo "No cache available"
@@ -41,20 +47,21 @@ jobs:
     # Step 6: Push Docker image to GHCR
     - name: Push Docker image
       run: |
-        echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
         docker push ghcr.io/${{ github.repository_owner }}/${{ github.repository }}:${{ github.ref_name }}
 
-    # Step 7: Install Cosign (specific release)
+    # Step 7: Install Cosign
     - name: Install Cosign
-      uses: sigstore/cosign-installer@v3
-      with:
-        cosign-release: 'v3.0.4'
+      run: |
+        curl -sSfL https://github.com/sigstore/cosign/releases/download/v2.5.2/cosign-linux-amd64 -o cosign
+        chmod +x cosign
+        sudo mv cosign /usr/local/bin/cosign
 
-    # Step 8: Sign Docker image with Cosign (keyless OIDC)
-    - name: Sign Docker image with Cosign (OIDC)
+    # Step 8: Keyless sign the image
+    - name: Sign Docker image with Cosign (keyless)
       env:
         COSIGN_EXPERIMENTAL: 1
       run: |
         cosign sign \
           --certificate-identity-regexp "https://github.com/${{ github.repository_owner }}/.*" \
+          --certificate-oidc-issuer https://token.actions.githubusercontent.com \
           ghcr.io/${{ github.repository_owner }}/${{ github.repository }}:${{ github.ref_name }}
