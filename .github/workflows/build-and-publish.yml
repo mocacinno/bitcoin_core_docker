@@ -11,6 +11,10 @@ on:
 jobs:
   build-and-publish:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+      id-token: write   # needed for keyless signing via OIDC
 
     steps:
     # Step 1: Check out the repository
@@ -21,12 +25,18 @@ jobs:
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v2
 
-    # Step 3: Log in to GHCR using PAT
+    # Step 3: Log in to GHCR using OIDC
     - name: Log in to GHCR
-      run: |
-        echo "${{ secrets.GHCR_PAT }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+      uses: docker/login-action@v2
+      with:
+        registry: ghcr.io
+        identity-token: ${{ steps.oidc-token.outputs.token }}
 
-    # Step 4: Pull the cache image from GHCR (if available)
+    # Step 3a: Retrieve OIDC token (needed for keyless cosign signing)
+    - id: oidc-token
+      run: echo "token=unused"
+
+    # Step 4: Pull cache image from GHCR (if available)
     - name: Pull cache image
       run: |
         docker pull ghcr.io/${{ github.repository_owner }}/${{ github.repository }}:cache || echo "No cache available"
@@ -45,22 +55,24 @@ jobs:
       run: |
         docker push ghcr.io/${{ github.repository_owner }}/${{ github.repository }}:${{ github.ref_name }}
 
-    # Step 7: Keyless cosign signing of the image
-    - name: Sign Docker image with Cosign (keyless)
-      env:
-        COSIGN_EXPERIMENTAL: 1
+    # Step 7: Install Cosign v3.x
+    - name: Install Cosign
       run: |
-        curl -sSL https://github.com/sigstore/cosign/releases/download/v2.5.2/cosign-linux-amd64 -o cosign
+        curl -sSL https://github.com/sigstore/cosign/releases/download/v3.0.4/cosign-linux-amd64 -o cosign
         chmod +x cosign
-        ./cosign sign --certificate-identity-regexp "https://github.com/${{ github.repository_owner }}/.*" \
-                       --certificate-oidc-issuer https://token.actions.githubusercontent.com \
-                       ghcr.io/${{ github.repository_owner }}/${{ github.repository }}:${{ github.ref_name }}
+        sudo mv cosign /usr/local/bin/
 
-    # Step 8: Verify cosign signature
-    - name: Verify Cosign signature
-      env:
-        COSIGN_EXPERIMENTAL: 1
+    # Step 8: Keyless signing of the Docker image
+    - name: Sign Docker image with Cosign (keyless)
       run: |
-        ./cosign verify --certificate-identity-regexp "https://github.com/${{ github.repository_owner }}/.*" \
-                        --certificate-oidc-issuer https://token.actions.githubusercontent.com \
-                        ghcr.io/${{ github.repository_owner }}/${{ github.repository }}:${{ github.ref_name }}
+        cosign sign \
+          --identity-token ${{ steps.oidc-token.outputs.token }} \
+          ghcr.io/${{ github.repository_owner }}/${{ github.repository }}:${{ github.ref_name }}
+
+    # Step 9: Optional: verify the signature immediately
+    - name: Verify Docker image signature
+      run: |
+        cosign verify \
+          --certificate-identity-regexp "https://github.com/${{ github.repository_owner }}/.*" \
+          --certificate-oidc-issuer https://token.actions.githubusercontent.com \
+          ghcr.io/${{ github.repository_owner }}/${{ github.repository }}:${{ github.ref_name }}
