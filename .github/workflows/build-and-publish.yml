@@ -44,7 +44,6 @@ jobs:
         COSIGN_EXPERIMENTAL: "1"
       run: |
         cosign sign \
-          --keyless \
           --certificate-identity-regexp '^https://github.com/${{ github.repository_owner }}/.*$' \
           --certificate-oidc-issuer https://token.actions.githubusercontent.com \
           ghcr.io/${{ github.repository_owner }}/${{ github.repository }}:${{ github.ref_name }}
@@ -54,7 +53,6 @@ jobs:
         COSIGN_EXPERIMENTAL: "1"
       run: |
         cosign verify \
-          --keyless \
           --certificate-identity-regexp '^https://github.com/${{ github.repository_owner }}/.*$' \
           --certificate-oidc-issuer https://token.actions.githubusercontent.com \
           ghcr.io/${{ github.repository_owner }}/${{ github.repository }}:${{ github.ref_name }}
