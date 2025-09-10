@@ -119,4 +119,4 @@ RUN curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh | 
 RUN syft dir:/ -o syft-json > /sbom.json
 RUN useradd -m -u 10001 bitcoinuser
 USER bitcoinuser
-LABEL org.opencontainers.image.revision="manual-trigger-20250819"
+LABEL org.opencontainers.image.revision="manual-trigger-20250910"
