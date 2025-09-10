@@ -49,13 +49,22 @@ jobs:
       with:
         cosign-release: 'v2.2.2'
 
+    - name: Get Docker Hub digest
+      id: dockerhub_digest
+      run: |
+        DIGEST=$(docker inspect docker.io/mocacinno/btc_core:${{ github.ref_name }} \
+          | jq -r '.[0].RepoDigests[0]' | cut -d '@' -f 2)
+        echo "digest=${DIGEST}" >> $GITHUB_OUTPUT
+
     - name: Copy provenance and SBOM from GHCR to Docker Hub
       env:
         COSIGN_EXPERIMENTAL: "1"
       run: |
-        DIGEST=$(docker inspect ghcr.io/${{ github.repository_owner }}/${{ github.repository }}:${{ github.ref_name }} \
+        GHCR_DIGEST=$(docker inspect ghcr.io/${{ github.repository_owner }}/${{ github.repository }}:${{ github.ref_name }} \
           | jq -r '.[0].RepoDigests[0]' | cut -d '@' -f 2)
 
+        DOCKERHUB_DIGEST="${{ steps.dockerhub_digest.outputs.digest }}"
+
         cosign copy \
-          ghcr.io/${{ github.repository_owner }}/${{ github.repository }}@${DIGEST} \
-          docker.io/mocacinno/btc_core@${DIGEST}
+          ghcr.io/${{ github.repository_owner }}/${{ github.repository }}@${GHCR_DIGEST} \
+          docker.io/mocacinno/btc_core@${DOCKERHUB_DIGEST}
