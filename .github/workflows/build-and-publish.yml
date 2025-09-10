@@ -41,7 +41,7 @@ jobs:
         cache-to: type=registry,ref=ghcr.io/${{ github.repository_owner }}/${{ github.repository }}:cache,mode=max
         provenance: true
         sbom: true
-        outputs: type=image,name=ghcr.io/${{ github.repository_owner }}/${{ github.repository }},digest=true,provenance=true
+        outputs: type=image,name=ghcr.io/${{ github.repository_owner }}/${{ github.repository }},digest=true
 
     - name: Install Cosign v2.2.2
       uses: sigstore/cosign-installer@v3.3.0
@@ -59,16 +59,11 @@ jobs:
         curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh | sh -s -- -b /usr/local/bin
         syft ghcr.io/${{ github.repository_owner }}/${{ github.repository }}:${{ github.ref_name }} -o spdx-json > /tmp/sbom.json
 
-    - name: Cosign Attest SBOM and Provenance
+    - name: Cosign Attest SBOM
       env:
         COSIGN_EXPERIMENTAL: "1"
       run: |
         cosign attest --yes \
           --type spdxjson \
           --predicate /tmp/sbom.json \
-          ghcr.io/${{ github.repository_owner }}/${{ github.repository }}@${{ steps.build.outputs.digest }}
-
-        cosign attest --yes \
-          --type provenance \
-          --predicate ${{ steps.build.outputs.provenance }} \
           ghcr.io/${{ github.repository_owner }}/${{ github.repository }}@${{ steps.build.outputs.digest }}
