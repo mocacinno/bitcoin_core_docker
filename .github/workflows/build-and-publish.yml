@@ -52,13 +52,13 @@ jobs:
       env:
         COSIGN_EXPERIMENTAL: "1"
       run: |
-        cosign sign ghcr.io/${{ github.repository_owner }}/${{ github.repository }}@${{ steps.build.outputs.digest }}
+        cosign sign --yes ghcr.io/${{ github.repository_owner }}/${{ github.repository }}@${{ steps.build.outputs.digest }}
 
     - name: Cosign Attest SBOM and Provenance
       env:
         COSIGN_EXPERIMENTAL: "1"
       run: |
-        cosign attest \
+        cosign attest --yes \
           --type sbom \
           --predicate /tmp/sbom.json \
           ghcr.io/${{ github.repository_owner }}/${{ github.repository }}@${{ steps.build.outputs.digest }}
