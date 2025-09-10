@@ -38,11 +38,11 @@ jobs:
     - name: Retag for Docker Hub
       run: |
         docker tag ghcr.io/${{ github.repository_owner }}/${{ github.repository }}:${{ github.ref_name }} \
-          docker.io/${{ secrets.DOCKERHUB_USERNAME }}/${{ github.repository }}:${{ github.ref_name }}
+          docker.io/mocacinno/btc_core:${{ github.ref_name }}
 
     - name: Push to Docker Hub
       run: |
-        docker push docker.io/${{ secrets.DOCKERHUB_USERNAME }}/${{ github.repository }}:${{ github.ref_name }}
+        docker push docker.io/mocacinno/btc_core:${{ github.ref_name }}
 
     - name: Install Cosign
       uses: sigstore/cosign-installer@v3.3.0
@@ -58,4 +58,4 @@ jobs:
 
         cosign copy \
           ghcr.io/${{ github.repository_owner }}/${{ github.repository }}@${DIGEST} \
-          docker.io/${{ secrets.DOCKERHUB_USERNAME }}/${{ github.repository }}@${DIGEST}
+          docker.io/mocacinno/btc_core@${DIGEST}
