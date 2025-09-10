@@ -2,6 +2,11 @@ name: Mirror GHCR to Docker Hub
 #try triggering job
 
 on:
+  push:
+    branches:
+      - 'v*.*'
+    paths:
+      - 'Dockerfile'
   workflow_dispatch:
 
 jobs:
