@@ -1,0 +1,55 @@
+name: Mirror GHCR to Docker Hub
+
+on:
+  workflow_dispatch:
+
+jobs:
+  mirror-image:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: read
+
+    steps:
+    - name: Log in to GHCR
+      uses: docker/login-action@v2
+      with:
+        registry: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ secrets.GHCR_PAT }}
+
+    - name: Log in to Docker Hub
+      uses: docker/login-action@v2
+      with:
+        registry: docker.io
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_PAT }}
+
+    - name: Pull image from GHCR
+      run: |
+        docker pull ghcr.io/${{ github.repository_owner }}/${{ github.repository }}:${{ github.ref_name }}
+
+    - name: Retag for Docker Hub
+      run: |
+        docker tag ghcr.io/${{ github.repository_owner }}/${{ github.repository }}:${{ github.ref_name }} \
+          docker.io/${{ secrets.DOCKERHUB_USERNAME }}/${{ github.repository }}:${{ github.ref_name }}
+
+    - name: Push to Docker Hub
+      run: |
+        docker push docker.io/${{ secrets.DOCKERHUB_USERNAME }}/${{ github.repository }}:${{ github.ref_name }}
+
+    - name: Install Cosign
+      uses: sigstore/cosign-installer@v3.3.0
+      with:
+        cosign-release: 'v2.2.2'
+
+    - name: Copy provenance and SBOM from GHCR to Docker Hub
+      env:
+        COSIGN_EXPERIMENTAL: "1"
+      run: |
+        DIGEST=$(docker inspect ghcr.io/${{ github.repository_owner }}/${{ github.repository }}:${{ github.ref_name }} \
+          | jq -r '.[0].RepoDigests[0]' | cut -d '@' -f 2)
+
+        cosign copy \
+          ghcr.io/${{ github.repository_owner }}/${{ github.repository }}@${DIGEST} \
+          docker.io/${{ secrets.DOCKERHUB_USERNAME }}/${{ github.repository }}@${DIGEST}
