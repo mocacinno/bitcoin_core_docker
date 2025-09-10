@@ -30,6 +30,7 @@ jobs:
         password: ${{ secrets.GHCR_PAT }}
 
     - name: Build and push Docker image
+      id: build
       uses: docker/build-push-action@v5
       with:
         context: .
@@ -38,20 +39,21 @@ jobs:
         cache-from: type=registry,ref=ghcr.io/${{ github.repository_owner }}/${{ github.repository }}:cache
         cache-to: type=registry,ref=ghcr.io/${{ github.repository_owner }}/${{ github.repository }}:cache,mode=max
         provenance: true
+        outputs: type=image,name=ghcr.io/${{ github.repository_owner }}/${{ github.repository }},digest=true
 
     - name: Install Cosign v2.2.2
       uses: sigstore/cosign-installer@v3.3.0
       with:
         cosign-release: 'v2.2.2'
 
-    - name: Cosign Keyless Sign
+    - name: Cosign Keyless Sign (by digest)
       env:
         COSIGN_EXPERIMENTAL: "1"
       run: |
-        cosign sign ghcr.io/${{ github.repository_owner }}/${{ github.repository }}:${{ github.ref_name }}
+        cosign sign ghcr.io/${{ github.repository_owner }}/${{ github.repository }}@${{ steps.build.outputs.digest }}
 
-    - name: Cosign Keyless Verify
+    - name: Cosign Keyless Verify (by digest)
       env:
         COSIGN_EXPERIMENTAL: "1"
       run: |
-        cosign verify ghcr.io/${{ github.repository_owner }}/${{ github.repository }}:${{ github.ref_name }}
+        cosign verify ghcr.io/${{ github.repository_owner }}/${{ github.repository }}@${{ steps.build.outputs.digest }}
