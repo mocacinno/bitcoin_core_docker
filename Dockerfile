@@ -121,4 +121,4 @@ RUN useradd -m -u 10001 bitcoinuser
 USER bitcoinuser
 
 LABEL org.opencontainers.image.revision="manual-trigger-20250909"
-LABEL run="19"
+LABEL run="20"
