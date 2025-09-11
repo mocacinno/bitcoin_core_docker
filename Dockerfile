@@ -134,5 +134,9 @@ COPY entrypoint.sh /entrypoint.sh
 COPY bitcoin.conf /root/.bitcoin/bitcoin.conf
 RUN chmod +x /entrypoint.sh
 EXPOSE 8332 8333 15332 15333
-LABEL org.opencontainers.image.revision="manual-trigger-20250819"
+RUN curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh | sh -s -- -b /usr/local/bin
+RUN syft dir:/ -o syft-json > /sbom.json
+RUN useradd -m -u 10001 bitcoinuse
+USER bitcoinuser
+LABEL org.opencontainers.image.revision="manual-trigger-20250911"
 ENTRYPOINT ["/entrypoint.sh"]
