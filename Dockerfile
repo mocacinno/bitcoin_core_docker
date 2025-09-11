@@ -52,6 +52,11 @@ COPY entrypoint.sh /entrypoint.sh
 COPY bitcoin.conf /root/.bitcoin/bitcoin.conf
 RUN chmod +x /entrypoint.sh
 EXPOSE 8332 8333 15332 15333
-LABEL org.opencontainers.image.revision="manual-trigger-20250819"
-#wait for finish
+RUN echo 'bitcoinuser:x:10001:10001:Bitcoin User:/home/bitcoinuser:/bin/sh' >> /etc/passwd \
+ && echo 'bitcoinuser:x:10001:' >> /etc/group \
+ && mkdir -p /home/bitcoinuser \
+ && chown -R 10001:10001 /home/bitcoinuser
+USER bitcoinuser
+LABEL org.opencontainers.image.revision="manual-trigger-20250911"
+LABEL waitforfinish="true"
 ENTRYPOINT ["/entrypoint.sh"]
