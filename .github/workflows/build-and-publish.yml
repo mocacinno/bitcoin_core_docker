@@ -11,36 +11,59 @@ on:
 jobs:
   build-and-publish:
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+      packages: write
 
     steps:
-    # Step 1: Check out the repository
     - name: Checkout repository
       uses: actions/checkout@v3
 
-    # Step 2: Set up Docker Buildx
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v2
 
-    # Step 3: Log in to Docker Hub or GHCR
-    - name: Log in to Docker Hub or GHCR
-      run: |
-        echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+    - name: Log in to GHCR
+      uses: docker/login-action@v2
+      with:
+        registry: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ secrets.GHCR_PAT }}
 
-    # Step 4: Pull the cache image from Docker Hub or GHCR (if available)
-    - name: Pull cache image
-      run: |
-        docker pull ghcr.io/${{ github.repository_owner }}/${{ github.repository }}:cache || echo "No cache available"
+    - name: Build and push Docker image
+      id: build
+      uses: docker/build-push-action@v5
+      with:
+        context: .
+        push: true
+        tags: ghcr.io/${{ github.repository_owner }}/${{ github.repository }}:${{ github.ref_name }}
+        cache-from: type=registry,ref=ghcr.io/${{ github.repository_owner }}/${{ github.repository }}:cache
+        cache-to: type=registry,ref=ghcr.io/${{ github.repository_owner }}/${{ github.repository }}:cache,mode=max
+        provenance: mode=max
+        sbom: true
+        outputs: type=image,name=ghcr.io/${{ github.repository_owner }}/${{ github.repository }},digest=true
 
-    # Step 5: Build Docker image using cache
-    - name: Build Docker image with cache
-      run: |
-        docker buildx build \
-          --cache-from=ghcr.io/${{ github.repository_owner }}/${{ github.repository }}:cache \
-          --cache-to=type=registry,ref=ghcr.io/${{ github.repository_owner }}/${{ github.repository }}:cache,mode=max \
-          --tag ghcr.io/${{ github.repository_owner }}/${{ github.repository }}:${{ github.ref_name }} --load \
-          .
+    - name: Install Cosign v2.2.2
+      uses: sigstore/cosign-installer@v3.3.0
+      with:
+        cosign-release: 'v2.2.2'
 
-    # Step 6: Push Docker image to GHCR
-    - name: Push Docker image
+    - name: Cosign Keyless Sign (by digest)
+      env:
+        COSIGN_EXPERIMENTAL: "1"
       run: |
-        docker push ghcr.io/${{ github.repository_owner }}/${{ github.repository }}:${{ github.ref_name }}
+        cosign sign --yes ghcr.io/${{ github.repository_owner }}/${{ github.repository }}@${{ steps.build.outputs.digest }}
+
+    - name: Generate SBOM with Syft
+      run: |
+        curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh | sh -s -- -b /usr/local/bin
+        syft ghcr.io/${{ github.repository_owner }}/${{ github.repository }}:${{ github.ref_name }} -o spdx-json > /tmp/sbom.json
+
+    - name: Cosign Attest SBOM
+      env:
+        COSIGN_EXPERIMENTAL: "1"
+      run: |
+        cosign attest --yes \
+          --type spdxjson \
+          --predicate /tmp/sbom.json \
+          ghcr.io/${{ github.repository_owner }}/${{ github.repository }}@${{ steps.build.outputs.digest }}
