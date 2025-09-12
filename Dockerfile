@@ -117,6 +117,6 @@ RUN ln -s /usr/local/wxwidgets/lib/libwx_gtk2ud-2.8.so.0 /usr/lib64/libwx_gtk2ud
 RUN ln -s /bitcoin_core_history-0.2.0_patched/bitcoin /usr/local/bin
 RUN useradd -m -u 10001 bitcoinuser
 COPY bitcoin.conf /home/bitcoinuser/.bitcoin/bitcoin.conf
-RUN chown -R bitcoinuser:bitcoinuser /home/bitcoinuser
+RUN chown -R bitcoinuser:users /home/bitcoinuser
 USER bitcoinuser
 LABEL org.opencontainers.image.revision="manual-trigger-20250912"
