@@ -132,10 +132,10 @@ RUN ln -s /bitcoin-0.2.4/bitcoin /usr/local/bin
 
 
 COPY entrypoint.sh /entrypoint.sh
-COPY bitcoin.conf /root/.bitcoin/bitcoin.conf
 RUN chmod +x /entrypoint.sh
 EXPOSE 8332 8333 15332 15333
 RUN useradd -m -u 10001 bitcoinuser
+COPY bitcoin.conf /home/bitcoinuser/.bitcoin/bitcoin.conf
 USER bitcoinuser
 LABEL org.opencontainers.image.revision="manual-trigger-20250911"
 ENTRYPOINT ["/entrypoint.sh"]
