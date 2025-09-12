@@ -47,13 +47,13 @@ COPY --from=builder /usr/lib64/libssl.so.1.0.0 /usr/lib64/
 COPY --from=builder /usr/lib64/libcrypto.so.1.0.0 /usr/lib64/
 
 COPY entrypoint.sh /entrypoint.sh
-COPY bitcoin.conf /root/.bitcoin/bitcoin.conf
 RUN chmod +x /entrypoint.sh
 EXPOSE 8332 8333 18332 18333
 RUN echo 'bitcoinuser:x:10001:10001:Bitcoin User:/home/bitcoinuser:/bin/sh' >> /etc/passwd \
  && echo 'bitcoinuser:x:10001:' >> /etc/group \
  && mkdir -p /home/bitcoinuser \
  && chown -R 10001:10001 /home/bitcoinuser
+COPY bitcoin.conf /home/bitcoinuser/.bitcoin/bitcoin.conf
 USER bitcoinuser
 LABEL org.opencontainers.image.revision="manual-trigger-20250912"
 LABEL waitforfinish="true"
