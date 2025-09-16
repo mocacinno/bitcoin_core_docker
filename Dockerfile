@@ -27,5 +27,10 @@ COPY --from=builder /bitcoin-29.1/build/bin/bitcoin-node /usr/local/bin
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 EXPOSE 8332 8333 18332 18333
-LABEL org.opencontainers.image.revision="manual-trigger-20250909"
+RUN echo 'bitcoinuser:x:10001:10001:Bitcoin User:/home/bitcoinuser:/bin/sh' >> /etc/passwd \
+ && echo 'bitcoinuser:x:10001:' >> /etc/group \
+ && mkdir -p /home/bitcoinuser \
+ && chown -R 10001:10001 /home/bitcoinuser
+USER bitcoinuser
+LABEL org.opencontainers.image.revision="manual-trigger-20250916"
 ENTRYPOINT ["/entrypoint.sh"]
