@@ -1,0 +1,3016 @@
+{
+    "author": "mocacinno",
+    "last_modified": "20250923",
+    "versions": [
+        {
+            "version": "v0.1.0",
+            "alt_version": "v1.0",
+            "github_tag": "",
+            "releasedate": "20090109",
+            "cli": [],
+            "daemon": [],
+            "getinfo": [],
+            "getblockchaininfo": [],
+            "getwalletinfo": [],
+            "getnetworkinfo": []
+           
+        },
+        {
+            "version": "v0.1.1",
+            "alt_version": "v1.1",
+            "github_tag": "",
+            "releasedate": "20090616",
+            "cli": [],
+            "daemon": [],
+            "getinfo": [],
+            "getblockchaininfo": [],
+            "getwalletinfo": [],
+            "getnetworkinfo": []
+        },
+        {
+            "version": "v0.1.2",
+            "alt_version": "v1.2",
+            "github_tag": "",
+            "releasedate": "20090801",
+            "cli": [],
+            "daemon": [],
+            "getinfo": [],
+            "getblockchaininfo": [],
+            "getwalletinfo": [],
+            "getnetworkinfo": []
+        },
+        {
+            "version": "v0.1.3",
+            "alt_version": "v1.3",
+            "github_tag": "",
+            "releasedate": "20090815",
+            "cli": [],
+            "daemon": [],
+            "getinfo": [],
+            "getblockchaininfo": [],
+            "getwalletinfo": [],
+            "getnetworkinfo": []
+        },
+        {
+            "version": "v0.1.4",
+            "alt_version": "v1.4",
+            "github_tag": "",
+            "releasedate": "20090915",
+            "cli": [],
+            "daemon": [],
+            "getinfo": [],
+            "getblockchaininfo": [],
+            "getwalletinfo": [],
+            "getnetworkinfo": []
+        },
+        {
+            "version": "v0.1.5",
+            "alt_version": "v1.5",
+            "github_tag": "",
+            "releasedate": "20091211",
+            "cli": [],
+            "daemon": [],
+            "getinfo": [],
+            "getblockchaininfo": [],
+            "getwalletinfo": [],
+            "getnetworkinfo": []
+        },
+        {
+            "version": "v0.2.0",
+            "alt_version": "v2.0",
+            "github_tag": "v2.0",
+            "releasedate": "20091216",
+            "cli": [],
+            "daemon": [],
+            "getinfo": [],
+            "getblockchaininfo": [],
+            "getwalletinfo": [],
+            "getnetworkinfo": []
+        },
+        {
+            "version": "v0.2.1",
+            "alt_version": "v2.1",
+            "github_tag": "v2.1",
+            "releasedate": "20100630",
+            "cli": [],
+            "daemon": [],
+            "getinfo": [],
+            "getblockchaininfo": [],
+            "getwalletinfo": [],
+            "getnetworkinfo": []
+        },
+        {
+            "version": "v0.2.2",
+            "alt_version": "v2.2",
+            "github_tag": "v2.2",
+            "releasedate": "20100701",
+            "cli": [],
+            "daemon": [],
+            "getinfo": [],
+            "getblockchaininfo": [],
+            "getwalletinfo": [],
+            "getnetworkinfo": []
+        },
+        {
+            "version": "v0.2.3",
+            "alt_version": "v2.3",
+            "github_tag": "v2.3",
+            "releasedate": "20100812",
+            "cli": [],
+            "daemon": [],
+            "getinfo": [],
+            "getblockchaininfo": [],
+            "getwalletinfo": [],
+            "getnetworkinfo": []
+        },
+        {
+            "version": "v0.2.4",
+            "alt_version": "v2.4",
+            "github_tag": "v2.4",
+            "releasedate": "20100815",
+            "cli": [],
+            "daemon": [],
+            "getinfo": [],
+            "getblockchaininfo": [],
+            "getwalletinfo": [],
+            "getnetworkinfo": []
+        },
+        {
+            "version": "v0.2.5",
+            "alt_version": "v2.5",
+            "github_tag": "v2.5",
+            "releasedate": "20100918",
+            "cli": [],
+            "daemon": [],
+            "getinfo": [],
+            "getblockchaininfo": [],
+            "getwalletinfo": [],
+            "getnetworkinfo": []
+        },
+        {
+            "version": "v0.2.6",
+            "alt_version": "v2.6",
+            "github_tag": "v2.6",
+            "releasedate": "20101007",
+            "cli": [],
+            "daemon": [],
+            "getinfo": [],
+            "getblockchaininfo": [],
+            "getwalletinfo": [],
+            "getnetworkinfo": []
+        },
+        {
+            "version": "v0.2.7",
+            "alt_version": "v2.7",
+            "github_tag": "v2.7",
+            "releasedate": "20101110",
+            "cli": [
+                {
+                    "flag": "stop",
+                    "help": "stop (no parameters)\nStop bitcoin server."
+                },
+                {
+                    "flag": "getblockcount",
+                    "help": "getblockcount (no parameters)\nReturns the number of blocks in the longest block chain."
+                },
+                {
+                    "flag": "getblocknumber",
+                    "help": "getblocknumber (no parameters)\neturns the block number of the latest block in the longest block chain."
+                },
+                {
+                    "flag": "getconnectioncount",
+                    "help": "getconnectioncount (no parameters)\nReturns the number of connections to other nodes."
+                },
+                {
+                    "flag": "getdifficulty",
+                    "help": "getdifficulty (no parameters)\nReturns the proof-of-work difficulty as a multiple of the minimum difficulty."
+                },
+                {
+                    "flag": "getbalance",
+                    "help": "getbalance (no parameters)\nReturns the server's available balance."
+                },
+                {
+                    "flag": "getgenerate",
+                    "help": "getgenerate (no parameters)\nReturns true or false."
+                },
+                {
+                    "flag": "setgenerate",
+                    "help": "setgenerate <generate> [genproclimit]\n<generate> is true or false to turn generation on or off.\nGeneration is limited to [genproclimit] processors, -1 is unlimited."
+                },
+                {
+                    "flag": "getinfo",
+                    "help": "getinfo (no parameters)"
+                },
+                {
+                    "flag": "getnewaddress",
+                    "help": "getnewaddress [label]\nReturns a new bitcoin address for receiving payments.  If [label] is specified (recommended), it is added to the address book so payments received with the address will be labeled."
+                },
+                {
+                    "flag": "sendtoaddress",
+                    "help": "sendtoaddress <bitcoinaddress> <amount> [comment] [comment-to]\n<amount> is a real and is rounded to the nearest 0.01"
+                },
+                {
+                    "flag": "listtransactions",
+                    "help": "listtransactions [count=10] [includegenerated=false]\nReturns up to [count] most recent transactions."
+                },
+                {
+                    "flag": "getamountreceived",
+                    "help": "getamountreceived <bitcoinaddress> [minconf=1]\nReturns the total amount received by <bitcoinaddress> in transactions with at least [minconf] confirmations."
+                },
+                {
+                    "flag": "getallreceived",
+                    "help": "getallreceived [minconf=1]\n[minconf] is the minimum number of confirmations before payments are included.\nReturns an array of objects containing:\n  \"address\" : receiving address\n  \"amount\" : total amount received by the address\n  \"confirmations\" : number of confirmations of the most recent transaction included\n  \"label\" : the label of the receiving address"
+                }
+            ],
+            "daemon": [
+                {
+                    "flag": "gen",
+                    "help": "Generate coins"
+                },
+                {
+                    "flag": "gen=0",
+                    "help": "Don't generate coins"
+                },
+                {
+                    "flag": "min",
+                    "help": "Start minimized"
+                },
+                {
+                    "flag": "datadir=<dir>",
+                    "help": "Specify data directory"
+                },
+                {
+                    "flag": "proxy=<ip:port>",
+                    "help": "Connect through socks4 proxy"
+                },
+                {
+                    "flag": "addnode=<ip>",
+                    "help": "Add a node to connect to"
+                },
+                {
+                    "flag": "connect",
+                    "help": "Connect only to the specified node"
+                },
+                {
+                    "flag": "?",
+                    "help": "This help message"
+                }
+            ],
+            "getinfo": [
+                "balance",
+                "blocks",
+                "connections",
+                "proxy",
+                "generate",
+                "genproclimit"
+            ],
+            "getblockchaininfo": [],
+            "getwalletinfo": [],
+            "getnetworkinfo": []
+        },
+        {
+            "version": "v0.2.8",
+            "alt_version": "v2.8",
+            "github_tag": "v2.8",
+            "releasedate": "20101113",
+            "cli": [
+                {
+                    "flag": "stop",
+                    "help": "stop (no parameters)\nStop bitcoin server."
+                },
+                {
+                    "flag": "getblockcount",
+                    "help": "getblockcount (no parameters)\nReturns the number of blocks in the longest block chain."
+                },
+                {
+                    "flag": "getblocknumber",
+                    "help": "getblocknumber (no parameters)\neturns the block number of the latest block in the longest block chain."
+                },
+                {
+                    "flag": "getconnectioncount",
+                    "help": "getconnectioncount (no parameters)\nReturns the number of connections to other nodes."
+                },
+                {
+                    "flag": "getdifficulty",
+                    "help": "getdifficulty (no parameters)\nReturns the proof-of-work difficulty as a multiple of the minimum difficulty."
+                },
+                {
+                    "flag": "getbalance",
+                    "help": "getbalance (no parameters)\nReturns the server's available balance."
+                },
+                {
+                    "flag": "getgenerate",
+                    "help": "getgenerate (no parameters)\nReturns true or false."
+                },
+                {
+                    "flag": "setgenerate",
+                    "help": "setgenerate <generate> [genproclimit]\n<generate> is true or false to turn generation on or off.\nGeneration is limited to [genproclimit] processors, -1 is unlimited."
+                },
+                {
+                    "flag": "getinfo",
+                    "help": "getinfo (no parameters)"
+                },
+                {
+                    "flag": "getnewaddress",
+                    "help": "getnewaddress [label]\nReturns a new bitcoin address for receiving payments.  If [label] is specified (recommended), it is added to the address book so payments received with the address will be labeled."
+                },
+                {
+                    "flag": "sendtoaddress",
+                    "help": "sendtoaddress <bitcoinaddress> <amount> [comment] [comment-to]\n<amount> is a real and is rounded to the nearest 0.01"
+                },
+                {
+                    "flag": "listtransactions",
+                    "help": "listtransactions [count=10] [includegenerated=false]\nReturns up to [count] most recent transactions."
+                },
+                {
+                    "flag": "getamountreceived",
+                    "help": "getamountreceived <bitcoinaddress> [minconf=1]\nReturns the total amount received by <bitcoinaddress> in transactions with at least [minconf] confirmations."
+                },
+                {
+                    "flag": "getallreceived",
+                    "help": "getallreceived [minconf=1]\n[minconf] is the minimum number of confirmations before payments are included.\nReturns an array of objects containing:\n  \"address\" : receiving address\n  \"amount\" : total amount received by the address\n  \"confirmations\" : number of confirmations of the most recent transaction included\n  \"label\" : the label of the receiving address"
+                }
+            ],
+            "daemon": [
+                {
+                    "flag": "gen",
+                    "help": "Generate coins"
+                },
+                {
+                    "flag": "gen=0",
+                    "help": "Don't generate coins"
+                },
+                {
+                    "flag": "min",
+                    "help": "Start minimized"
+                },
+                {
+                    "flag": "datadir=<dir>",
+                    "help": "Specify data directory"
+                },
+                {
+                    "flag": "proxy=<ip:port>",
+                    "help": "Connect through socks4 proxy"
+                },
+                {
+                    "flag": "addnode=<ip>",
+                    "help": "Add a node to connect to"
+                },
+                {
+                    "flag": "connect",
+                    "help": "Connect only to the specified node"
+                },
+                {
+                    "flag": "?",
+                    "help": "This help message"
+                }
+            ],
+            "getinfo": [
+                "balance",
+                "blocks",
+                "connections",
+                "proxy",
+                "generate",
+                "genproclimit",
+                "difficulty"
+            ],
+            "getblockchaininfo": [],
+            "getwalletinfo": [],
+            "getnetworkinfo": []
+        },
+        {
+            "version": "v0.2.9",
+            "alt_version": "v2.9",
+            "github_tag": "v2.9",
+            "releasedate": "20101116",
+            "cli": [
+                {
+                    "flag": "stop",
+                    "help": "stop (no parameters)\nStop bitcoin server."
+                },
+                {
+                    "flag": "getblockcount",
+                    "help": "getblockcount (no parameters)\nReturns the number of blocks in the longest block chain."
+                },
+                {
+                    "flag": "getblocknumber",
+                    "help": "getblocknumber (no parameters)\neturns the block number of the latest block in the longest block chain."
+                },
+                {
+                    "flag": "getconnectioncount",
+                    "help": "getconnectioncount (no parameters)\nReturns the number of connections to other nodes."
+                },
+                {
+                    "flag": "getdifficulty",
+                    "help": "getdifficulty (no parameters)\nReturns the proof-of-work difficulty as a multiple of the minimum difficulty."
+                },
+                {
+                    "flag": "getbalance",
+                    "help": "getbalance (no parameters)\nReturns the server's available balance."
+                },
+                {
+                    "flag": "getgenerate",
+                    "help": "getgenerate (no parameters)\nReturns true or false."
+                },
+                {
+                    "flag": "setgenerate",
+                    "help": "setgenerate <generate> [genproclimit]\n<generate> is true or false to turn generation on or off.\nGeneration is limited to [genproclimit] processors, -1 is unlimited."
+                },
+                {
+                    "flag": "getinfo",
+                    "help": "getinfo (no parameters)"
+                },
+                {
+                    "flag": "getnewaddress",
+                    "help": "getnewaddress [label]\nReturns a new bitcoin address for receiving payments.  If [label] is specified (recommended), it is added to the address book so payments received with the address will be labeled."
+                },
+                {
+                    "flag": "setlabel",
+                    "help": "setlabel <bitcoinaddress> <label>\nSets the label associated with the given address."
+                },
+                {
+                    "flag": "getlabel",
+                    "help": "getlabel <bitcoinaddress>\nReturns the label associated with the given address."
+                },
+                {
+                    "flag": "getaddressesbylabel",
+                    "help": "getaddressesbylabel <label>\nReturns the list of addresses with the given label."
+                },
+                {
+                    "flag": "sendtoaddress",
+                    "help": "sendtoaddress <bitcoinaddress> <amount> [comment] [comment-to]\n<amount> is a real and is rounded to the nearest 0.01"
+                },
+                {
+                    "flag": "listtransactions",
+                    "help": "listtransactions [count=10] [includegenerated=false]\nReturns up to [count] most recent transactions."
+                },
+                {
+                    "flag": "getreceivedbyaddress",
+                    "help": "getreceivedbyaddress <bitcoinaddress> [minconf=1]\nReturns the total amount received by <bitcoinaddress> in transactions with at least [minconf] confirmations."
+                },
+                {
+                    "flag": "getreceivedbylabel",
+                    "help": "getreceivedbylabel <label> [minconf=1]\nReturns the total amount received by addresses with <label> in transactions with at least [minconf] confirmations."
+                },
+                {
+                    "flag": "listreceivedbyaddress",
+                    "help": "listreceivedbyaddress [minconf=1] [includeempty=false]\n[minconf] is the minimum number of confirmations before payments are included.\n[includeempty] whether to include addresses that haven't received any payments.\nReturns an array of objects containing:\n  \"address\" : receiving address\n  \"label\" : the label of the receiving address\n  \"amount\" : total amount received by the address\n  \"confirmations\" : number of confirmations of the most recent transaction included"
+                },
+                {
+                    "flag": "listreceivedbylabel",
+                    "help": "listreceivedbylabel [minconf=1] [includeempty=false]\n[minconf] is the minimum number of confirmations before payments are included.\n[includeempty] whether to include labels that haven't received any payments.\nReturns an array of objects containing:\n  \"label\" : the label of the receiving addresses\n  \"amount\" : total amount received by addresses with this label\n  \"confirmations\" : number of confirmations of the most recent transaction included"
+                },
+                {
+                    "flag": "getallreceived",
+                    "help": "getallreceived [minconf=1]\n[minconf] is the minimum number of confirmations before payments are included.\nReturns an array of objects containing:\n  \"address\" : receiving address\n  \"amount\" : total amount received by the address\n  \"confirmations\" : number of confirmations of the most recent transaction included\n  \"label\" : the label of the receiving address"
+                }
+            ],
+            "daemon": [
+                {
+                    "flag": "gen",
+                    "help": "Generate coins"
+                },
+                {
+                    "flag": "gen=0",
+                    "help": "Don't generate coins"
+                },
+                {
+                    "flag": "min",
+                    "help": "Start minimized"
+                },
+                {
+                    "flag": "datadir=<dir>",
+                    "help": "Specify data directory"
+                },
+                {
+                    "flag": "proxy=<ip:port>",
+                    "help": "Connect through socks4 proxy"
+                },
+                {
+                    "flag": "addnode=<ip>",
+                    "help": "Add a node to connect to"
+                },
+                {
+                    "flag": "connect",
+                    "help": "Connect only to the specified node"
+                },
+                {
+                    "flag": "?",
+                    "help": "This help message"
+                }
+            ],
+            "getinfo": [
+                "balance",
+                "blocks",
+                "connections",
+                "proxy",
+                "generate",
+                "genproclimit",
+                "difficulty"
+            ],
+            "getblockchaininfo": [],
+            "getwalletinfo": [],
+            "getnetworkinfo": []
+        },
+        {
+            "version": "v0.2.10",
+            "alt_version": "v2.10",
+            "github_tag": "v2.10",
+            "releasedate": "20101123",
+            "cli": [
+                {
+                    "flag": "getaddressesbylabel <label>",
+                    "help": "Returns the list of addresses with the given label."
+                },
+                {
+                    "flag": "listreceivedbyaddress [minconf=1] [includeempty=false]",
+                    "help": ""
+                },
+                {
+                    "flag": "getreceivedbyaddress <bitcoinaddress> [minconf=1]",
+                    "help": "Returns the total amount received by <bitcoinaddress> in transactions with at least [minconf] confirmations."
+                },
+                {
+                    "flag": "getbalance",
+                    "help": ""
+                },
+                {
+                    "flag": "getblockcount",
+                    "help": ""
+                },
+                {
+                    "flag": "getblocknumber",
+                    "help": ""
+                },
+                {
+                    "flag": "getconnectioncount",
+                    "help": ""
+                },
+                {
+                    "flag": "getdifficulty",
+                    "help": ""
+                },
+                {
+                    "flag": "getgenerate",
+                    "help": ""
+                },
+                {
+                    "flag": "getinfo",
+                    "help": ""
+                },
+                {
+                    "flag": "getlabel <bitcoinaddress>",
+                    "help": "Returns the label associated with the given address."
+                },
+                {
+                    "flag": "getnewaddress [label]",
+                    "help": ""
+                },
+                {
+                    "flag": "getreceivedbyaddress <bitcoinaddress> [minconf=1]",
+                    "help": "Returns the total amount received by <bitcoinaddress> in transactions with at least [minconf] confirmations."
+                },
+                {
+                    "flag": "getreceivedbylabel <label> [minconf=1]",
+                    "help": "Returns the total amount received by addresses with <label> in transactions with at least [minconf] confirmations."
+                },
+                {
+                    "flag": "help",
+                    "help": ""
+                },
+                {
+                    "flag": "listreceivedbyaddress [minconf=1] [includeempty=false]",
+                    "help": ""
+                },
+                {
+                    "flag": "listreceivedbylabel [minconf=1] [includeempty=false]",
+                    "help": ""
+                },
+                {
+                    "flag": "listtransactions [count=10] [includegenerated=false]",
+                    "help": ""
+                },
+                {
+                    "flag": "sendtoaddress <bitcoinaddress> <amount> [comment] [comment-to]",
+                    "help": "<amount> is a real and is rounded to the nearest 0.0"
+                },
+                {
+                    "flag": "setgenerate <generate> [genproclimit]",
+                    "help": ""
+                },
+                {
+                    "flag": "setlabel <bitcoinaddress> <label>",
+                    "help": "Sets the label associated with the given address."
+                },
+                {
+                    "flag": "stop",
+                    "help": ""
+                }
+            ],
+            "daemon": [
+                {
+                    "flag": "gen",
+                    "help": "Generate coins"
+                },
+                {
+                    "flag": "gen=0",
+                    "help": "Don't generate coins"
+                },
+                {
+                    "flag": "min",
+                    "help": "Start minimized"
+                },
+                {
+                    "flag": "datadir=<dir>",
+                    "help": "Specify data directory"
+                },
+                {
+                    "flag": "proxy=<ip:port>",
+                    "help": "Connect through socks4 proxy"
+                },
+                {
+                    "flag": "addnode=<ip>",
+                    "help": "Add a node to connect to"
+                },
+                {
+                    "flag": "connect=<ip>",
+                    "help": "Connect only to the specified node"
+                },
+                {
+                    "flag": "server",
+                    "help": "Accept command line and JSON-RPC commands"
+                },
+                {
+                    "flag": "daemon",
+                    "help": "Run in the background as a daemon and accept commands"
+                },
+                {
+                    "flag": "?",
+                    "help": "This help message"
+                }
+            ],
+            "getinfo": [
+                "balance",
+                "blocks",
+                "connections",
+                "proxy",
+                "generate",
+                "genproclimit",
+                "difficulty"
+            ],
+            "getblockchaininfo": [],
+            "getwalletinfo": [],
+            "getnetworkinfo": []
+        },
+        {
+            "version": "v0.2.11",
+            "alt_version": "v2.11",
+            "github_tag": "v2.11",
+            "releasedate": "20101127",
+            "cli": [
+                {
+                    "flag": "getaddressesbylabel <label>",
+                    "help": "Returns the list of addresses with the given label."
+                },
+                {
+                    "flag": "listreceivedbyaddress [minconf=1] [includeempty=false]",
+                    "help": ""
+                },
+                {
+                    "flag": "getreceivedbyaddress <bitcoinaddress> [minconf=1]",
+                    "help": "Returns the total amount received by <bitcoinaddress> in transactions with at least [minconf] confirmations."
+                },
+                {
+                    "flag": "getbalance",
+                    "help": ""
+                },
+                {
+                    "flag": "getblockcount",
+                    "help": ""
+                },
+                {
+                    "flag": "getblocknumber",
+                    "help": ""
+                },
+                {
+                    "flag": "getconnectioncount",
+                    "help": ""
+                },
+                {
+                    "flag": "getdifficulty",
+                    "help": ""
+                },
+                {
+                    "flag": "getgenerate",
+                    "help": ""
+                },
+                {
+                    "flag": "getinfo",
+                    "help": ""
+                },
+                {
+                    "flag": "getlabel <bitcoinaddress>",
+                    "help": "Returns the label associated with the given address."
+                },
+                {
+                    "flag": "getnewaddress [label]",
+                    "help": ""
+                },
+                {
+                    "flag": "getreceivedbyaddress <bitcoinaddress> [minconf=1]",
+                    "help": "Returns the total amount received by <bitcoinaddress> in transactions with at least [minconf] confirmations."
+                },
+                {
+                    "flag": "getreceivedbylabel <label> [minconf=1]",
+                    "help": "Returns the total amount received by addresses with <label> in transactions with at least [minconf] confirmations."
+                },
+                {
+                    "flag": "help",
+                    "help": ""
+                },
+                {
+                    "flag": "listreceivedbyaddress [minconf=1] [includeempty=false]",
+                    "help": ""
+                },
+                {
+                    "flag": "listreceivedbylabel [minconf=1] [includeempty=false]",
+                    "help": ""
+                },
+                {
+                    "flag": "listtransactions [count=10] [includegenerated=false]",
+                    "help": ""
+                },
+                {
+                    "flag": "sendtoaddress <bitcoinaddress> <amount> [comment] [comment-to]",
+                    "help": "<amount> is a real and is rounded to the nearest 0.0"
+                },
+                {
+                    "flag": "setgenerate <generate> [genproclimit]",
+                    "help": ""
+                },
+                {
+                    "flag": "setlabel <bitcoinaddress> <label>",
+                    "help": "Sets the label associated with the given address."
+                },
+                {
+                    "flag": "stop",
+                    "help": ""
+                }
+            ],
+            "daemon": [
+                {
+                    "flag": "gen",
+                    "help": "Generate coins"
+                },
+                {
+                    "flag": "gen=0",
+                    "help": "Don't generate coins"
+                },
+                {
+                    "flag": "min",
+                    "help": "Start minimized"
+                },
+                {
+                    "flag": "datadir=<dir>",
+                    "help": "Specify data directory"
+                },
+                {
+                    "flag": "proxy=<ip:port>",
+                    "help": "Connect through socks4 proxy"
+                },
+                {
+                    "flag": "addnode=<ip>",
+                    "help": "Add a node to connect to"
+                },
+                {
+                    "flag": "connect=<ip>",
+                    "help": "Connect only to the specified node"
+                },
+                {
+                    "flag": "server",
+                    "help": "Accept command line and JSON-RPC commands"
+                },
+                {
+                    "flag": "daemon",
+                    "help": "Run in the background as a daemon and accept commands"
+                },
+                {
+                    "flag": "?",
+                    "help": "This help message"
+                }
+            ],
+            "getinfo": [
+                "balance",
+                "blocks",
+                "connections",
+                "proxy",
+                "generate",
+                "genproclimit",
+                "difficulty"
+            ],
+            "getblockchaininfo": [],
+            "getwalletinfo": [],
+            "getnetworkinfo": []
+        },
+        {
+            "version": "v0.2.12",
+            "alt_version": "v2.12",
+            "github_tag": "v2.12",
+            "releasedate": "20101130",
+            "cli": [
+                {
+                    "flag": "getaddressesbylabel <label>",
+                    "help": "Returns the list of addresses with the given label."
+                },
+                {
+                    "flag": "listreceivedbyaddress [minconf=1] [includeempty=false]",
+                    "help": ""
+                },
+                {
+                    "flag": "getreceivedbyaddress <bitcoinaddress> [minconf=1]",
+                    "help": "Returns the total amount received by <bitcoinaddress> in transactions with at least [minconf] confirmations."
+                },
+                {
+                    "flag": "getbalance",
+                    "help": ""
+                },
+                {
+                    "flag": "getblockcount",
+                    "help": ""
+                },
+                {
+                    "flag": "getblocknumber",
+                    "help": ""
+                },
+                {
+                    "flag": "getconnectioncount",
+                    "help": ""
+                },
+                {
+                    "flag": "getdifficulty",
+                    "help": ""
+                },
+                {
+                    "flag": "getgenerate",
+                    "help": ""
+                },
+                {
+                    "flag": "getinfo",
+                    "help": ""
+                },
+                {
+                    "flag": "getlabel <bitcoinaddress>",
+                    "help": "Returns the label associated with the given address."
+                },
+                {
+                    "flag": "getnewaddress [label]",
+                    "help": ""
+                },
+                {
+                    "flag": "getreceivedbyaddress <bitcoinaddress> [minconf=1]",
+                    "help": "Returns the total amount received by <bitcoinaddress> in transactions with at least [minconf] confirmations."
+                },
+                {
+                    "flag": "getreceivedbylabel <label> [minconf=1]",
+                    "help": "Returns the total amount received by addresses with <label> in transactions with at least [minconf] confirmations."
+                },
+                {
+                    "flag": "help",
+                    "help": ""
+                },
+                {
+                    "flag": "listreceivedbyaddress [minconf=1] [includeempty=false]",
+                    "help": ""
+                },
+                {
+                    "flag": "listreceivedbylabel [minconf=1] [includeempty=false]",
+                    "help": ""
+                },
+                {
+                    "flag": "listtransactions [count=10] [includegenerated=false]",
+                    "help": ""
+                },
+                {
+                    "flag": "sendtoaddress <bitcoinaddress> <amount> [comment] [comment-to]",
+                    "help": "<amount> is a real and is rounded to the nearest 0.0"
+                },
+                {
+                    "flag": "setgenerate <generate> [genproclimit]",
+                    "help": ""
+                },
+                {
+                    "flag": "setlabel <bitcoinaddress> <label>",
+                    "help": "Sets the label associated with the given address."
+                },
+                {
+                    "flag": "stop",
+                    "help": ""
+                }
+            ],
+            "daemon": [
+                {
+                    "flag": "gen",
+                    "help": "Generate coins"
+                },
+                {
+                    "flag": "gen=0",
+                    "help": "Don't generate coins"
+                },
+                {
+                    "flag": "min",
+                    "help": "Start minimized"
+                },
+                {
+                    "flag": "datadir=<dir>",
+                    "help": "Specify data directory"
+                },
+                {
+                    "flag": "proxy=<ip:port>",
+                    "help": "Connect through socks4 proxy"
+                },
+                {
+                    "flag": "addnode=<ip>",
+                    "help": "Add a node to connect to"
+                },
+                {
+                    "flag": "connect=<ip>",
+                    "help": "Connect only to the specified node"
+                },
+                {
+                    "flag": "server",
+                    "help": "Accept command line and JSON-RPC commands"
+                },
+                {
+                    "flag": "daemon",
+                    "help": "Run in the background as a daemon and accept commands"
+                },
+                {
+                    "flag": "?",
+                    "help": "This help message"
+                }
+            ],
+            "getinfo": [
+                "balance",
+                "blocks",
+                "connections",
+                "proxy",
+                "generate",
+                "genproclimit",
+                "difficulty"
+            ],
+            "getblockchaininfo": [],
+            "getwalletinfo": [],
+            "getnetworkinfo": []
+        },
+        {
+            "version": "v0.2.13",
+            "alt_version": "v2.13",
+            "github_tag": "v2.13",
+            "releasedate": "20101203",
+            "cli": [
+                {
+                    "flag": "getaddressesbylabel <label>",
+                    "help": "Returns the list of addresses with the given label."
+                },
+                {
+                    "flag": "listreceivedbyaddress [minconf=1] [includeempty=false]",
+                    "help": ""
+                },
+                {
+                    "flag": "getreceivedbyaddress <bitcoinaddress> [minconf=1]",
+                    "help": "Returns the total amount received by <bitcoinaddress> in transactions with at least [minconf] confirmations."
+                },
+                {
+                    "flag": "getbalance",
+                    "help": ""
+                },
+                {
+                    "flag": "getblockcount",
+                    "help": ""
+                },
+                {
+                    "flag": "getblocknumber",
+                    "help": ""
+                },
+                {
+                    "flag": "getconnectioncount",
+                    "help": ""
+                },
+                {
+                    "flag": "getdifficulty",
+                    "help": ""
+                },
+                {
+                    "flag": "getgenerate",
+                    "help": ""
+                },
+                {
+                    "flag": "getinfo",
+                    "help": ""
+                },
+                {
+                    "flag": "getlabel <bitcoinaddress>",
+                    "help": "Returns the label associated with the given address."
+                },
+                {
+                    "flag": "getnewaddress [label]",
+                    "help": ""
+                },
+                {
+                    "flag": "getreceivedbyaddress <bitcoinaddress> [minconf=1]",
+                    "help": "Returns the total amount received by <bitcoinaddress> in transactions with at least [minconf] confirmations."
+                },
+                {
+                    "flag": "getreceivedbylabel <label> [minconf=1]",
+                    "help": "Returns the total amount received by addresses with <label> in transactions with at least [minconf] confirmations."
+                },
+                {
+                    "flag": "help",
+                    "help": ""
+                },
+                {
+                    "flag": "listreceivedbyaddress [minconf=1] [includeempty=false]",
+                    "help": ""
+                },
+                {
+                    "flag": "listreceivedbylabel [minconf=1] [includeempty=false]",
+                    "help": ""
+                },
+                {
+                    "flag": "listtransactions [count=10] [includegenerated=false]",
+                    "help": ""
+                },
+                {
+                    "flag": "sendtoaddress <bitcoinaddress> <amount> [comment] [comment-to]",
+                    "help": "<amount> is a real and is rounded to the nearest 0.0"
+                },
+                {
+                    "flag": "setgenerate <generate> [genproclimit]",
+                    "help": ""
+                },
+                {
+                    "flag": "setlabel <bitcoinaddress> <label>",
+                    "help": "Sets the label associated with the given address."
+                },
+                {
+                    "flag": "stop",
+                    "help": ""
+                }
+            ],
+            "daemon": [
+                {
+                    "flag": "gen",
+                    "help": "Generate coins"
+                },
+                {
+                    "flag": "gen=0",
+                    "help": "Don't generate coins"
+                },
+                {
+                    "flag": "min",
+                    "help": "Start minimized"
+                },
+                {
+                    "flag": "datadir=<dir>",
+                    "help": "Specify data directory"
+                },
+                {
+                    "flag": "proxy=<ip:port>",
+                    "help": "Connect through socks4 proxy"
+                },
+                {
+                    "flag": "addnode=<ip>",
+                    "help": "Add a node to connect to"
+                },
+                {
+                    "flag": "connect=<ip>",
+                    "help": "Connect only to the specified node"
+                },
+                {
+                    "flag": "server",
+                    "help": "Accept command line and JSON-RPC commands"
+                },
+                {
+                    "flag": "daemon",
+                    "help": "Run in the background as a daemon and accept commands"
+                },
+                {
+                    "flag": "?",
+                    "help": "This help message"
+                }
+            ],
+            "getinfo": [
+                "balance",
+                "blocks",
+                "connections",
+                "proxy",
+                "generate",
+                "genproclimit",
+                "difficulty"
+            ],
+            "getblockchaininfo": [],
+            "getwalletinfo": [],
+            "getnetworkinfo": []
+        },
+        {
+            "version": "v0.3.0",
+            "alt_version": "v3.0",
+            "github_tag": "v3.0",
+            "releasedate": "20091005",
+            "cli": [
+                {
+                    "flag": "getaddressesbylabel <label>",
+                    "help": "Returns the list of addresses with the given label."
+                },
+                {
+                    "flag": "listreceivedbyaddress [minconf=1] [includeempty=false]",
+                    "help": ""
+                },
+                {
+                    "flag": "getreceivedbyaddress <bitcoinaddress> [minconf=1]",
+                    "help": "Returns the total amount received by <bitcoinaddress> in transactions with at least [minconf] confirmations."
+                },
+                {
+                    "flag": "getbalance",
+                    "help": ""
+                },
+                {
+                    "flag": "getblockcount",
+                    "help": ""
+                },
+                {
+                    "flag": "getblocknumber",
+                    "help": ""
+                },
+                {
+                    "flag": "getconnectioncount",
+                    "help": ""
+                },
+                {
+                    "flag": "getdifficulty",
+                    "help": ""
+                },
+                {
+                    "flag": "getgenerate",
+                    "help": ""
+                },
+                {
+                    "flag": "getinfo",
+                    "help": ""
+                },
+                {
+                    "flag": "getlabel <bitcoinaddress>",
+                    "help": "Returns the label associated with the given address."
+                },
+                {
+                    "flag": "getnewaddress [label]",
+                    "help": ""
+                },
+                {
+                    "flag": "getreceivedbyaddress <bitcoinaddress> [minconf=1]",
+                    "help": "Returns the total amount received by <bitcoinaddress> in transactions with at least [minconf] confirmations."
+                },
+                {
+                    "flag": "getreceivedbylabel <label> [minconf=1]",
+                    "help": "Returns the total amount received by addresses with <label> in transactions with at least [minconf] confirmations."
+                },
+                {
+                    "flag": "help",
+                    "help": ""
+                },
+                {
+                    "flag": "listreceivedbyaddress [minconf=1] [includeempty=false]",
+                    "help": ""
+                },
+                {
+                    "flag": "listreceivedbylabel [minconf=1] [includeempty=false]",
+                    "help": ""
+                },
+                {
+                    "flag": "listtransactions [count=10] [includegenerated=false]",
+                    "help": ""
+                },
+                {
+                    "flag": "sendtoaddress <bitcoinaddress> <amount> [comment] [comment-to]",
+                    "help": "<amount> is a real and is rounded to the nearest 0.0"
+                },
+                {
+                    "flag": "setgenerate <generate> [genproclimit]",
+                    "help": ""
+                },
+                {
+                    "flag": "setlabel <bitcoinaddress> <label>",
+                    "help": "Sets the label associated with the given address."
+                },
+                {
+                    "flag": "stop",
+                    "help": ""
+                }
+            ],
+            "daemon": [
+                {
+                    "flag": "gen",
+                    "help": "Generate coins"
+                },
+                {
+                    "flag": "gen=0",
+                    "help": "Don't generate coins"
+                },
+                {
+                    "flag": "min",
+                    "help": "Start minimized"
+                },
+                {
+                    "flag": "datadir=<dir>",
+                    "help": "Specify data directory"
+                },
+                {
+                    "flag": "proxy=<ip:port>",
+                    "help": "Connect through socks4 proxy"
+                },
+                {
+                    "flag": "addnode=<ip>",
+                    "help": "Add a node to connect to"
+                },
+                {
+                    "flag": "connect=<ip>",
+                    "help": "Connect only to the specified node"
+                },
+                {
+                    "flag": "server",
+                    "help": "Accept command line and JSON-RPC commands"
+                },
+                {
+                    "flag": "daemon",
+                    "help": "Run in the background as a daemon and accept commands"
+                },
+                {
+                    "flag": "?",
+                    "help": "This help message"
+                }
+            ],
+            "getinfo": [
+                "balance",
+                "blocks",
+                "connections",
+                "proxy",
+                "generate",
+                "genproclimit",
+                "difficulty"
+            ],
+            "getblockchaininfo": [],
+            "getwalletinfo": [],
+            "getnetworkinfo": []
+        },
+        {
+            "version": "v0.3.1",
+            "alt_version": "v3.1",
+            "github_tag": "v3.1",
+            "releasedate": "20091212",
+            "cli": [
+                {
+                    "flag": "getaddressesbylabel <label>",
+                    "help": "Returns the list of addresses with the given label."
+                },
+                {
+                    "flag": "listreceivedbyaddress [minconf=1] [includeempty=false]",
+                    "help": ""
+                },
+                {
+                    "flag": "getreceivedbyaddress <bitcoinaddress> [minconf=1]",
+                    "help": "Returns the total amount received by <bitcoinaddress> in transactions with at least [minconf] confirmations."
+                },
+                {
+                    "flag": "getbalance",
+                    "help": ""
+                },
+                {
+                    "flag": "getblockcount",
+                    "help": ""
+                },
+                {
+                    "flag": "getblocknumber",
+                    "help": ""
+                },
+                {
+                    "flag": "getconnectioncount",
+                    "help": ""
+                },
+                {
+                    "flag": "getdifficulty",
+                    "help": ""
+                },
+                {
+                    "flag": "getgenerate",
+                    "help": ""
+                },
+                {
+                    "flag": "getinfo",
+                    "help": ""
+                },
+                {
+                    "flag": "getlabel <bitcoinaddress>",
+                    "help": "Returns the label associated with the given address."
+                },
+                {
+                    "flag": "getnewaddress [label]",
+                    "help": ""
+                },
+                {
+                    "flag": "getreceivedbyaddress <bitcoinaddress> [minconf=1]",
+                    "help": "Returns the total amount received by <bitcoinaddress> in transactions with at least [minconf] confirmations."
+                },
+                {
+                    "flag": "getreceivedbylabel <label> [minconf=1]",
+                    "help": "Returns the total amount received by addresses with <label> in transactions with at least [minconf] confirmations."
+                },
+                {
+                    "flag": "help",
+                    "help": ""
+                },
+                {
+                    "flag": "listreceivedbyaddress [minconf=1] [includeempty=false]",
+                    "help": ""
+                },
+                {
+                    "flag": "listreceivedbylabel [minconf=1] [includeempty=false]",
+                    "help": ""
+                },
+                {
+                    "flag": "listtransactions [count=10] [includegenerated=false]",
+                    "help": ""
+                },
+                {
+                    "flag": "sendtoaddress <bitcoinaddress> <amount> [comment] [comment-to]",
+                    "help": "<amount> is a real and is rounded to the nearest 0.0"
+                },
+                {
+                    "flag": "setgenerate <generate> [genproclimit]",
+                    "help": ""
+                },
+                {
+                    "flag": "setlabel <bitcoinaddress> <label>",
+                    "help": "Sets the label associated with the given address."
+                },
+                {
+                    "flag": "stop",
+                    "help": ""
+                }
+            ],
+            "daemon": [
+                {
+                    "flag": "gen",
+                    "help": "Generate coins"
+                },
+                {
+                    "flag": "gen=0",
+                    "help": "Don't generate coins"
+                },
+                {
+                    "flag": "min",
+                    "help": "Start minimized"
+                },
+                {
+                    "flag": "datadir=<dir>",
+                    "help": "Specify data directory"
+                },
+                {
+                    "flag": "proxy=<ip:port>",
+                    "help": "Connect through socks4 proxy"
+                },
+                {
+                    "flag": "addnode=<ip>",
+                    "help": "Add a node to connect to"
+                },
+                {
+                    "flag": "connect=<ip>",
+                    "help": "Connect only to the specified node"
+                },
+                {
+                    "flag": "server",
+                    "help": "Accept command line and JSON-RPC commands"
+                },
+                {
+                    "flag": "daemon",
+                    "help": "Run in the background as a daemon and accept commands"
+                },
+                {
+                    "flag": "?",
+                    "help": "This help message"
+                }
+            ],
+            "getinfo": [
+                "balance",
+                "blocks",
+                "connections",
+                "proxy",
+                "generate",
+                "genproclimit",
+                "difficulty"
+            ],
+            "getblockchaininfo": [],
+            "getwalletinfo": [],
+            "getnetworkinfo": []
+        },
+        {
+            "version": "v0.3.2",
+            "alt_version": "v3.2",
+            "github_tag": "v3.2",
+            "releasedate": "20091216",
+            "cli": [
+                {
+                    "flag": "getaddressesbylabel <label>",
+                    "help": "Returns the list of addresses with the given label."
+                },
+                {
+                    "flag": "listreceivedbyaddress [minconf=1] [includeempty=false]",
+                    "help": ""
+                },
+                {
+                    "flag": "getreceivedbyaddress <bitcoinaddress> [minconf=1]",
+                    "help": "Returns the total amount received by <bitcoinaddress> in transactions with at least [minconf] confirmations."
+                },
+                {
+                    "flag": "getbalance",
+                    "help": ""
+                },
+                {
+                    "flag": "getblockcount",
+                    "help": ""
+                },
+                {
+                    "flag": "getblocknumber",
+                    "help": ""
+                },
+                {
+                    "flag": "getconnectioncount",
+                    "help": ""
+                },
+                {
+                    "flag": "getdifficulty",
+                    "help": ""
+                },
+                {
+                    "flag": "getgenerate",
+                    "help": ""
+                },
+                {
+                    "flag": "getinfo",
+                    "help": ""
+                },
+                {
+                    "flag": "getlabel <bitcoinaddress>",
+                    "help": "Returns the label associated with the given address."
+                },
+                {
+                    "flag": "getnewaddress [label]",
+                    "help": ""
+                },
+                {
+                    "flag": "getreceivedbyaddress <bitcoinaddress> [minconf=1]",
+                    "help": "Returns the total amount received by <bitcoinaddress> in transactions with at least [minconf] confirmations."
+                },
+                {
+                    "flag": "getreceivedbylabel <label> [minconf=1]",
+                    "help": "Returns the total amount received by addresses with <label> in transactions with at least [minconf] confirmations."
+                },
+                {
+                    "flag": "help",
+                    "help": ""
+                },
+                {
+                    "flag": "listreceivedbyaddress [minconf=1] [includeempty=false]",
+                    "help": ""
+                },
+                {
+                    "flag": "listreceivedbylabel [minconf=1] [includeempty=false]",
+                    "help": ""
+                },
+                {
+                    "flag": "listtransactions [count=10] [includegenerated=false]",
+                    "help": ""
+                },
+                {
+                    "flag": "sendtoaddress <bitcoinaddress> <amount> [comment] [comment-to]",
+                    "help": "<amount> is a real and is rounded to the nearest 0.0"
+                },
+                {
+                    "flag": "setgenerate <generate> [genproclimit]",
+                    "help": ""
+                },
+                {
+                    "flag": "setlabel <bitcoinaddress> <label>",
+                    "help": "Sets the label associated with the given address."
+                },
+                {
+                    "flag": "stop",
+                    "help": ""
+                }
+            ],
+            "daemon": [
+                {
+                    "flag": "gen",
+                    "help": "Generate coins"
+                },
+                {
+                    "flag": "gen=0",
+                    "help": "Don't generate coins"
+                },
+                {
+                    "flag": "min",
+                    "help": "Start minimized"
+                },
+                {
+                    "flag": "datadir=<dir>",
+                    "help": "Specify data directory"
+                },
+                {
+                    "flag": "proxy=<ip:port>",
+                    "help": "Connect through socks4 proxy"
+                },
+                {
+                    "flag": "addnode=<ip>",
+                    "help": "Add a node to connect to"
+                },
+                {
+                    "flag": "connect=<ip>",
+                    "help": "Connect only to the specified node"
+                },
+                {
+                    "flag": "server",
+                    "help": "Accept command line and JSON-RPC commands"
+                },
+                {
+                    "flag": "daemon",
+                    "help": "Run in the background as a daemon and accept commands"
+                },
+                {
+                    "flag": "?",
+                    "help": "This help message"
+                }
+            ],
+            "getinfo": [
+                "balance",
+                "blocks",
+                "connections",
+                "proxy",
+                "generate",
+                "genproclimit",
+                "difficulty"
+            ],
+            "getblockchaininfo": [],
+            "getwalletinfo": [],
+            "getnetworkinfo": []
+        },
+        {
+            "version": "v0.3.3",
+            "alt_version": "v3.3",
+            "github_tag": "v3.3",
+            "releasedate": "20100625",
+            "cli": [
+                {
+                    "flag": "getaddressesbylabel <label>",
+                    "help": "Returns the list of addresses with the given label."
+                },
+                {
+                    "flag": "getbalance",
+                    "help": ""
+                },
+                {
+                    "flag": "getblockcount",
+                    "help": ""
+                },
+                {
+                    "flag": "getblocknumber",
+                    "help": ""
+                },
+                {
+                    "flag": "getconnectioncount",
+                    "help": ""
+                },
+                {
+                    "flag": "getdifficulty",
+                    "help": ""
+                },
+                {
+                    "flag": "getgenerate",
+                    "help": ""
+                },
+                {
+                    "flag": "getinfo",
+                    "help": ""
+                },
+                {
+                    "flag": "getlabel <bitcoinaddress>",
+                    "help": "Returns the label associated with the given address."
+                },
+                {
+                    "flag": "getnewaddress [label]",
+                    "help": ""
+                },                
+                {
+                    "flag": "getreceivedbyaddress <bitcoinaddress> [minconf=1]",
+                    "help": "Returns the total amount received by <bitcoinaddress> in transactions with at least [minconf] confirmations."
+                },
+                {
+                    "flag": "getreceivedbylabel <label> [minconf=1]",
+                    "help": "Returns the total amount received by addresses with <label> in transactions with at least [minconf] confirmations."
+                },
+                {
+                    "flag": "help",
+                    "help": ""
+                },
+                {
+                    "flag": "listreceivedbyaddress [minconf=1] [includeempty=false]",
+                    "help": ""
+                },
+                {
+                    "flag": "listreceivedbylabel [minconf=1] [includeempty=false]",
+                    "help": ""
+                },
+                {
+                    "flag": "sendtoaddress <bitcoinaddress> <amount> [comment] [comment-to]",
+                    "help": "<amount> is a real and is rounded to the nearest 0.0"
+                },
+                {
+                    "flag": "setgenerate <generate> [genproclimit]",
+                    "help": ""
+                },
+                {
+                    "flag": "setlabel <bitcoinaddress> <label>",
+                    "help": "Sets the label associated with the given address."
+                },
+                {
+                    "flag": "stop",
+                    "help": ""
+                }
+            ],
+            "daemon": [
+                {
+                    "flag": "conf=<file>",
+                    "help": "Specify configuration file (default: bitcoin.conf)"
+                },
+                {
+                    "flag": "gen",
+                    "help": "Generate coins"
+                },
+                {
+                    "flag": "gen=0",
+                    "help": "Don't generate coins"
+                },
+                {
+                    "flag": "min",
+                    "help": "Start minimized"
+                },
+                {
+                    "flag": "datadir=<dir>",
+                    "help": "Specify data directory"
+                },
+                {
+                    "flag": "proxy=<ip:port>",
+                    "help": "Connect through socks4 proxy"
+                },
+                {
+                    "flag": "addnode=<ip>",
+                    "help": "Add a node to connect to"
+                },
+                {
+                    "flag": "connect=<ip>",
+                    "help": "Connect only to the specified node"
+                },
+                {
+                    "flag": "server",
+                    "help": "Accept command line and JSON-RPC commands"
+                },
+                {
+                    "flag": "daemon",
+                    "help": "Run in the background as a daemon and accept commands"
+                },
+                {
+                    "flag": "?",
+                    "help": "This help message"
+                }
+            ],
+            "getinfo": [
+                "balance",
+                "blocks",
+                "connections",
+                "proxy",
+                "generate",
+                "genproclimit",
+                "difficulty"
+            ],
+            "getblockchaininfo": [],
+            "getwalletinfo": [],
+            "getnetworkinfo": []
+        },
+        {
+            "version": "v0.3.4",
+            "alt_version": "v3.4",
+            "github_tag": "v3.4",
+            "releasedate": "20100626",
+            "cli": [
+                {
+                    "flag": "getaddressesbylabel <label>",
+                    "help": "Returns the list of addresses with the given label."
+                },
+                {
+                    "flag": "getbalance",
+                    "help": ""
+                },
+                {
+                    "flag": "getblockcount",
+                    "help": ""
+                },
+                {
+                    "flag": "getblocknumber",
+                    "help": ""
+                },
+                {
+                    "flag": "getconnectioncount",
+                    "help": ""
+                },
+                {
+                    "flag": "getdifficulty",
+                    "help": ""
+                },
+                {
+                    "flag": "getgenerate",
+                    "help": ""
+                },
+                {
+                    "flag": "getinfo",
+                    "help": ""
+                },
+                {
+                    "flag": "getlabel <bitcoinaddress>",
+                    "help": "Returns the label associated with the given address."
+                },
+                {
+                    "flag": "getnewaddress [label]",
+                    "help": ""
+                },                
+                {
+                    "flag": "getreceivedbyaddress <bitcoinaddress> [minconf=1]",
+                    "help": "Returns the total amount received by <bitcoinaddress> in transactions with at least [minconf] confirmations."
+                },
+                {
+                    "flag": "getreceivedbylabel <label> [minconf=1]",
+                    "help": "Returns the total amount received by addresses with <label> in transactions with at least [minconf] confirmations."
+                },
+                {
+                    "flag": "help",
+                    "help": ""
+                },
+                {
+                    "flag": "listreceivedbyaddress [minconf=1] [includeempty=false]",
+                    "help": ""
+                },
+                {
+                    "flag": "listreceivedbylabel [minconf=1] [includeempty=false]",
+                    "help": ""
+                },
+                {
+                    "flag": "sendtoaddress <bitcoinaddress> <amount> [comment] [comment-to]",
+                    "help": "<amount> is a real and is rounded to the nearest 0.0"
+                },
+                {
+                    "flag": "setgenerate <generate> [genproclimit]",
+                    "help": ""
+                },
+                {
+                    "flag": "setlabel <bitcoinaddress> <label>",
+                    "help": "Sets the label associated with the given address."
+                },
+                {
+                    "flag": "stop",
+                    "help": ""
+                }
+            ],
+            "daemon": [
+                {
+                    "flag": "conf=<file>",
+                    "help": "Specify configuration file (default: bitcoin.conf)"
+                },
+                {
+                    "flag": "gen",
+                    "help": "Generate coins"
+                },
+                {
+                    "flag": "gen=0",
+                    "help": "Don't generate coins"
+                },
+                {
+                    "flag": "min",
+                    "help": "Start minimized"
+                },
+                {
+                    "flag": "datadir=<dir>",
+                    "help": "Specify data directory"
+                },
+                {
+                    "flag": "proxy=<ip:port>",
+                    "help": "Connect through socks4 proxy"
+                },
+                {
+                    "flag": "addnode=<ip>",
+                    "help": "Add a node to connect to"
+                },
+                {
+                    "flag": "connect=<ip>",
+                    "help": "Connect only to the specified node"
+                },
+                {
+                    "flag": "server",
+                    "help": "Accept command line and JSON-RPC commands"
+                },
+                {
+                    "flag": "daemon",
+                    "help": "Run in the background as a daemon and accept commands"
+                },
+                {
+                    "flag": "?",
+                    "help": "This help message"
+                }
+            ],
+            "getinfo": [
+                "balance",
+                "blocks",
+                "connections",
+                "proxy",
+                "generate",
+                "genproclimit",
+                "difficulty"
+            ],
+            "getblockchaininfo": [],
+            "getwalletinfo": [],
+            "getnetworkinfo": []
+        },
+        {
+            "version": "v0.3.5",
+            "alt_version": "v3.5",
+            "github_tag": "v3.5",
+            "releasedate": "20100701",
+            "cli": [
+                {
+                    "flag": "getaddressesbylabel <label>",
+                    "help": "Returns the list of addresses with the given label."
+                },
+                {
+                    "flag": "getbalance",
+                    "help": ""
+                },
+                {
+                    "flag": "getblockcount",
+                    "help": ""
+                },
+                {
+                    "flag": "getblocknumber",
+                    "help": ""
+                },
+                {
+                    "flag": "getconnectioncount",
+                    "help": ""
+                },
+                {
+                    "flag": "getdifficulty",
+                    "help": ""
+                },
+                {
+                    "flag": "getgenerate",
+                    "help": ""
+                },
+                {
+                    "flag": "getinfo",
+                    "help": ""
+                },
+                {
+                    "flag": "getlabel <bitcoinaddress>",
+                    "help": "Returns the label associated with the given address."
+                },
+                {
+                    "flag": "getnewaddress [label]",
+                    "help": ""
+                },                
+                {
+                    "flag": "getreceivedbyaddress <bitcoinaddress> [minconf=1]",
+                    "help": "Returns the total amount received by <bitcoinaddress> in transactions with at least [minconf] confirmations."
+                },
+                {
+                    "flag": "getreceivedbylabel <label> [minconf=1]",
+                    "help": "Returns the total amount received by addresses with <label> in transactions with at least [minconf] confirmations."
+                },
+                {
+                    "flag": "help",
+                    "help": ""
+                },
+                {
+                    "flag": "listreceivedbyaddress [minconf=1] [includeempty=false]",
+                    "help": ""
+                },
+                {
+                    "flag": "listreceivedbylabel [minconf=1] [includeempty=false]",
+                    "help": ""
+                },
+                {
+                    "flag": "sendtoaddress <bitcoinaddress> <amount> [comment] [comment-to]",
+                    "help": "<amount> is a real and is rounded to the nearest 0.0"
+                },
+                {
+                    "flag": "setgenerate <generate> [genproclimit]",
+                    "help": ""
+                },
+                {
+                    "flag": "setlabel <bitcoinaddress> <label>",
+                    "help": "Sets the label associated with the given address."
+                },
+                {
+                    "flag": "stop",
+                    "help": ""
+                }
+            ],
+            "daemon": [
+                {
+                    "flag": "conf=<file>",
+                    "help": "Specify configuration file (default: bitcoin.conf)"
+                },
+                {
+                    "flag": "gen",
+                    "help": "Generate coins"
+                },
+                {
+                    "flag": "gen=0",
+                    "help": "Don't generate coins"
+                },
+                {
+                    "flag": "min",
+                    "help": "Start minimized"
+                },
+                {
+                    "flag": "datadir=<dir>",
+                    "help": "Specify data directory"
+                },
+                {
+                    "flag": "proxy=<ip:port>",
+                    "help": "Connect through socks4 proxy"
+                },
+                {
+                    "flag": "addnode=<ip>",
+                    "help": "Add a node to connect to"
+                },
+                {
+                    "flag": "connect=<ip>",
+                    "help": "Connect only to the specified node"
+                },
+                {
+                    "flag": "server",
+                    "help": "Accept command line and JSON-RPC commands"
+                },
+                {
+                    "flag": "daemon",
+                    "help": "Run in the background as a daemon and accept commands"
+                },
+                {
+                    "flag": "?",
+                    "help": "This help message"
+                }
+            ],
+            "getinfo": [
+                "balance",
+                "blocks",
+                "connections",
+                "proxy",
+                "generate",
+                "genproclimit",
+                "difficulty"
+            ],
+            "getblockchaininfo": [],
+            "getwalletinfo": [],
+            "getnetworkinfo": []
+        },
+        {
+            "version": "v0.3.6",
+            "alt_version": "v3.6",
+            "github_tag": "v3.6",
+            "releasedate": "20100705",
+            "cli": [
+                {
+                    "flag": "getaddressesbylabel <label>",
+                    "help": "Returns the list of addresses with the given label."
+                },
+                {
+                    "flag": "getbalance",
+                    "help": ""
+                },
+                {
+                    "flag": "getblockcount",
+                    "help": ""
+                },
+                {
+                    "flag": "getblocknumber",
+                    "help": ""
+                },
+                {
+                    "flag": "getconnectioncount",
+                    "help": ""
+                },
+                {
+                    "flag": "getdifficulty",
+                    "help": ""
+                },
+                {
+                    "flag": "getgenerate",
+                    "help": ""
+                },
+                {
+                    "flag": "getinfo",
+                    "help": ""
+                },
+                {
+                    "flag": "getlabel <bitcoinaddress>",
+                    "help": "Returns the label associated with the given address."
+                },
+                {
+                    "flag": "getnewaddress [label]",
+                    "help": ""
+                },                
+                {
+                    "flag": "getreceivedbyaddress <bitcoinaddress> [minconf=1]",
+                    "help": "Returns the total amount received by <bitcoinaddress> in transactions with at least [minconf] confirmations."
+                },
+                {
+                    "flag": "getreceivedbylabel <label> [minconf=1]",
+                    "help": "Returns the total amount received by addresses with <label> in transactions with at least [minconf] confirmations."
+                },
+                {
+                    "flag": "help",
+                    "help": ""
+                },
+                {
+                    "flag": "listreceivedbyaddress [minconf=1] [includeempty=false]",
+                    "help": ""
+                },
+                {
+                    "flag": "listreceivedbylabel [minconf=1] [includeempty=false]",
+                    "help": ""
+                },
+                {
+                    "flag": "sendtoaddress <bitcoinaddress> <amount> [comment] [comment-to]",
+                    "help": "<amount> is a real and is rounded to the nearest 0.0"
+                },
+                {
+                    "flag": "setgenerate <generate> [genproclimit]",
+                    "help": ""
+                },
+                {
+                    "flag": "setlabel <bitcoinaddress> <label>",
+                    "help": "Sets the label associated with the given address."
+                },
+                {
+                    "flag": "stop",
+                    "help": ""
+                }
+            ],
+            "daemon": [
+                {
+                    "flag": "conf=<file>",
+                    "help": "Specify configuration file (default: bitcoin.conf)"
+                },
+                {
+                    "flag": "gen",
+                    "help": "Generate coins"
+                },
+                {
+                    "flag": "gen=0",
+                    "help": "Don't generate coins"
+                },
+                {
+                    "flag": "min",
+                    "help": "Start minimized"
+                },
+                {
+                    "flag": "datadir=<dir>",
+                    "help": "Specify data directory"
+                },
+                {
+                    "flag": "proxy=<ip:port>",
+                    "help": "Connect through socks4 proxy"
+                },
+                {
+                    "flag": "addnode=<ip>",
+                    "help": "Add a node to connect to"
+                },
+                {
+                    "flag": "connect=<ip>",
+                    "help": "Connect only to the specified node"
+                },
+                {
+                    "flag": "server",
+                    "help": "Accept command line and JSON-RPC commands"
+                },
+                {
+                    "flag": "daemon",
+                    "help": "Run in the background as a daemon and accept commands"
+                },
+                {
+                    "flag": "?",
+                    "help": "This help message"
+                }
+            ],
+            "getinfo": [
+                "balance",
+                "blocks",
+                "connections",
+                "proxy",
+                "generate",
+                "genproclimit",
+                "difficulty"
+            ],
+            "getblockchaininfo": [],
+            "getwalletinfo": [],
+            "getnetworkinfo": []
+        },
+        {
+            "version": "v0.3.7",
+            "alt_version": "v3.7",
+            "github_tag": "v3.7",
+            "releasedate": "20100706",
+            "cli": [
+                {
+                    "flag": "getaddressesbylabel <label>",
+                    "help": "Returns the list of addresses with the given label."
+                },
+                {
+                    "flag": "getbalance",
+                    "help": ""
+                },
+                {
+                    "flag": "getblockcount",
+                    "help": ""
+                },
+                {
+                    "flag": "getblocknumber",
+                    "help": ""
+                },
+                {
+                    "flag": "getconnectioncount",
+                    "help": ""
+                },
+                {
+                    "flag": "getdifficulty",
+                    "help": ""
+                },
+                {
+                    "flag": "getgenerate",
+                    "help": ""
+                },
+                {
+                    "flag": "getinfo",
+                    "help": ""
+                },
+                {
+                    "flag": "getlabel <bitcoinaddress>",
+                    "help": "Returns the label associated with the given address."
+                },
+                {
+                    "flag": "getnewaddress [label]",
+                    "help": ""
+                },                
+                {
+                    "flag": "getreceivedbyaddress <bitcoinaddress> [minconf=1]",
+                    "help": "Returns the total amount received by <bitcoinaddress> in transactions with at least [minconf] confirmations."
+                },
+                {
+                    "flag": "getreceivedbylabel <label> [minconf=1]",
+                    "help": "Returns the total amount received by addresses with <label> in transactions with at least [minconf] confirmations."
+                },
+                {
+                    "flag": "help",
+                    "help": ""
+                },
+                {
+                    "flag": "listreceivedbyaddress [minconf=1] [includeempty=false]",
+                    "help": ""
+                },
+                {
+                    "flag": "listreceivedbylabel [minconf=1] [includeempty=false]",
+                    "help": ""
+                },
+                {
+                    "flag": "sendtoaddress <bitcoinaddress> <amount> [comment] [comment-to]",
+                    "help": "<amount> is a real and is rounded to the nearest 0.0"
+                },
+                {
+                    "flag": "setgenerate <generate> [genproclimit]",
+                    "help": ""
+                },
+                {
+                    "flag": "setlabel <bitcoinaddress> <label>",
+                    "help": "Sets the label associated with the given address."
+                },
+                {
+                    "flag": "stop",
+                    "help": ""
+                }
+            ],
+            "daemon": [
+                {
+                    "flag": "conf=<file>",
+                    "help": "Specify configuration file (default: bitcoin.conf)"
+                },
+                {
+                    "flag": "gen",
+                    "help": "Generate coins"
+                },
+                {
+                    "flag": "gen=0",
+                    "help": "Don't generate coins"
+                },
+                {
+                    "flag": "min",
+                    "help": "Start minimized"
+                },
+                {
+                    "flag": "datadir=<dir>",
+                    "help": "Specify data directory"
+                },
+                {
+                    "flag": "proxy=<ip:port>",
+                    "help": "Connect through socks4 proxy"
+                },
+                {
+                    "flag": "addnode=<ip>",
+                    "help": "Add a node to connect to"
+                },
+                {
+                    "flag": "connect=<ip>",
+                    "help": "Connect only to the specified node"
+                },
+                {
+                    "flag": "server",
+                    "help": "Accept command line and JSON-RPC commands"
+                },
+                {
+                    "flag": "daemon",
+                    "help": "Run in the background as a daemon and accept commands"
+                },
+                {
+                    "flag": "?",
+                    "help": "This help message"
+                }
+            ],
+            "getinfo": [
+                "balance",
+                "blocks",
+                "connections",
+                "proxy",
+                "generate",
+                "genproclimit",
+                "difficulty"
+            ],
+            "getblockchaininfo": [],
+            "getwalletinfo": [],
+            "getnetworkinfo": []
+        },
+        {
+            "version": "v0.3.8",
+            "alt_version": "v3.8",
+            "github_tag": "v3.8",
+            "releasedate": "20100710",
+            "cli": [
+                {
+                    "flag": "getaddressesbylabel <label>",
+                    "help": "Returns the list of addresses with the given label."
+                },
+                {
+                    "flag": "getbalance",
+                    "help": ""
+                },
+                {
+                    "flag": "getblockcount",
+                    "help": ""
+                },
+                {
+                    "flag": "getblocknumber",
+                    "help": ""
+                },
+                {
+                    "flag": "getconnectioncount",
+                    "help": ""
+                },
+                {
+                    "flag": "getdifficulty",
+                    "help": ""
+                },
+                {
+                    "flag": "getgenerate",
+                    "help": ""
+                },
+                {
+                    "flag": "getinfo",
+                    "help": ""
+                },
+                {
+                    "flag": "getlabel <bitcoinaddress>",
+                    "help": "Returns the label associated with the given address."
+                },
+                {
+                    "flag": "getnewaddress [label]",
+                    "help": ""
+                },                
+                {
+                    "flag": "getreceivedbyaddress <bitcoinaddress> [minconf=1]",
+                    "help": "Returns the total amount received by <bitcoinaddress> in transactions with at least [minconf] confirmations."
+                },
+                {
+                    "flag": "getreceivedbylabel <label> [minconf=1]",
+                    "help": "Returns the total amount received by addresses with <label> in transactions with at least [minconf] confirmations."
+                },
+                {
+                    "flag": "help",
+                    "help": ""
+                },
+                {
+                    "flag": "listreceivedbyaddress [minconf=1] [includeempty=false]",
+                    "help": ""
+                },
+                {
+                    "flag": "listreceivedbylabel [minconf=1] [includeempty=false]",
+                    "help": ""
+                },
+                {
+                    "flag": "sendtoaddress <bitcoinaddress> <amount> [comment] [comment-to]",
+                    "help": "<amount> is a real and is rounded to the nearest 0.0"
+                },
+                {
+                    "flag": "setgenerate <generate> [genproclimit]",
+                    "help": ""
+                },
+                {
+                    "flag": "setlabel <bitcoinaddress> <label>",
+                    "help": "Sets the label associated with the given address."
+                },
+                {
+                    "flag": "stop",
+                    "help": ""
+                }
+            ],
+            "daemon": [
+                {
+                    "flag": "conf=<file>",
+                    "help": "Specify configuration file (default: bitcoin.conf)"
+                },
+                {
+                    "flag": "gen",
+                    "help": "Generate coins"
+                },
+                {
+                    "flag": "gen=0",
+                    "help": "Don't generate coins"
+                },
+                {
+                    "flag": "min",
+                    "help": "Start minimized"
+                },
+                {
+                    "flag": "datadir=<dir>",
+                    "help": "Specify data directory"
+                },
+                {
+                    "flag": "proxy=<ip:port>",
+                    "help": "Connect through socks4 proxy"
+                },
+                {
+                    "flag": "addnode=<ip>",
+                    "help": "Add a node to connect to"
+                },
+                {
+                    "flag": "connect=<ip>",
+                    "help": "Connect only to the specified node"
+                },
+                {
+                    "flag": "server",
+                    "help": "Accept command line and JSON-RPC commands"
+                },
+                {
+                    "flag": "daemon",
+                    "help": "Run in the background as a daemon and accept commands"
+                },
+                {
+                    "flag": "?",
+                    "help": "This help message"
+                }
+            ],
+            "getinfo": [
+                "balance",
+                "blocks",
+                "connections",
+                "proxy",
+                "generate",
+                "genproclimit",
+                "difficulty"
+            ],
+            "getblockchaininfo": [],
+            "getwalletinfo": [],
+            "getnetworkinfo": []
+        },
+        {
+            "version": "v0.3.9",
+            "alt_version": "v3.9",
+            "github_tag": "v3.9",
+            "releasedate": "20100716",
+            "cli": [
+                {
+                    "flag": "getaddressesbylabel <label>",
+                    "help": "Returns the list of addresses with the given label."
+                },
+                {
+                    "flag": "getbalance",
+                    "help": ""
+                },
+                {
+                    "flag": "getblockcount",
+                    "help": ""
+                },
+                {
+                    "flag": "getblocknumber",
+                    "help": ""
+                },
+                {
+                    "flag": "getconnectioncount",
+                    "help": ""
+                },
+                {
+                    "flag": "getdifficulty",
+                    "help": ""
+                },
+                {
+                    "flag": "getgenerate",
+                    "help": ""
+                },
+                {
+                    "flag": "gethashespersec",
+                    "help":""
+                },
+                {
+                    "flag": "getinfo",
+                    "help": ""
+                },
+                {
+                    "flag": "getlabel <bitcoinaddress>",
+                    "help": "Returns the label associated with the given address."
+                },
+                {
+                    "flag": "getnewaddress [label]",
+                    "help": ""
+                },                
+                {
+                    "flag": "getreceivedbyaddress <bitcoinaddress> [minconf=1]",
+                    "help": "Returns the total amount received by <bitcoinaddress> in transactions with at least [minconf] confirmations."
+                },
+                {
+                    "flag": "getreceivedbylabel <label> [minconf=1]",
+                    "help": "Returns the total amount received by addresses with <label> in transactions with at least [minconf] confirmations."
+                },
+                {
+                    "flag": "help",
+                    "help": ""
+                },
+                {
+                    "flag": "listreceivedbyaddress [minconf=1] [includeempty=false]",
+                    "help": ""
+                },
+                {
+                    "flag": "listreceivedbylabel [minconf=1] [includeempty=false]",
+                    "help": ""
+                },
+                {
+                    "flag": "sendtoaddress <bitcoinaddress> <amount> [comment] [comment-to]",
+                    "help": "<amount> is a real and is rounded to the nearest 0.0"
+                },
+                {
+                    "flag": "setgenerate <generate> [genproclimit]",
+                    "help": ""
+                },
+                {
+                    "flag": "setlabel <bitcoinaddress> <label>",
+                    "help": "Sets the label associated with the given address."
+                },
+                {
+                    "flag": "stop",
+                    "help": ""
+                }
+            ],
+            "daemon": [
+                {
+                    "flag": "conf=<file>",
+                    "help": "Specify configuration file (default: bitcoin.conf)"
+                },
+                {
+                    "flag": "gen",
+                    "help": "Generate coins"
+                },
+                {
+                    "flag": "gen=0",
+                    "help": "Don't generate coins"
+                },
+                {
+                    "flag": "min",
+                    "help": "Start minimized"
+                },
+                {
+                    "flag": "datadir=<dir>",
+                    "help": "Specify data directory"
+                },
+                {
+                    "flag": "proxy=<ip:port>",
+                    "help": "Connect through socks4 proxy"
+                },
+                {
+                    "flag": "addnode=<ip>",
+                    "help": "Add a node to connect to"
+                },
+                {
+                    "flag": "connect=<ip>",
+                    "help": "Connect only to the specified node"
+                },
+                {
+                    "flag": "server",
+                    "help": "Accept command line and JSON-RPC commands"
+                },
+                {
+                    "flag": "daemon",
+                    "help": "Run in the background as a daemon and accept commands"
+                },
+                {
+                    "flag": "?",
+                    "help": "This help message"
+                }
+            ],
+            "getinfo": [
+                "version",
+                "balance",
+                "blocks",
+                "connections",
+                "proxy",
+                "generate",
+                "genproclimit",
+                "difficulty",
+                "hashespersec"
+            ],
+            "getblockchaininfo": [],
+            "getwalletinfo": [],
+            "getnetworkinfo": []
+        },
+        {
+            "version": "v0.3.10",
+            "alt_version": "v3.10",
+            "github_tag": "v3.10",
+            "releasedate": "20100727",
+            "cli": [
+                {
+                    "flag": "getaddressesbylabel <label>",
+                    "help": "Returns the list of addresses with the given label."
+                },
+                {
+                    "flag": "getbalance",
+                    "help": ""
+                },
+                {
+                    "flag": "getblockcount",
+                    "help": ""
+                },
+                {
+                    "flag": "getblocknumber",
+                    "help": ""
+                },
+                {
+                    "flag": "getconnectioncount",
+                    "help": ""
+                },
+                {
+                    "flag": "getdifficulty",
+                    "help": ""
+                },
+                {
+                    "flag": "getgenerate",
+                    "help": ""
+                },
+                {
+                    "flag": "gethashespersec",
+                    "help":""
+                },
+                {
+                    "flag": "getinfo",
+                    "help": ""
+                },
+                {
+                    "flag": "getlabel <bitcoinaddress>",
+                    "help": "Returns the label associated with the given address."
+                },
+                {
+                    "flag": "getnewaddress [label]",
+                    "help": ""
+                },                
+                {
+                    "flag": "getreceivedbyaddress <bitcoinaddress> [minconf=1]",
+                    "help": "Returns the total amount received by <bitcoinaddress> in transactions with at least [minconf] confirmations."
+                },
+                {
+                    "flag": "getreceivedbylabel <label> [minconf=1]",
+                    "help": "Returns the total amount received by addresses with <label> in transactions with at least [minconf] confirmations."
+                },
+                {
+                    "flag": "help",
+                    "help": ""
+                },
+                {
+                    "flag": "listreceivedbyaddress [minconf=1] [includeempty=false]",
+                    "help": ""
+                },
+                {
+                    "flag": "listreceivedbylabel [minconf=1] [includeempty=false]",
+                    "help": ""
+                },
+                {
+                    "flag": "sendtoaddress <bitcoinaddress> <amount> [comment] [comment-to]",
+                    "help": "<amount> is a real and is rounded to the nearest 0.0"
+                },
+                {
+                    "flag": "setgenerate <generate> [genproclimit]",
+                    "help": ""
+                },
+                {
+                    "flag": "setlabel <bitcoinaddress> <label>",
+                    "help": "Sets the label associated with the given address."
+                },
+                {
+                    "flag": "stop",
+                    "help": ""
+                }
+            ],
+            "daemon": [
+                {
+                    "flag": "conf=<file>",
+                    "help": "Specify configuration file (default: bitcoin.conf)"
+                },
+                {
+                    "flag": "gen",
+                    "help": "Generate coins"
+                },
+                {
+                    "flag": "gen=0",
+                    "help": "Don't generate coins"
+                },
+                {
+                    "flag": "min",
+                    "help": "Start minimized"
+                },
+                {
+                    "flag": "datadir=<dir>",
+                    "help": "Specify data directory"
+                },
+                {
+                    "flag": "proxy=<ip:port>",
+                    "help": "Connect through socks4 proxy"
+                },
+                {
+                    "flag": "addnode=<ip>",
+                    "help": "Add a node to connect to"
+                },
+                {
+                    "flag": "connect=<ip>",
+                    "help": "Connect only to the specified node"
+                },
+                {
+                    "flag": "server",
+                    "help": "Accept command line and JSON-RPC commands"
+                },
+                {
+                    "flag": "daemon",
+                    "help": "Run in the background as a daemon and accept commands"
+                },
+                {
+                    "flag": "?",
+                    "help": "This help message"
+                }
+            ],
+            "getinfo": [
+                "version",
+                "balance",
+                "blocks",
+                "connections",
+                "proxy",
+                "generate",
+                "genproclimit",
+                "difficulty",
+                "hashespersec"
+            ],
+            "getblockchaininfo": [],
+            "getwalletinfo": [],
+            "getnetworkinfo": []
+        },
+        {
+            "version": "v0.3.11",
+            "alt_version": "v3.11",
+            "github_tag": "v3.11",
+            "releasedate": "20100806",
+            "cli": [
+                {
+                    "flag": "getaddressesbylabel <label>",
+                    "help": "Returns the list of addresses with the given label."
+                },
+                {
+                    "flag": "getbalance",
+                    "help": ""
+                },
+                {
+                    "flag": "getblockcount",
+                    "help": ""
+                },
+                {
+                    "flag": "getblocknumber",
+                    "help": ""
+                },
+                {
+                    "flag": "getconnectioncount",
+                    "help": ""
+                },
+                {
+                    "flag": "getdifficulty",
+                    "help": ""
+                },
+                {
+                    "flag": "getgenerate",
+                    "help": ""
+                },
+                {
+                    "flag": "gethashespersec",
+                    "help":""
+                },
+                {
+                    "flag": "getinfo",
+                    "help": ""
+                },
+                {
+                    "flag": "getlabel <bitcoinaddress>",
+                    "help": "Returns the label associated with the given address."
+                },
+                {
+                    "flag": "getnewaddress [label]",
+                    "help": ""
+                },                
+                {
+                    "flag": "getreceivedbyaddress <bitcoinaddress> [minconf=1]",
+                    "help": "Returns the total amount received by <bitcoinaddress> in transactions with at least [minconf] confirmations."
+                },
+                {
+                    "flag": "getreceivedbylabel <label> [minconf=1]",
+                    "help": "Returns the total amount received by addresses with <label> in transactions with at least [minconf] confirmations."
+                },
+                {
+                    "flag": "help",
+                    "help": ""
+                },
+                {
+                    "flag": "listreceivedbyaddress [minconf=1] [includeempty=false]",
+                    "help": ""
+                },
+                {
+                    "flag": "listreceivedbylabel [minconf=1] [includeempty=false]",
+                    "help": ""
+                },
+                {
+                    "flag": "sendtoaddress <bitcoinaddress> <amount> [comment] [comment-to]",
+                    "help": "<amount> is a real and is rounded to the nearest 0.0"
+                },
+                {
+                    "flag": "setgenerate <generate> [genproclimit]",
+                    "help": ""
+                },
+                {
+                    "flag": "setlabel <bitcoinaddress> <label>",
+                    "help": "Sets the label associated with the given address."
+                },
+                {
+                    "flag": "stop",
+                    "help": ""
+                }
+            ],
+            "daemon": [
+                {
+                    "flag": "conf=<file>",
+                    "help": "Specify configuration file (default: bitcoin.conf)"
+                },
+                {
+                    "flag": "gen",
+                    "help": "Generate coins"
+                },
+                {
+                    "flag": "gen=0",
+                    "help": "Don't generate coins"
+                },
+                {
+                    "flag": "min",
+                    "help": "Start minimized"
+                },
+                {
+                    "flag": "datadir=<dir>",
+                    "help": "Specify data directory"
+                },
+                {
+                    "flag": "proxy=<ip:port>",
+                    "help": "Connect through socks4 proxy"
+                },
+                {
+                    "flag": "addnode=<ip>",
+                    "help": "Add a node to connect to"
+                },
+                {
+                    "flag": "connect=<ip>",
+                    "help": "Connect only to the specified node"
+                },
+                {
+                    "flag": "server",
+                    "help": "Accept command line and JSON-RPC commands"
+                },
+                {
+                    "flag": "daemon",
+                    "help": "Run in the background as a daemon and accept commands"
+                },
+                {
+                    "flag": "?",
+                    "help": "This help message"
+                }
+            ],
+            "getinfo": [
+                "version",
+                "balance",
+                "blocks",
+                "connections",
+                "proxy",
+                "generate",
+                "genproclimit",
+                "difficulty",
+                "hashespersec",
+                "errors"
+            ],
+            "getblockchaininfo": [],
+            "getwalletinfo": [],
+            "getnetworkinfo": []
+        },
+        {
+            "version": "v0.3.12",
+            "alt_version": "v3.12",
+            "github_tag": "v3.12",
+            "releasedate": "20100812",
+            "cli": [
+                {
+                    "flag": "backupwallet <destination>",
+                    "help": "backupwallet <destination>\nSafely copies wallet.dat to destination, which can be a directory or a path with filename."
+                },
+                {
+                    "flag": "getaddressesbylabel <label>",
+                    "help": "Returns the list of addresses with the given label."
+                },
+                {
+                    "flag": "getbalance",
+                    "help": ""
+                },
+                {
+                    "flag": "getblockcount",
+                    "help": ""
+                },
+                {
+                    "flag": "getblocknumber",
+                    "help": ""
+                },
+                {
+                    "flag": "getconnectioncount",
+                    "help": ""
+                },
+                {
+                    "flag": "getdifficulty",
+                    "help": ""
+                },
+                {
+                    "flag": "getgenerate",
+                    "help": ""
+                },
+                {
+                    "flag": "gethashespersec",
+                    "help":""
+                },
+                {
+                    "flag": "getinfo",
+                    "help": ""
+                },
+                {
+                    "flag": "getlabel <bitcoinaddress>",
+                    "help": "Returns the label associated with the given address."
+                },
+                {
+                    "flag": "getnewaddress [label]",
+                    "help": ""
+                },                
+                {
+                    "flag": "getreceivedbyaddress <bitcoinaddress> [minconf=1]",
+                    "help": "Returns the total amount received by <bitcoinaddress> in transactions with at least [minconf] confirmations."
+                },
+                {
+                    "flag": "getreceivedbylabel <label> [minconf=1]",
+                    "help": "Returns the total amount received by addresses with <label> in transactions with at least [minconf] confirmations."
+                },
+                {
+                    "flag": "help",
+                    "help": ""
+                },
+                {
+                    "flag": "listreceivedbyaddress [minconf=1] [includeempty=false]",
+                    "help": ""
+                },
+                {
+                    "flag": "listreceivedbylabel [minconf=1] [includeempty=false]",
+                    "help": ""
+                },
+                {
+                    "flag": "sendtoaddress <bitcoinaddress> <amount> [comment] [comment-to]",
+                    "help": "<amount> is a real and is rounded to the nearest 0.0"
+                },
+                {
+                    "flag": "setgenerate <generate> [genproclimit]",
+                    "help": ""
+                },
+                {
+                    "flag": "setlabel <bitcoinaddress> <label>",
+                    "help": "Sets the label associated with the given address."
+                },
+                {
+                    "flag": "stop",
+                    "help": ""
+                }
+            ],
+            "daemon": [
+                {
+                    "flag": "conf=<file>",
+                    "help": "Specify configuration file (default: bitcoin.conf)"
+                },
+                {
+                    "flag": "gen",
+                    "help": "Generate coins"
+                },
+                {
+                    "flag": "gen=0",
+                    "help": "Don't generate coins"
+                },
+                {
+                    "flag": "min",
+                    "help": "Start minimized"
+                },
+                {
+                    "flag": "datadir=<dir>",
+                    "help": "Specify data directory"
+                },
+                {
+                    "flag": "proxy=<ip:port>",
+                    "help": "Connect through socks4 proxy"
+                },
+                {
+                    "flag": "addnode=<ip>",
+                    "help": "Add a node to connect to"
+                },
+                {
+                    "flag": "connect=<ip>",
+                    "help": "Connect only to the specified node"
+                },
+                {
+                    "flag": "server",
+                    "help": "Accept command line and JSON-RPC commands"
+                },
+                {
+                    "flag": "daemon",
+                    "help": "Run in the background as a daemon and accept commands"
+                },
+                {
+                    "flag": "?",
+                    "help": "This help message"
+                }
+            ],
+            "getinfo": [
+                "version",
+                "balance",
+                "blocks",
+                "connections",
+                "proxy",
+                "generate",
+                "genproclimit",
+                "difficulty",
+                "hashespersec",
+                "errors"
+            ],
+            "getblockchaininfo": [],
+            "getwalletinfo": [],
+            "getnetworkinfo": []
+        }
+    ]
+}
