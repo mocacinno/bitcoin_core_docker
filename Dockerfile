@@ -18,7 +18,6 @@ RUN chmod +x install_db4.sh
 RUN ./install_db4.sh `pwd` 
 ENV BDB_PREFIX='/berkeleydb/db4'
 
-
 #bitcoin v0.16.2
 WORKDIR /
 RUN wget https://github.com/bitcoin/bitcoin/archive/refs/tags/v0.16.2.zip && \
@@ -54,5 +53,5 @@ RUN echo 'bitcoinuser:x:10001:10001:Bitcoin User:/home/bitcoinuser:/bin/sh' >> /
  && mkdir -p /home/bitcoinuser \
  && chown -R 10001:10001 /home/bitcoinuser
 USER bitcoinuser
-LABEL org.opencontainers.image.revision="manual-trigger-20250915"
+LABEL org.opencontainers.image.revision="manual-trigger-20251003"
 ENTRYPOINT ["/entrypoint.sh"]
