@@ -1,6 +1,6 @@
 FROM registry.suse.com/bci/bci-base:15.7 AS builder
 
-RUN zypper addrepo https://download.opensuse.org/repositories/devel:gcc/SLE-15/devel:gcc.repo && \
+RUN zypper addrepo -f https://ftp.gwdg.de/pub/opensuse/repositories/devel:/gcc/SLE-15/ gcc && \
     zypper addrepo https://download.opensuse.org/repositories/home:MaxxedSUSE:Compiler-Tools-15.6/15.6/home:MaxxedSUSE:Compiler-Tools-15.6.repo && \
     zypper addrepo https://download.opensuse.org/repositories/devel:libraries:c_c++/15.7/devel:libraries:c_c++.repo && \
     zypper --gpg-auto-import-keys ref -s && \
@@ -142,5 +142,6 @@ RUN echo 'bitcoinuser:x:10001:10001:Bitcoin User:/home/bitcoinuser:/bin/sh' >> /
 COPY bitcoin.conf /home/bitcoinuser/.bitcoin/bitcoin.conf
 RUN chown -R bitcoinuser:bitcoinuser /home/bitcoinuser
 USER bitcoinuser
-LABEL org.opencontainers.image.revision="manual-trigger-20250911"
+LABEL org.opencontainers.image.revision="manual-trigger-20251003"
+
 ENTRYPOINT ["/entrypoint.sh"]
