@@ -1,5 +1,5 @@
 FROM registry.suse.com/bci/bci-base:15.7 AS builder
-RUN zypper addrepo https://download.opensuse.org/repositories/devel:gcc/SLE-15/devel:gcc.repo
+RUN zypper addrepo -f https://ftp.gwdg.de/pub/opensuse/repositories/devel:/gcc/SLE-15/ gcc
 RUN zypper --gpg-auto-import-keys ref -s
 RUN zypper ref -s && zypper --non-interactive install git wget libevent-devel awk libdb-4_8-devel sqlite3-devel libleveldb1 clang7 gcc11 gcc11-c++ unzip && zypper --non-interactive install -t pattern devel_basis
 
