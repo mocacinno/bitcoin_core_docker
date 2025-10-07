@@ -1,3 +1,8 @@
+---
+title: Developers
+nav_order: 4
+---
+
 # Developer Guide
 
 This guide explains how developers can contribute to the Bitcoin Core Docker Compilation project.
