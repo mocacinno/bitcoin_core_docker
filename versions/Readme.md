@@ -1,3 +1,8 @@
+---
+title: Versions
+nav_order: 2
+---
+
 # Bitcoin Core Versions Overview
 
 [Back to main page](../Readme.md)
