@@ -2,15 +2,9 @@ title: Bitcoin Core Docker Compilation Project
 description: A repository van most major releases back to 2009, inside a clean docker container
 show_downloads: false
 google_analytics: G-33ZY8D5KNM
-theme: jekyll-theme-leap-day
-navbar:
-  - title: "Home"
-    url: "/"
-  - title: "Versions"
-    url: "/versions/"
-  - title: "User Docs"
-    url: "/userdocs/"
-  - title: "Dev Docs"
-    url: "/developers/"
-  - title: "Tips"
-    url: "/tip.html"
+theme: just-the-docs
+url: https://www.mocacinno.com
+nav_order: 1
+has_children: true
+search_enabled: true
+logo: "/favicon.ico"
