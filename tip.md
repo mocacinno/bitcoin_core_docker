@@ -25,14 +25,3 @@ You're never forced to tip, i will never charge for these images and my support 
 ![GitHub contributors](https://img.shields.io/github/contributors/mocacinno/bitcoin_core_docker)
 
 [return to the homepage](https://mocacinno.com)
-<!-- Google tag (gtag.js) -->
-{% raw %}
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-BPC6NC6FF9"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-BPC6NC6FF9');
-</script>
-{% endraw %}
-
