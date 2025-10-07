@@ -8,3 +8,6 @@ nav_order: 1
 has_children: true
 search_enabled: true
 logo: "/favicon.ico"
+aux_links:
+  "View on GitHub":
+    - "https://github.com/mocacinno/bitcoin_core_docker"
