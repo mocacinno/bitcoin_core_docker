@@ -46,15 +46,3 @@ This guide explains how developers can contribute to the Bitcoin Core Docker Com
     - Open a pull request from your fork to the original repository. Make sure to explain your changes clearly.
 
 [return to the homepage](https://mocacinno.com)
-<!-- Google tag (gtag.js) -->
-<!-- Google tag (gtag.js) -->
-{% raw %}
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-BPC6NC6FF9"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-BPC6NC6FF9');
-</script>
-{% endraw %}
-
