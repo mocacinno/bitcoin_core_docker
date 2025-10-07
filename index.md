@@ -13,9 +13,9 @@ This project provides a historical snapshot of Bitcoin Core's development over t
 
 Explore the documentation to get started:
 
-- [Version Information](./versions/Readme.md): Details for each Bitcoin Core version compiled.
-- [Developer Guide](./developers/Readme.md): Instructions for contributing to the project.
-- [User Documentation](./userdocs/Readme.md): Guide for running the Docker images on your machine.
+- [Version Information](./versions/): Details for each Bitcoin Core version compiled.
+- [Developer Guide](./developers/): Instructions for contributing to the project.
+- [User Documentation](./userdocs/): Guide for running the Docker images on your machine.
 - [sponsor, tip](./tip.md)
 
 ## Use Cases
