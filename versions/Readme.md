@@ -1,6 +1,7 @@
 ---
 title: Versions
 nav_order: 2
+has_children: true
 ---
 
 # Bitcoin Core Versions Overview
