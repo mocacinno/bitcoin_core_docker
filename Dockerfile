@@ -4,11 +4,11 @@ RUN zypper ref -s && zypper --non-interactive install git wget unzip awk cmake g
 RUN ln -s /usr/bin/gcc-14 /usr/bin/gcc
 RUN ln -s /usr/bin/g++-14 /usr/bin/g++
 
-#depends basis v29
+#depends basis v30
 WORKDIR /depends
-RUN wget https://github.com/bitcoin/bitcoin/archive/refs/tags/v29.1.zip && \
-    unzip v29.1.zip
-WORKDIR /depends/bitcoin-29.1
+RUN wget https://github.com/bitcoin/bitcoin/archive/refs/tags/v30.0.zip && \
+    unzip v30.0.zip
+WORKDIR /depends/bitcoin-30.0
 RUN make -j"$(($(nproc)+1))" -C depends NO_QT=1 MULTIPROCESS=1
 
 #bitcoin v30.0
@@ -16,7 +16,7 @@ WORKDIR /
 RUN wget https://github.com/bitcoin/bitcoin/archive/refs/tags/v30.0.zip && \
     unzip v30.0.zip
 WORKDIR /bitcoin-30.0
-RUN cmake -B build --toolchain /depends/bitcoin-29.1/depends/x86_64-pc-linux-gnu/toolchain.cmake -DCMAKE_SYSTEM_NAME=Linux -DCMAKE_BUILD_TYPE=Release -DENABLE_SQLITE=ON -DCMAKE_PREFIX_PATH=/depends/bitcoin-29.1/depends/x86_64-pc-linux-gnu
+RUN cmake -B build --toolchain /depends/bitcoin-30.0/depends/x86_64-pc-linux-gnu/toolchain.cmake -DCMAKE_SYSTEM_NAME=Linux -DCMAKE_BUILD_TYPE=Release -DENABLE_SQLITE=ON -DCMAKE_PREFIX_PATH=/depends/bitcoin-30.0/depends/x86_64-pc-linux-gnu
 RUN cmake --build build -j "$(($(nproc) + 1))" 
 WORKDIR /bitcoin-30.0/build/bin
 RUN strip bitcoin-util && strip bitcoin-cli && strip bitcoin-tx && strip bitcoin-wallet && strip bitcoind && strip test_bitcoin && strip bitcoin-node
