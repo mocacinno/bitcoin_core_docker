@@ -11,24 +11,24 @@ RUN wget https://github.com/bitcoin/bitcoin/archive/refs/tags/v29.1.zip && \
 WORKDIR /depends/bitcoin-29.1
 RUN make -j"$(($(nproc)+1))" -C depends NO_QT=1 MULTIPROCESS=1
 
-#bitcoin v29.0
+#bitcoin v29.2
 WORKDIR /
-RUN wget https://github.com/bitcoin/bitcoin/archive/refs/tags/v29.1.zip && \
-    unzip v29.1.zip
-WORKDIR /bitcoin-29.1
+RUN wget https://github.com/bitcoin/bitcoin/archive/refs/tags/v29.2.zip && \
+    unzip v29.2.zip
+WORKDIR /bitcoin-29.2
 RUN cmake -B build --toolchain /depends/bitcoin-29.1/depends/x86_64-pc-linux-gnu/toolchain.cmake -DCMAKE_SYSTEM_NAME=Linux -DCMAKE_BUILD_TYPE=Release -DENABLE_SQLITE=ON -DCMAKE_PREFIX_PATH=/depends/bitcoin-29.1/depends/x86_64-pc-linux-gnu
 RUN cmake --build build -j "$(($(nproc) + 1))" 
-WORKDIR /bitcoin-29.1/build/bin
+WORKDIR /bitcoin-29.2/build/bin
 RUN strip bitcoin-util && strip bitcoin-cli && strip bitcoin-tx && strip bitcoin-wallet && strip bitcoind && strip test_bitcoin && strip bitcoin-node
 
 FROM registry.suse.com/bci/bci-micro:latest
-COPY --from=builder /bitcoin-29.1/build/bin/bitcoin-util /usr/local/bin
-COPY --from=builder /bitcoin-29.1/build/bin/bitcoin-cli /usr/local/bin
-COPY --from=builder /bitcoin-29.1/build/bin/bitcoin-tx /usr/local/bin
-COPY --from=builder /bitcoin-29.1/build/bin/bitcoin-wallet /usr/local/bin
-COPY --from=builder /bitcoin-29.1/build/bin/bitcoind /usr/local/bin
-COPY --from=builder /bitcoin-29.1/build/bin/test_bitcoin /usr/local/bin
-COPY --from=builder /bitcoin-29.1/build/bin/bitcoin-node /usr/local/bin
+COPY --from=builder /bitcoin-29.2/build/bin/bitcoin-util /usr/local/bin
+COPY --from=builder /bitcoin-29.2/build/bin/bitcoin-cli /usr/local/bin
+COPY --from=builder /bitcoin-29.2/build/bin/bitcoin-tx /usr/local/bin
+COPY --from=builder /bitcoin-29.2/build/bin/bitcoin-wallet /usr/local/bin
+COPY --from=builder /bitcoin-29.2/build/bin/bitcoind /usr/local/bin
+COPY --from=builder /bitcoin-29.2/build/bin/test_bitcoin /usr/local/bin
+COPY --from=builder /bitcoin-29.2/build/bin/bitcoin-node /usr/local/bin
 
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
@@ -38,6 +38,5 @@ RUN echo 'bitcoinuser:x:10001:10001:Bitcoin User:/home/bitcoinuser:/bin/sh' >> /
  && mkdir -p /home/bitcoinuser \
  && chown -R 10001:10001 /home/bitcoinuser
 USER bitcoinuser
-LABEL org.opencontainers.image.revision="manual-trigger-20251003"
-LABEL waitforfinish="true"
+LABEL org.opencontainers.image.revision="manual-trigger-20251105"
 ENTRYPOINT ["/entrypoint.sh"]
