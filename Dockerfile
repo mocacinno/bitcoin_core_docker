@@ -1,7 +1,6 @@
 FROM registry.suse.com/bci/bci-base:15.7 AS builder
 
 RUN zypper addrepo -f https://ftp.gwdg.de/pub/opensuse/repositories/devel:/gcc/SLE-15/ gcc && \
-    zypper addrepo https://download.opensuse.org/repositories/home:MaxxedSUSE:Compiler-Tools-15.6/15.6/home:MaxxedSUSE:Compiler-Tools-15.6.repo && \
     zypper addrepo https://download.opensuse.org/repositories/devel:libraries:c_c++/15.7/devel:libraries:c_c++.repo && \
     zypper --gpg-auto-import-keys ref -s && \
     zypper --non-interactive install gcc48 gcc48-c++ make automake makeinfo git gawk wget libicu-devel mlocate vim unzip cmake xz meson patch libtool gtk-doc libatk-1_0-0 libICE-devel libSM-devel libXt-devel gtk2 gtk2-devel dos2unix
@@ -135,5 +134,5 @@ RUN useradd -m -u 10001 bitcoinuser
 COPY bitcoin.conf /home/bitcoinuser/.bitcoin/bitcoin.conf
 RUN chown -R bitcoinuser:users /home/bitcoinuser
 USER bitcoinuser
-LABEL org.opencontainers.image.revision="manual-trigger-20251003"
+LABEL org.opencontainers.image.revision="manual-trigger-20251106"
 ENTRYPOINT ["/entrypoint.sh"]
