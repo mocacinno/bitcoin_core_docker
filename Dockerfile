@@ -1,7 +1,7 @@
 FROM registry.suse.com/bci/bci-base:15.7 AS builder
 
 RUN zypper addrepo -f https://ftp.gwdg.de/pub/opensuse/repositories/devel:/gcc/SLE-15/ gcc
-RUN zypper addrepo https://ftp.gwdg.de/pub/opensuse/repositories/devel:libraries:c_c++/15.7/devel:libraries:c_c++.repo
+RUN zypper addrepo -f https://ftp.gwdg.de/pub/opensuse/repositories/devel%3A/libraries%3A/c_c%2B%2B/15.7/ c++
 RUN zypper --gpg-auto-import-keys ref -s 
 RUN zypper --non-interactive install  mlocate cmake xz meson gcc7 gcc7-c++ make automake makeinfo git gawk wget libicu-devel patch vim unzip
 
