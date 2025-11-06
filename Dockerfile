@@ -1,9 +1,11 @@
 FROM registry.suse.com/bci/bci-base:15.7 AS builder
 
-RUN zypper addrepo -f https://ftp.gwdg.de/pub/opensuse/repositories/devel:/gcc/SLE-15/ gcc
-RUN zypper addrepo -f https://ftp.gwdg.de/pub/opensuse/repositories/devel%3A/libraries%3A/c_c%2B%2B/15.7/ c++
+COPY libopenssl-1_0_0-devel-1.0.2u-lp156.133.5.x86_64.rpm /tmp/
+COPY libopenssl1_0_0-1.0.2u-lp156.133.5.x86_64.rpm /tmp/
+RUN zypper --non-interactive --no-gpg-checks in /tmp/libopenssl-1_0_0-devel-1.0.2u-lp156.133.5.x86_64.rpm /tmp/libopenssl1_0_0-1.0.2u-lp156.133.5.x86_64.rpm
+RUN zypper addrepo -f https://ftp.gwdg.de/pub/opensuse/repositories/devel:/libraries:/c_c++/15.7/ c++
 RUN zypper --gpg-auto-import-keys ref -s 
-RUN zypper --non-interactive install gcc7 gcc7-c++ make automake makeinfo git gawk libdb-4_8-devel libopenssl-1_0_0-devel wget libicu-devel libminiupnpc-devel libupnp-devel patch unzip
+RUN zypper --non-interactive install gcc7 gcc7-c++ make automake makeinfo git gawk libdb-4_8-devel wget libicu-devel libminiupnpc-devel libupnp-devel patch unzip
 
 #gcc 7
 ENV CC=gcc-7
