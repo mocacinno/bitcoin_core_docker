@@ -9,7 +9,7 @@ RUN curl -fsSL https://raw.githubusercontent.com/mocacinno/bitcoin_core_docker_p
 RUN zypper addrepo -f https://github.com/mocacinno/bitcoin_core_docker_prereqs/raw/refs/heads/gh-pages/x86_64/ mocacinno_x86_64 && \
     zypper addrepo -f https://github.com/mocacinno/bitcoin_core_docker_prereqs/raw/refs/heads/gh-pages/noarch/ mocacinno_noarch
 RUN zypper --gpg-auto-import-keys ref -s 
-RUN zypper --non-interactive install  mlocate cmake xz meson gcc7 gcc7-c++ make automake makeinfo git gawk wget libicu-devel patch vim unzip
+RUN zypper --non-interactive install  mlocate cmake xz meson gcc7 gcc7-c++ make automake makeinfo git gawk wget libicu-devel patch vim unzip libopenssl-1_0_0-devel libopenssl1_0_0
 
 #gcc 7
 ENV CC=gcc-7
