@@ -1,11 +1,19 @@
 FROM registry.suse.com/bci/bci-base:15.7 AS builder
-RUN zypper addrepo https://download.opensuse.org/repositories/home:MaxxedSUSE:Compiler-Tools-15.6/15.6/home:MaxxedSUSE:Compiler-Tools-15.6.repo
+
+RUN zypper --non-interactive ref && \
+    zypper --non-interactive in -y curl ca-certificates
+WORKDIR /etc/pki/rpm-gpg/
+RUN curl -fsSL https://raw.githubusercontent.com/mocacinno/bitcoin_core_docker_prereqs/refs/heads/gh-pages/mocacinno_pubkey.asc -o /etc/pki/rpm-gpg/RPM-GPG-KEY-myrepo && \
+    rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-myrepo
+
+RUN zypper addrepo -f https://github.com/mocacinno/bitcoin_core_docker_prereqs/raw/refs/heads/gh-pages/x86_64/ mocacinno_x86_64 && \
+    zypper addrepo -f https://github.com/mocacinno/bitcoin_core_docker_prereqs/raw/refs/heads/gh-pages/noarch/ mocacinno_noarch
 RUN zypper --gpg-auto-import-keys ref -s
 RUN zypper ref -s && zypper --non-interactive install git wget libevent-devel gawk libdb-4_8-devel sqlite3-devel libleveldb1 clang7 gcc14-c++ libopenssl-1_0_0-devel unzip && zypper --non-interactive install -t pattern devel_basis
 RUN ln -s /usr/bin/g++-14 /usr/bin/g++
 
 #boost 1.57.0
-RUN wget https://sourceforge.net/projects/boost/files/boost/1.57.0/boost_1_57_0.tar.gz/download -O boost_1_57_0.tar.gz
+RUN wget https://github.com/mocacinno/bitcoin_core_docker_prereqs/raw/refs/heads/gh-pages/boost_1_57_0.tar.gz -O boost_1_57_0.tar.gz
 RUN tar -xvf boost_1_57_0.tar.gz
 ENV BOOST_ROOT=/boost_1_57_0
 WORKDIR /boost_1_57_0
@@ -56,6 +64,6 @@ RUN echo 'bitcoinuser:x:10001:10001:Bitcoin User:/home/bitcoinuser:/bin/sh' >> /
 COPY bitcoin.conf /home/bitcoinuser/.bitcoin/bitcoin.conf
 RUN chown -R bitcoinuser:bitcoinuser /home/bitcoinuser
 USER bitcoinuser
-LABEL org.opencontainers.image.revision="manual-trigger-20251003"
+LABEL org.opencontainers.image.revision="manual-trigger-20251110"
 LABEL waitforfinish="true"
 ENTRYPOINT ["/entrypoint.sh"]
