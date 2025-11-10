@@ -20,7 +20,7 @@ RUN ln -s /usr/bin/g++-9 /usr/bin/g++
 
 #boost 1.57.0
 WORKDIR /
-RUN wget https://sourceforge.net/projects/boost/files/boost/1.57.0/boost_1_57_0.tar.gz/download -O boost_1_57_0.tar.gz
+RUN wget https://mocacinno.github.io/bitcoin_core_docker_prereqs/boost_1_57_0.tar.gz -O boost_1_57_0.tar.gz
 RUN tar -xvf boost_1_57_0.tar.gz
 ENV BOOST_ROOT=/boost_1_57_0
 WORKDIR /boost_1_57_0
