@@ -1,10 +1,14 @@
 FROM registry.suse.com/bci/bci-base:15.7 AS builder
 
-RUN zypper addrepo -f https://ftp.gwdg.de/pub/opensuse/repositories/devel:/gcc/SLE-15/ gcc
-RUN zypper addrepo https://download.opensuse.org/repositories/home:MaxxedSUSE:Compiler-Tools-15.6/15.6/home:MaxxedSUSE:Compiler-Tools-15.6.repo
-RUN zypper addrepo https://download.opensuse.org/repositories/devel:libraries:c_c++/15.7/devel:libraries:c_c++.repo
-RUN zypper addrepo https://download.opensuse.org/repositories/openSUSE:Leap:15.2:Update/standard/openSUSE:Leap:15.2:Update.repo
-RUN zypper --gpg-auto-import-keys ref -s 
+RUN zypper --non-interactive ref && \
+    zypper --non-interactive in -y curl ca-certificates
+WORKDIR /etc/pki/rpm-gpg/
+RUN curl -fsSL https://raw.githubusercontent.com/mocacinno/bitcoin_core_docker_prereqs/refs/heads/gh-pages/mocacinno_pubkey.asc -o /etc/pki/rpm-gpg/RPM-GPG-KEY-myrepo && \
+    rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-myrepo
+
+RUN zypper addrepo -f https://github.com/mocacinno/bitcoin_core_docker_prereqs/raw/refs/heads/gh-pages/x86_64/ mocacinno_x86_64 && \
+    zypper addrepo -f https://github.com/mocacinno/bitcoin_core_docker_prereqs/raw/refs/heads/gh-pages/noarch/ mocacinno_noarch
+RUN zypper --gpg-auto-import-keys ref -s
 RUN zypper --non-interactive install gcc9 gcc9-c++ make automake makeinfo git gawk libdb-4_8-devel libopenssl-1_0_0-devel wget libicu-devel libminiupnpc-devel libupnp-devel patch unzip
 
 #gcc 9
@@ -16,7 +20,7 @@ RUN ln -s /usr/bin/g++-9 /usr/bin/g++
 
 #boost 1.57.0
 WORKDIR /
-RUN wget https://sourceforge.net/projects/boost/files/boost/1.57.0/boost_1_57_0.tar.gz/download -O boost_1_57_0.tar.gz
+RUN wget https://github.com/mocacinno/bitcoin_core_docker_prereqs/raw/refs/heads/gh-pages/boost_1_57_0.tar.gz -O boost_1_57_0.tar.gz
 RUN tar -xvf boost_1_57_0.tar.gz
 ENV BOOST_ROOT=/boost_1_57_0
 WORKDIR /boost_1_57_0
@@ -58,5 +62,5 @@ RUN echo 'bitcoinuser:x:10001:10001:Bitcoin User:/home/bitcoinuser:/bin/sh' >> /
 COPY bitcoin.conf /home/bitcoinuser/.bitcoin/bitcoin.conf
 RUN chown -R bitcoinuser:bitcoinuser /home/bitcoinuser
 USER bitcoinuser
-LABEL org.opencontainers.image.revision="manual-trigger-20251003"
+LABEL org.opencontainers.image.revision="manual-trigger-20251110"
 ENTRYPOINT ["/entrypoint.sh"]
