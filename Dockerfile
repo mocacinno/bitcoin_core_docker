@@ -6,8 +6,8 @@ WORKDIR /etc/pki/rpm-gpg/
 RUN curl -fsSL https://raw.githubusercontent.com/mocacinno/bitcoin_core_docker_prereqs/refs/heads/gh-pages/mocacinno_pubkey.asc -o /etc/pki/rpm-gpg/RPM-GPG-KEY-myrepo && \
     rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-myrepo
 
-RUN zypper addrepo -f https://github.com/mocacinno/bitcoin_core_docker_prereqs/raw/refs/heads/gh-pages/x86_64/ mocacinno_x86_64 && \
-    zypper addrepo -f https://github.com/mocacinno/bitcoin_core_docker_prereqs/raw/refs/heads/gh-pages/noarch/ mocacinno_noarch
+RUN zypper addrepo --priority 200 -f https://github.com/mocacinno/bitcoin_core_docker_prereqs/raw/refs/heads/gh-pages/x86_64/ mocacinno_x86_64 && \
+    zypper addrepo --priority 200 -f https://github.com/mocacinno/bitcoin_core_docker_prereqs/raw/refs/heads/gh-pages/noarch/ mocacinno_noarch
 RUN zypper --gpg-auto-import-keys ref -s
 RUN zypper ref -s && zypper --non-interactive install git wget libevent-devel gawk libdb-4_8-devel sqlite3-devel libleveldb1 clang7 gcc14-c++ libopenssl-1_0_0-devel unzip && zypper --non-interactive install -t pattern devel_basis
 RUN ln -s /usr/bin/g++-14 /usr/bin/g++
