@@ -13,6 +13,7 @@ RUN zypper ref -s && zypper --non-interactive install git wget libevent-devel ga
 RUN ln -s /usr/bin/g++-14 /usr/bin/g++
 
 #boost 1.57.0
+WORKDIR /
 RUN wget https://github.com/mocacinno/bitcoin_core_docker_prereqs/raw/refs/heads/gh-pages/boost_1_57_0.tar.gz -O boost_1_57_0.tar.gz
 RUN tar -xvf boost_1_57_0.tar.gz
 ENV BOOST_ROOT=/boost_1_57_0
