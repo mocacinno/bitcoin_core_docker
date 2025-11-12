@@ -2,7 +2,8 @@ FROM registry.suse.com/bci/bci-base:15.7 AS builder
 RUN zypper ref -s && zypper --non-interactive install git wget libevent-devel awk libdb-4_8-devel sqlite3-devel libleveldb1 clang7 gcc-c++ libopenssl-devel unzip && zypper --non-interactive install -t pattern devel_basis
 
 #boost 1.63.0
-RUN wget https://archives.boost.io/release/1.63.0/source/boost_1_63_0.tar.gz 
+WORKDIR /
+RUN wget https://github.com/mocacinno/bitcoin_core_docker_prereqs/raw/refs/heads/gh-pages/boost_1_63_0.tar.gz -O boost_1_63_0.tar.gz 
 RUN tar -xvf boost_1_63_0.tar.gz 
 ENV BOOST_ROOT=/boost_1_63_0
 WORKDIR /boost_1_63_0
@@ -49,6 +50,6 @@ RUN echo 'bitcoinuser:x:10001:10001:Bitcoin User:/home/bitcoinuser:/bin/sh' >> /
  && mkdir -p /home/bitcoinuser \
  && chown -R 10001:10001 /home/bitcoinuser
 USER bitcoinuser
-LABEL org.opencontainers.image.revision="manual-trigger-20251003"
+LABEL org.opencontainers.image.revision="manual-trigger-20251112"
 LABEL waitforfinish="true"
 ENTRYPOINT ["/entrypoint.sh"]
