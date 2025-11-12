@@ -114,5 +114,5 @@ RUN echo 'bitcoinuser:x:10001:10001:Bitcoin User:/home/bitcoinuser:/bin/sh' >> /
 COPY bitcoin.conf /home/bitcoinuser/.bitcoin/bitcoin.conf
 RUN chown -R bitcoinuser:bitcoinuser /home/bitcoinuser
 USER bitcoinuser
-LABEL org.opencontainers.image.revision="manual-trigger-20251107"
+LABEL org.opencontainers.image.revision="manual-trigger-20251112"
 ENTRYPOINT ["/entrypoint.sh"]
