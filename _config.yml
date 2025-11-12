@@ -18,3 +18,5 @@ gh_edit_branch: "main"
 gh_edit_view_mode: "edit"
 plugins:
   - jekyll-readme-index
+  - jekyll-sitemap
+  
