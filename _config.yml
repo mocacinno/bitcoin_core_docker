@@ -6,11 +6,21 @@ url: https://www.mocacinno.com
 nav_order: 1
 has_children: true
 search_enabled: true
+search:
+  heading_level: 2
+  previews: 4
+  tokenizer_separator: /[\s/]+/
+  rel_url: true
+  button: true
+enable_copy_code_button: true
 logo: "/favicon.ico"
 aux_links:
   "View on GitHub":
     - "https://github.com/mocacinno/bitcoin_core_docker"
 color_scheme: dark
+mermaid:
+  version: "11.12.1"
+heading_anchors: true
 gh_edit_link: true
 gh_edit_link_text: "Edit this page on GitHub."
 gh_edit_repository: "https://github.com/mocacinno/bitcoin_core_docker"
@@ -20,4 +30,23 @@ plugins:
   - jekyll-readme-index
   - jekyll-sitemap
   - jekyll-seo-tag
-  
+back_to_top: true
+back_to_top_text: "Back to top"
+last_edit_timestamp: true
+last_edit_time_format: "%b %e %Y at %I:%M %p"
+callouts:
+  highlight:
+    color: yellow
+  important:
+    title: Important
+    color: blue
+  new:
+    title: New
+    color: green
+  note:
+    title: Note
+    color: purple
+  warning:
+    title: Warning
+    color: red
+nav_error_report: true
