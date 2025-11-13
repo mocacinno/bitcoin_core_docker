@@ -19,4 +19,5 @@ gh_edit_view_mode: "edit"
 plugins:
   - jekyll-readme-index
   - jekyll-sitemap
+  - jekyll-seo-tag
   
