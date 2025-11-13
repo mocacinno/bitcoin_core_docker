@@ -27,3 +27,33 @@ back_to_top: true
 back_to_top_text: "Back to top"
 last_edit_timestamp: true
 last_edit_time_format: "%b %e %Y at %I:%M %p"
+search:
+  heading_level: 2
+  previews: 4
+  tokenizer_separator: /[\s/]+/
+  rel_url: true
+  button: true
+callouts:
+  highlight:
+    color: yellow
+  important:
+    title: Important
+    color: blue
+  new:
+    title: New
+    color: green
+  note:
+    title: Note
+    color: purple
+  warning:
+    title: Warning
+    color: red
+nav_error_report: true
+markdown: kramdown
+kramdown:
+  parse_block_html: true
+  parse_span_html: true
+  hard_wrap: false
+  input: GFM
+  syntax_highlighter: rouge
+  html_to_native: true
