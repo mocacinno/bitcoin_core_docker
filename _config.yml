@@ -50,3 +50,11 @@ callouts:
     title: Warning
     color: red
 nav_error_report: true
+markdown: kramdown
+kramdown:
+  parse_block_html: true
+  parse_span_html: true
+  hard_wrap: false
+  input: GFM
+  syntax_highlighter: rouge
+  html_to_native: true
