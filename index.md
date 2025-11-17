@@ -33,7 +33,7 @@ Explore the documentation to get started:
 
 This archive stands as a testament to Bitcoin's robust and evolving codebase, providing developers and enthusiasts with invaluable insights into the project's technical journey.
 
-> **Disclaimer**: Do not run older versions on sensitive systems, do not run older versions in production, do not fund wallets generated with older versions... Even if you use the newest version, be carefull!!! Read the dockerfile and verify if the image you're pulling was generated using the dockerfile you signed off on, or (even better) use the Dockerfile you verified to build the image yourself... I do not take any responsability if you get into troubles running these images!!!
+> **Disclaimer**: Do not run older versions on sensitive systems, do not run older versions in production, do not fund wallets generated with older versions... Even if you use the newest version, be careful!!! Read the dockerfile and verify if the image you're pulling was generated using the dockerfile you signed off on, or (even better) use the Dockerfile you verified to build the image yourself... I do not take any responsibility if you get into troubles running these images!
 
 Happy experimenting!
 
