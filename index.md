@@ -3,7 +3,7 @@ title: Home
 nav_order: 1
 ---
 
-# Welcome to the Bitcoin Core Docker Compilation Project
+# The Bitcoin Core Docker Compilation Project
 
 This repository serves as a comprehensive archive of all major versions of Bitcoin Core, from **v0.2.0** (including versions released in 2009) to **v30.0**. Versions v0.1.x were windows only, so they were excluded from this project. Inside this repository, you will find the docker images of each version as well as the documentation and tools needed to compile these versions in a **SLES 15 SP7 BCI_minimal** container (usually in the form of a Dockerfile).
 
