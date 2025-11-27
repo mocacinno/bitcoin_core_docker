@@ -115,8 +115,7 @@ WORKDIR /
 RUN wget https://github.com/bitcoin/bitcoin/archive/refs/tags/v0.2.8.zip && \
     unzip v0.2.8.zip
 WORKDIR /bitcoin-0.2.8
-RUN zypper --non-interactive install dos2unix && \
-    dos2unix makefile.unix && \
+RUN zypper --non-interactive install dos2unix
 RUN find /bitcoin-0.2.8/ -type f -exec dos2unix {} + && \
     mkdir -p obj/nogui && \
     ln -s /usr/local/lib/libwx_baseu-2.9.so /usr/lib64/libwx_baseud-2.9.so && \
