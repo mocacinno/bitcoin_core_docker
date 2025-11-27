@@ -1,4 +1,4 @@
-FROM registry.suse.com/bci/bci-base:15.7 AS builder
+FROM registry.suse.com/bci/bci-base:16.0 AS builder
 
 RUN zypper --non-interactive ref && \
     zypper --non-interactive in -y curl ca-certificates
@@ -6,10 +6,13 @@ WORKDIR /etc/pki/rpm-gpg/
 RUN curl -fsSL https://raw.githubusercontent.com/mocacinno/bitcoin_core_docker_prereqs/refs/heads/gh-pages/mocacinno_pubkey.asc -o /etc/pki/rpm-gpg/RPM-GPG-KEY-myrepo && \
     rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-myrepo
 
-RUN zypper addrepo -f https://github.com/mocacinno/bitcoin_core_docker_prereqs/raw/refs/heads/gh-pages/x86_64/ mocacinno_x86_64 && \
-    zypper addrepo -f https://github.com/mocacinno/bitcoin_core_docker_prereqs/raw/refs/heads/gh-pages/noarch/ mocacinno_noarch
+RUN zypper addrepo --priority 200 -f https://github.com/mocacinno/bitcoin_core_docker_prereqs/raw/refs/heads/gh-pages/x86_64/ mocacinno_x86_64 && \
+    zypper addrepo --priority 200 -f https://github.com/mocacinno/bitcoin_core_docker_prereqs/raw/refs/heads/gh-pages/noarch/ mocacinno_noarch
 RUN zypper --gpg-auto-import-keys ref -s && \
-    zypper --non-interactive install gcc48 gcc48-c++ make automake makeinfo git gawk wget libicu-devel mlocate vim unzip cmake xz meson patch libtool gtk-doc libatk-1_0-0 libICE-devel libSM-devel libXt-devel gtk2 gtk2-devel dejavu-fonts
+    zypper --non-interactive install gcc48 gcc48-c++ make automake makeinfo git gawk wget libicu-devel mlocate vim unzip cmake xz meson patch libtool gtk-doc libatk-1_0-0 libICE-devel libSM-devel libXt-devel gtk2-devel dejavu-fonts
+	#gtk2
+	
+	
 ENV CC=gcc-4.8
 ENV CXX=g++-4.8
 ENV PERL5LIB=.
@@ -61,8 +64,6 @@ RUN sed -i '24i m4_pattern_allow([AS_HELP_STRING])' configure.ac && \
 
 WORKDIR /
 RUN wget https://download.gnome.org/sources/pango/1.24/pango-1.24.5.tar.gz
-RUN ls -ltrh
-RUN file pango-1.24.5.tar.gz
 RUN tar -xvf pango-1.24.5.tar.gz
 RUN mv /usr/include/freetype2 /opt/freetype2_bak && \
     mkdir -p /usr/local/include/freetype1 && \
@@ -90,7 +91,7 @@ RUN ./autogen.sh && \
     CXXFLAGS="-fPIC -fpermissive" CFLAGS="-fPIC -fpermissive" ./configure --enable-unicode --enable-debug --prefix=/usr/local/wxwidgets  --with-gtk --enable-shared --enable-monolithic && \
     ln -s /usr/lib64/libjpeg.so.8 /usr/lib64/libjpeg8.so && \
     unlink /usr/lib64/libjpeg.so && \
-    ln -s /usr/lib64/libjpeg.so.8.2.2 /usr/lib64/libjpeg.so && \
+    ln -s /usr/lib64/libjpeg.so.8.3.2 /usr/lib64/libjpeg.so && \
     CXXFLAGS="-fPIC -fpermissive" CFLAGS="-fPIC" make -j"$(($(nproc) + 1))" LDFLAGS="-lpangocairo-1.0 -lX11 -lcairo -ljpeg8" && \
     make install && \
     ldconfig 
@@ -113,7 +114,7 @@ WORKDIR /bitcoin_core_history-0.2.0_patched
 RUN mkdir -p obj/nogui && \
     zypper --non-interactive install dos2unix && \
     dos2unix * && \
-    make -f makefile.mocacinno bitcoin CFLAGS="-I/usr/local/wxwidgets/include/wx-2.8/ -I/usr/local/wxwidgets/lib/wx/include/gtk2-unicode-debug-2.8 -I/usr/local/lib/ -I/usr/lib64/wx/include/gtk2-unicode-debug-2.9 -I/openssl-0.9.8k/include -I/usr/local/wxwidgets/lib/ -I/usr/local/BerkeleyDB.4.7/include -I/wxWidgets-2.8.9/lib -fpermissive -D_FILE_OFFSET_BITS=64 -D__WXDEBUG__ -DWXUSINGDLL -D__WXGTK__ -pthread -march=x86-64 -mtune=generic"
+    make -f makefile.mocacinno bitcoin CFLAGS="-I/wxWidgets-2.8.9/include -I/usr/local/wxwidgets/include/wx-2.8/ -I/usr/local/wxwidgets/lib/wx/include/gtk2-unicode-debug-2.8 -I/usr/local/lib/ -I/usr/lib64/wx/include/gtk2-unicode-debug-2.9 -I/openssl-0.9.8k/include -I/usr/local/wxwidgets/lib/ -I/usr/local/BerkeleyDB.4.7/include -I/wxWidgets-2.8.9/lib -I/wxWidgets-2.8.9/lib/wx/include/gtk2-unicode-debug-2.8 -fpermissive -D_FILE_OFFSET_BITS=64 -D__WXDEBUG__ -DWXUSINGDLL -D__WXGTK__ -pthread -march=x86-64 -mtune=generic"
 RUN strip bitcoin
 RUN zypper addrepo https://download.opensuse.org/repositories/home:plasmaregataos/15.6/home:plasmaregataos.repo && \
     zypper --gpg-auto-import-keys ref -s && \
