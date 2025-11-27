@@ -1,4 +1,4 @@
-FROM registry.suse.com/bci/bci-base:15.7 AS builder
+FROM registry.suse.com/bci/bci-base:16.0 AS builder
 
 RUN zypper --non-interactive ref && \
     zypper --non-interactive in -y curl ca-certificates
@@ -6,10 +6,10 @@ WORKDIR /etc/pki/rpm-gpg/
 RUN curl -fsSL https://raw.githubusercontent.com/mocacinno/bitcoin_core_docker_prereqs/refs/heads/gh-pages/mocacinno_pubkey.asc -o /etc/pki/rpm-gpg/RPM-GPG-KEY-myrepo && \
     rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-myrepo
 
-RUN zypper addrepo -f https://github.com/mocacinno/bitcoin_core_docker_prereqs/raw/refs/heads/gh-pages/x86_64/ mocacinno_x86_64 && \
-    zypper addrepo -f https://github.com/mocacinno/bitcoin_core_docker_prereqs/raw/refs/heads/gh-pages/noarch/ mocacinno_noarch
+RUN zypper addrepo --priority 200 -f https://github.com/mocacinno/bitcoin_core_docker_prereqs/raw/refs/heads/gh-pages/x86_64/ mocacinno_x86_64 && \
+    zypper addrepo --priority 200 -f https://github.com/mocacinno/bitcoin_core_docker_prereqs/raw/refs/heads/gh-pages/noarch/ mocacinno_noarch
 RUN zypper --gpg-auto-import-keys ref -s && \
-    zypper --non-interactive install gcc48 gcc48-c++ make automake makeinfo git gawk wget libicu-devel mlocate vim unzip cmake xz meson patch libtool gtk-doc libatk-1_0-0 libICE-devel libSM-devel libXt-devel gtk2 gtk2-devel dos2unix
+    zypper --non-interactive install gcc48 gcc48-c++ make automake makeinfo git gawk wget libicu-devel mlocate vim unzip cmake xz meson patch libtool gtk-doc libatk-1_0-0 libICE-devel libSM-devel libXt-devel gtk2-devel dejavu-fonts
 
 
 #gcc 4.8
@@ -108,7 +108,7 @@ WORKDIR /wxWidgets-2.9.0
     CXXFLAGS="-fPIC -fpermissive" CFLAGS="-fPIC" ./configure --enable-unicode --enable-debug --enable-shared --prefix=/usr/local/wxwidgets && \
     ln -s /usr/lib64/libjpeg.so.8 /usr/lib64/libjpeg8.so && \
     unlink /usr/lib64/libjpeg.so && \
-    ln -s /usr/lib64/libjpeg.so.8.2.2 /usr/lib64/libjpeg.so && \
+    ln -s /usr/lib64/libjpeg.so.8.3.2 /usr/lib64/libjpeg.so && \
     CXXFLAGS="-fPIC -fpermissive" CFLAGS="-fPIC" make -j"$(($(nproc) + 1))" LDFLAGS="-lpangocairo-1.0 -lX11 -lcairo -ljpeg8" && \
     make install && \
     cp -R /wxWidgets-2.9.0/lib/* /usr/lib64/ && \
@@ -120,6 +120,8 @@ RUN wget https://github.com/bitcoin/bitcoin/archive/refs/tags/v0.2.7.zip && \
     unzip v0.2.7.zip
 WORKDIR /bitcoin-0.2.7
 RUN mkdir -p obj/nogui && \
+    zypper --non-interactive install dos2unix && \
+    dos2unix makefile.unix && \
     sed -i '24s/-mt//g' makefile.unix && \
     make -f makefile.unix bitcoind CFLAGS="-fpermissive -pthread -I/openssl-0.9.8k/include -I/usr/local/lib/wx/include/gtk2-unicode-debug-static-2.9 -I/usr/local/include/wx-2.9 -D_FILE_OFFSET_BITS=64 -D__WXDEBUG__ -D__WXGTK__ -I/db-4.7.25.NC/build_unix -I/usr/local/lib/wx/include/gtk2-unicode-2.9 -I/boost_1_57_0 -I/usr/local/wxwidgets/lib -I/wxWidgets-2.9.0/lib/ -I/wxWidgets-2.9.0/include -I/usr/lib64/wx/include/gtk2-unicode-debug-2.9" && \
     strip bitcoind
