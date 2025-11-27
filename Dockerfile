@@ -1,4 +1,4 @@
-FROM registry.suse.com/bci/bci-base:15.7 AS builder
+FROM registry.suse.com/bci/bci-base:16.0 AS builder
 
 RUN zypper --non-interactive ref && \
     zypper --non-interactive in -y curl ca-certificates
@@ -6,10 +6,10 @@ WORKDIR /etc/pki/rpm-gpg/
 RUN curl -fsSL https://raw.githubusercontent.com/mocacinno/bitcoin_core_docker_prereqs/refs/heads/gh-pages/mocacinno_pubkey.asc -o /etc/pki/rpm-gpg/RPM-GPG-KEY-myrepo && \
     rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-myrepo
 
-RUN zypper addrepo -f https://github.com/mocacinno/bitcoin_core_docker_prereqs/raw/refs/heads/gh-pages/x86_64/ mocacinno_x86_64 && \
-    zypper addrepo -f https://github.com/mocacinno/bitcoin_core_docker_prereqs/raw/refs/heads/gh-pages/noarch/ mocacinno_noarch
+RUN zypper addrepo --priority 200 -f https://github.com/mocacinno/bitcoin_core_docker_prereqs/raw/refs/heads/gh-pages/x86_64/ mocacinno_x86_64 && \
+    zypper addrepo --priority 200 -f https://github.com/mocacinno/bitcoin_core_docker_prereqs/raw/refs/heads/gh-pages/noarch/ mocacinno_noarch
 RUN zypper --gpg-auto-import-keys ref -s && \
-    zypper --non-interactive install gcc48 gcc48-c++ make automake makeinfo git gawk wget libicu-devel mlocate vim unzip cmake xz meson patch libtool gtk-doc libatk-1_0-0 libICE-devel libSM-devel libXt-devel gtk2 gtk2-devel dos2unix
+    zypper --non-interactive install gcc48 gcc48-c++ make automake makeinfo git gawk wget libicu-devel mlocate vim unzip cmake xz meson patch libtool gtk-doc libatk-1_0-0 libICE-devel libSM-devel libXt-devel gtk2-devel dejavu-fonts
 
 
 #gcc 4.8
@@ -115,6 +115,8 @@ WORKDIR /
 RUN wget https://github.com/bitcoin/bitcoin/archive/refs/tags/v0.2.8.zip && \
     unzip v0.2.8.zip
 WORKDIR /bitcoin-0.2.8
+RUN zypper --non-interactive install dos2unix && \
+    dos2unix makefile.unix && \
 RUN find /bitcoin-0.2.8/ -type f -exec dos2unix {} + && \
     mkdir -p obj/nogui && \
     ln -s /usr/local/lib/libwx_baseu-2.9.so /usr/lib64/libwx_baseud-2.9.so && \
