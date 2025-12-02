@@ -106,7 +106,7 @@ RUN ./autogen.sh && \
     ./configure \
         --with-gtk \
         --enable-unicode \
-        --enable-debug \
+#        --enable-debug \
         --enable-shared \
         --prefix=/usr/local/wxwidgets && \
     ln -s /usr/lib64/libjpeg.so.8 /usr/lib64/libjpeg8.so && \
@@ -118,6 +118,7 @@ RUN ./autogen.sh && \
     make install && \
     cp -R /wxWidgets-2.9.0/lib/* /usr/lib64/ && \
     ldconfig
+ENV LD_LIBRARY_PATH=/wxWidgets-2.9.0/lib/
 
 #bitcoin v0.2.8
 WORKDIR /
@@ -128,68 +129,35 @@ RUN mkdir -p obj/nogui && \
     zypper --non-interactive install dos2unix && \
     dos2unix makefile.unix && \
     sed -i '24s/-mt//g' makefile.unix && \
+    sed -i 's/wx_baseud-2\.9/wx_baseu-2\.9/g' makefile.unix && \
     ln -sf /usr/local/lib/libboost_system-gcc48-mt.a       /usr/local/lib/libboost_system.a && \
     ln -sf /usr/local/lib/libboost_filesystem-gcc48-mt.a   /usr/local/lib/libboost_filesystem.a && \
     ln -sf /usr/local/lib/libboost_system-gcc48-mt.so      /usr/local/lib/libboost_system.so && \
     ln -sf /usr/local/lib/libboost_filesystem-gcc48-mt.so  /usr/local/lib/libboost_filesystem.so && \
-    make -f makefile.unix bitcoind CFLAGS="-I/wxWidgets-2.9.0/include -I/wxWidgets-2.9.0/lib/wx/include/gtk2-unicode-debug-2.9 -I/openssl-0.9.8k/include -I/db-4.7.25.NC/build_unix -I/boost_1_38_0 -fpermissive"
-
-
+    make -f makefile.unix bitcoind CFLAGS="-fpermissive -I/openssl-0.9.8k/include -I/db-4.7.25.NC/build_unix -I/wxWidgets-2.9.0/include -I/wxWidgets-2.9.0/lib/wx/include/gtk2-unicode-release-2.9 -I/boost_1_38_0"
 
 FROM registry.suse.com/bci/bci-micro:latest
-COPY --from=builder /bitcoin-0.2.7/bitcoind /usr/local/bin
-COPY --from=builder /boost_1_57_0/stage/lib/libboost_system.so.1.57.0 /usr/lib64/
-COPY --from=builder /boost_1_57_0/stage/lib/libboost_filesystem.so.1.57.0 /usr/lib64/
-COPY --from=builder /boost_1_57_0/stage/lib/libboost_program_options.so.1.57.0 /usr/lib64/
-COPY --from=builder /boost_1_57_0/stage/lib/libboost_thread.so.1.57.0 /usr/lib64/
-COPY --from=builder /boost_1_57_0/stage/lib/libboost_chrono.so.1.57.0 /usr/lib64/
-COPY --from=builder /usr/lib64/libwx_baseud-2.9.so.0 /usr/lib64/
+COPY --from=builder /bitcoin-0.2.8/bitcoind /usr/local/bin
+COPY --from=builder /usr/lib64/libwx_baseu-2.9.so.0 /usr/lib64/
 COPY --from=builder /usr/lib64/libgthread-2.0.so.0 /usr/lib64/
-COPY --from=builder /usr/lib64/libpangocairo-1.0.so.0 /usr/lib64/
+COPY --from=builder /usr/local/lib/libpangocairo-1.0.so.0 /usr/lib64/
 COPY --from=builder /usr/lib64/libX11.so.6 /usr/lib64/
 COPY --from=builder /usr/lib64/libcairo.so.2 /usr/lib64/
 COPY --from=builder /usr/lib64/libjpeg.so.8 /usr/lib64/
+COPY --from=builder /usr/lib64/libz.so.1 /usr/lib64/
 COPY --from=builder /usr/lib64/libglib-2.0.so.0 /usr/lib64/
-COPY --from=builder /usr/lib64/libpango-1.0.so.0 /usr/lib64/
 COPY --from=builder /usr/lib64/libpangoft2-1.0.so.0 /usr/lib64/
+COPY --from=builder /usr/lib64/libpango-1.0.so.0 /usr/lib64/
 COPY --from=builder /usr/lib64/libgobject-2.0.so.0 /usr/lib64/
-COPY --from=builder /usr/lib64/libharfbuzz.so.0 /usr/lib64/
+COPY --from=builder /usr/lib64/libgmodule-2.0.so.0 /usr/lib64/
 COPY --from=builder /usr/lib64/libfontconfig.so.1 /usr/lib64/
-COPY --from=builder /usr/lib64/libxcb.so.1 /usr/lib64/
-COPY --from=builder /usr/lib64/libpng16.so.16 /usr/lib64/
 COPY --from=builder /usr/lib64/libfreetype.so.6 /usr/lib64/
+COPY --from=builder /usr/lib64/libpng16.so.16 /usr/lib64/
+COPY --from=builder /usr/lib64/libxcb.so.1 /usr/lib64/
 COPY --from=builder /usr/lib64/libXext.so.6 /usr/lib64/
 COPY --from=builder /usr/lib64/libXrender.so.1 /usr/lib64/
 COPY --from=builder /usr/lib64/libxcb-render.so.0 /usr/lib64/
 COPY --from=builder /usr/lib64/libxcb-shm.so.0 /usr/lib64/
 COPY --from=builder /usr/lib64/libpixman-1.so.0 /usr/lib64/
-COPY --from=builder /usr/lib64/libgio-2.0.so.0 /usr/lib64/
-COPY --from=builder /usr/lib64/libfribidi.so.0 /usr/lib64/
-COPY --from=builder /usr/lib64/libthai.so.0 /usr/lib64/
-COPY --from=builder /usr/lib64/libgobject-2.0.so.0 /usr/lib64/
-COPY --from=builder /usr/lib64/libffi.so.8 /usr/lib64/
-COPY --from=builder /usr/lib64/libgraphite2.so.3 /usr/lib64/
-COPY --from=builder /usr/lib64/libexpat.so.1 /usr/lib64/
-COPY --from=builder /usr/lib64/libXau.so.6 /usr/lib64/
-COPY --from=builder /usr/lib64/libbrotlidec.so.1 /usr/lib64/
-COPY --from=builder /usr/lib64/libgmodule-2.0.so.0 /usr/lib64/
-COPY --from=builder /usr/lib64/libmount.so.1 /usr/lib64/
-COPY --from=builder /usr/lib64/libdatrie.so.1 /usr/lib64/
-COPY --from=builder /usr/lib64/libbrotlicommon.so.1 /usr/lib64/
-COPY --from=builder /usr/lib64/libblkid.so.1 /usr/lib64/
-COPY --from=builder /usr/lib64/libeconf.so.0 /usr/lib64/
-COPY --from=builder /usr/lib64/libz.so.1 /usr/lib64/
-COPY --from=builder /usr/lib64/libbz2.so.1 /usr/lib64/
 
-COPY entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
-EXPOSE 8332 8333 15332 15333
-RUN echo 'bitcoinuser:x:10001:10001:Bitcoin User:/home/bitcoinuser:/bin/sh' >> /etc/passwd \
- && echo 'bitcoinuser:x:10001:' >> /etc/group \
- && mkdir -p /home/bitcoinuser \
- && chown -R 10001:10001 /home/bitcoinuser
-COPY bitcoin.conf /home/bitcoinuser/.bitcoin/bitcoin.conf
-RUN chown -R bitcoinuser:bitcoinuser /home/bitcoinuser
-USER bitcoinuser
-LABEL org.opencontainers.image.revision="manual-trigger-20251112"
-ENTRYPOINT ["/entrypoint.sh"]
+
