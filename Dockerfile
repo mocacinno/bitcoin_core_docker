@@ -159,6 +159,7 @@ COPY --from=builder /usr/lib64/libXrender.so.1 /usr/lib64/
 COPY --from=builder /usr/lib64/libxcb-render.so.0 /usr/lib64/
 COPY --from=builder /usr/lib64/libxcb-shm.so.0 /usr/lib64/
 COPY --from=builder /usr/lib64/libpixman-1.so.0 /usr/lib64/
+COPY --from=builder  libgio-2.0.so.0 /usr/lib64/
 
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
