@@ -9,7 +9,7 @@ RUN curl -fsSL https://raw.githubusercontent.com/mocacinno/bitcoin_core_docker_p
 RUN zypper addrepo --priority 200 -f https://github.com/mocacinno/bitcoin_core_docker_prereqs/raw/refs/heads/gh-pages/x86_64/ mocacinno_x86_64 && \
     zypper addrepo --priority 200 -f https://github.com/mocacinno/bitcoin_core_docker_prereqs/raw/refs/heads/gh-pages/noarch/ mocacinno_noarch
 RUN zypper --gpg-auto-import-keys ref -s && \
-    zypper --non-interactive install gcc48 gcc48-c++ make automake makeinfo git gawk wget libicu-devel mlocate vim unzip cmake xz meson patch libtool gtk-doc libatk-1_0-0 libICE-devel libSM-devel libXt-devel gtk2-devel dejavu-fonts
+    zypper --non-interactive install gcc48 gcc48-c++ make automake makeinfo git gawk wget libicu-devel mlocate vim unzip cmake xz meson patch libtool gtk-doc libatk-1_0-0 libICE-devel libSM-devel libXt-devel gtk2-devel
 
 
 #gcc 4.8
@@ -160,4 +160,16 @@ COPY --from=builder /usr/lib64/libxcb-render.so.0 /usr/lib64/
 COPY --from=builder /usr/lib64/libxcb-shm.so.0 /usr/lib64/
 COPY --from=builder /usr/lib64/libpixman-1.so.0 /usr/lib64/
 
-
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+EXPOSE 8332 8333 15332 15333
+RUN echo 'bitcoinuser:x:10001:10001:Bitcoin User:/home/bitcoinuser:/bin/sh' >> /etc/passwd \
+ && echo 'bitcoinuser:x:10001:' >> /etc/group \
+ && mkdir -p /home/bitcoinuser \
+ && chown -R 10001:10001 /home/bitcoinuser
+COPY bitcoin.conf /home/bitcoinuser/.bitcoin/bitcoin.conf
+RUN chown -R bitcoinuser:bitcoinuser /home/bitcoinuser
+USER bitcoinuser
+LABEL org.opencontainers.image.revision="manual-trigger-20251201"
+LABEL waitforfinish="true"
+ENTRYPOINT ["/entrypoint.sh"]
