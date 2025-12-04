@@ -159,7 +159,21 @@ COPY --from=builder /usr/lib64/libXrender.so.1 /usr/lib64/
 COPY --from=builder /usr/lib64/libxcb-render.so.0 /usr/lib64/
 COPY --from=builder /usr/lib64/libxcb-shm.so.0 /usr/lib64/
 COPY --from=builder /usr/lib64/libpixman-1.so.0 /usr/lib64/
-COPY --from=builder  libgio-2.0.so.0 /usr/lib64/
+COPY --from=builder /usr/lib64/libgio-2.0.so.0 /usr/lib64/
+COPY --from=builder /usr/lib64/libharfbuzz.so.0 /usr/lib64/
+COPY --from=builder /usr/lib64/libfribidi.so.0 /usr/lib64/
+COPY --from=builder /usr/lib64/libthai.so.0 /usr/lib64/
+COPY --from=builder /usr/lib64/libffi.so.8 /usr/lib64/
+COPY --from=builder /usr/lib64/libexpat.so.1 /usr/lib64/
+COPY --from=builder /usr/lib64/libbz2.so.1 /usr/lib64/
+COPY --from=builder /usr/lib64/libbrotlidec.so.1 /usr/lib64/
+COPY --from=builder /usr/lib64/libXau.so.6 /usr/lib64/
+COPY --from=builder /usr/lib64/libmount.so.1 /usr/lib64/
+COPY --from=builder /usr/lib64/libgraphite2.so.3 /usr/lib64/
+COPY --from=builder /usr/lib64/libdatrie.so.1 /usr/lib64/
+COPY --from=builder /usr/lib64/libbrotlicommon.so.1 /usr/lib64/
+COPY --from=builder /usr/lib64/libblkid.so.1 /usr/lib64/
+COPY --from=builder /usr/lib64/libeconf.so.0 /usr/lib64/
 
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
