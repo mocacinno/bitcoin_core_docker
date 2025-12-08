@@ -19,6 +19,7 @@ docker run -d \
   -v btc28_data:/home/bitcoinuser/.bitcoin \
   ghcr.io/mocacinno/mocacinno/bitcoin_core_docker:v2.8_SLES16
 docker logs -f btc28
+docker exec -it btc28 sh -c "tail -f /home/bitcoinuser/.bitcoin/debug.log"
 ```
 
 ## docker compose
@@ -38,11 +39,11 @@ services:
 
 volumes:
   btc28_data:
-
 ```
 
 commands: 
 ```bash
 docker compose up -d
 docker compose exec bitcoin28 sh -c "tail -f /home/bitcoinuser/.bitcoin/debug.log"
+docker compose down
 ```
