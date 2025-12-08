@@ -46,4 +46,5 @@ commands:
 ```bash
 docker compose up -d
 docker compose exec bitcoin27 sh -c "tail -f /home/bitcoinuser/.bitcoin/debug.log"
+docker compose down
 ```
