@@ -199,7 +199,7 @@ COPY --from=builder /usr/lib64/libbz2.so.1 /usr/lib64/
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 COPY init.sh /usr/local/bin/init.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh /usr/local/bin/init.sh
-
+RUN mkdir -p /home/bitcoinuser/.bitcoin
 VOLUME ["/home/bitcoinuser/.bitcoin"]
 
 
@@ -208,6 +208,7 @@ RUN echo 'bitcoinuser:x:10001:10001:Bitcoin User:/home/bitcoinuser:/bin/sh' >> /
  && mkdir -p /home/bitcoinuser \
  && chown -R 10001:10001 /home/bitcoinuser
 RUN chown -R bitcoinuser:bitcoinuser /home/bitcoinuser
+RUN chown -R bitcoinuser:bitcoinuser /home/bitcoinuser/.bitcoin
 USER bitcoinuser
 WORKDIR /home/bitcoinuser
 
