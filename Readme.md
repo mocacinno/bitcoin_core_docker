@@ -27,8 +27,6 @@ docker exec -it btc27 sh -c "tail -f /home/bitcoinuser/.bitcoin/debug.log"
 docker-compose.yml
 
 ```yml
-version: "3.9"
-
 services:
   bitcoin27:
     image: ghcr.io/mocacinno/mocacinno/bitcoin_core_docker:v2.7_SLES16
