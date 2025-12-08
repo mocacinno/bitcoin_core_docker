@@ -140,8 +140,17 @@ RUN curl -fsSL https://github.com/mocacinno/bitcoin_core_history/archive/refs/he
     strip bitcoind && \
 	ln -s /src/bitcoin_core_history-0.2.7/bitcoind /usr/local/bin
 
+# -------------------------------
+# Stage 2: Runtime
+# -------------------------------
 
 FROM registry.suse.com/bci/bci-micro:latest
+
+LABEL org.opencontainers.image.title="Bitcoin Core Legacy Runtime"
+LABEL org.opencontainers.image.version="v0.2.7"
+LABEL org.opencontainers.image.source="https://github.com/mocacinno/bitcoin_core_history"
+LABEL org.opencontainers.image.revision="manual-trigger-20251208"
+
 COPY --from=builder /src/bitcoin_core_history-0.2.7/bitcoind /usr/local/bin
 COPY --from=builder /src/boost_1_57_0/stage/lib/libboost_system.so.1.57.0 /usr/lib64/
 COPY --from=builder /src/boost_1_57_0/stage/lib/libboost_filesystem.so.1.57.0 /usr/lib64/
@@ -186,15 +195,21 @@ COPY --from=builder /usr/lib64/libeconf.so.0 /usr/lib64/
 COPY --from=builder /usr/lib64/libz.so.1 /usr/lib64/
 COPY --from=builder /usr/lib64/libbz2.so.1 /usr/lib64/
 
-COPY entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
-EXPOSE 8332 8333 15332 15333
+# Copy scripts
+COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+COPY init.sh /usr/local/bin/init.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh /usr/local/bin/init.sh
+
+VOLUME ["/home/bitcoinuser/.bitcoin"]
+
+
 RUN echo 'bitcoinuser:x:10001:10001:Bitcoin User:/home/bitcoinuser:/bin/sh' >> /etc/passwd \
  && echo 'bitcoinuser:x:10001:' >> /etc/group \
  && mkdir -p /home/bitcoinuser \
  && chown -R 10001:10001 /home/bitcoinuser
-COPY bitcoin.conf /home/bitcoinuser/.bitcoin/bitcoin.conf
 RUN chown -R bitcoinuser:bitcoinuser /home/bitcoinuser
 USER bitcoinuser
-LABEL org.opencontainers.image.revision="manual-trigger-20251112"
-ENTRYPOINT ["/entrypoint.sh"]
+WORKDIR /home/bitcoinuser
+
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
+CMD []
