@@ -19,6 +19,7 @@ docker run -d \
   -v btc27_data:/home/bitcoinuser/.bitcoin \
   ghcr.io/mocacinno/mocacinno/bitcoin_core_docker:v2.7_SLES16
 docker logs -f btc27
+docker exec -it btc27 sh -c "tail -f /home/bitcoinuser/.bitcoin/debug.log"
 ```
 
 ## docker compose
