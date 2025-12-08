@@ -15,8 +15,36 @@ bitcoind getinfo
 
 ```bash
 docker run -d \
-  --name btc28 \
-  -v btc28_data:/home/bitcoinuser/.bitcoin \
+  --name btc27 \
+  -v btc27_data:/home/bitcoinuser/.bitcoin \
   ghcr.io/mocacinno/mocacinno/bitcoin_core_docker:v2.7_SLES16
-docker logs -f btc28
+docker logs -f btc27
+```
+
+## docker compose
+
+docker-compose.yml
+
+```yml
+version: "3.9"
+
+services:
+  bitcoin27:
+    image: ghcr.io/mocacinno/mocacinno/bitcoin_core_docker:v2.7_SLES16
+    container_name: bitcoin27
+    user: "10001:10001"
+    volumes:
+      - btc27_data:/home/bitcoinuser/.bitcoin
+    restart: unless-stopped
+    entrypoint: ["/usr/local/bin/entrypoint.sh"]
+
+volumes:
+  btc27_data:
+
+```
+
+commands: 
+```bash
+docker compose up -d
+docker compose exec bitcoin27 sh -c "tail -f /home/bitcoinuser/.bitcoin/debug.log"
 ```
