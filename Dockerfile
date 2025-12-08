@@ -7,7 +7,7 @@ FROM registry.suse.com/bci/bci-base:16.0 AS builder
 LABEL org.opencontainers.image.title="Bitcoin Core Legacy Build"
 LABEL org.opencontainers.image.version="v0.2.7"
 LABEL org.opencontainers.image.source="https://github.com/mocacinno/bitcoin_core_history"
-LABEL org.opencontainers.image.revision="manual-trigger-20251204"
+LABEL org.opencontainers.image.revision="manual-trigger-20251208"
 
 # Import GPG key for custom repos
 RUN zypper --non-interactive ref && \
