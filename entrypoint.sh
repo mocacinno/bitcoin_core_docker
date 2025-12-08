@@ -1,5 +1,5 @@
 #!/bin/bash
 set -e
 /usr/local/bin/init.sh
-#bitcoind -daemon
+bitcoind -daemon
 tail -f /dev/null
