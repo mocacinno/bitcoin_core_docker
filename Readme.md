@@ -5,7 +5,7 @@
 ```bash
 docker run --entrypoint /bin/bash --network host -it ghcr.io/mocacinno/mocacinno/bitcoin_core_docker:v2.8_SLES16
 init.sh
-bitcoin &
+bitcoind &
 #ctrl-c to stop looking at log
 tail -f ~/.bitcoin/debug.log
 bitcoind getinfo
