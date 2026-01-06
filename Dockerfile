@@ -7,7 +7,7 @@ FROM registry.suse.com/bci/bci-base:16.0 AS builder
 LABEL org.opencontainers.image.title="Bitcoin Core Legacy Build"
 LABEL org.opencontainers.image.version="v0.2.3"
 LABEL org.opencontainers.image.source="https://github.com/mocacinno/bitcoin_core_history"
-LABEL org.opencontainers.image.revision="manual-trigger-20251204"
+LABEL org.opencontainers.image.revision="manual-trigger-20260105"
 
 # Import GPG key for custom repos
 RUN zypper --non-interactive ref && \
@@ -150,7 +150,7 @@ FROM registry.suse.com/bci/bci-base:16.0
 LABEL org.opencontainers.image.title="Bitcoin Core Legacy Runtime"
 LABEL org.opencontainers.image.version="v0.2.3"
 LABEL org.opencontainers.image.source="https://github.com/mocacinno/bitcoin_core_history"
-LABEL org.opencontainers.image.revision="manual-trigger-20251204"
+LABEL org.opencontainers.image.revision="manual-trigger-20260105"
 
 RUN zypper --non-interactive ref && \
     zypper --non-interactive in -y xauth openssl dejavu-fonts
