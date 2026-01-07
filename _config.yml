@@ -56,4 +56,3 @@ kramdown:
   hard_wrap: false
   input: GFM
   syntax_highlighter: rouge
-  html_to_native: true
