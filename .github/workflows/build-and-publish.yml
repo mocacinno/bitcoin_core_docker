@@ -65,5 +65,6 @@ jobs:
       run: |
         cosign attest --yes \
           --type spdxjson \
+          --tlog-upload=false \
           --predicate /tmp/sbom.json \
           ghcr.io/${{ github.repository_owner }}/${{ github.repository }}@${{ steps.build.outputs.digest }}
