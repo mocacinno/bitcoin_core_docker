@@ -11,24 +11,24 @@ RUN wget https://github.com/bitcoin/bitcoin/archive/refs/tags/v30.0.zip && \
 WORKDIR /depends/bitcoin-30.0
 RUN make -j"$(($(nproc)+1))" -C depends NO_QT=1 MULTIPROCESS=1
 
-#bitcoin v30.2
+#bitcoin v31.0
 WORKDIR /
-RUN wget https://github.com/bitcoin/bitcoin/archive/refs/tags/v30.2.zip && \
-    unzip v30.2.zip
-WORKDIR /bitcoin-30.2
+RUN wget https://github.com/bitcoin/bitcoin/archive/refs/tags/v31.0.zip && \
+    unzip v31.0.zip
+WORKDIR /bitcoin-31.0
 RUN cmake -B build --toolchain /depends/bitcoin-30.0/depends/x86_64-pc-linux-gnu/toolchain.cmake -DCMAKE_SYSTEM_NAME=Linux -DCMAKE_BUILD_TYPE=Release -DENABLE_SQLITE=ON -DCMAKE_PREFIX_PATH=/depends/bitcoin-30.0/depends/x86_64-pc-linux-gnu
 RUN cmake --build build -j "$(($(nproc) + 1))" 
-WORKDIR /bitcoin-30.2/build/bin
+WORKDIR /bitcoin-31.0/build/bin
 RUN strip bitcoin-util && strip bitcoin-cli && strip bitcoin-tx && strip bitcoin-wallet && strip bitcoind && strip test_bitcoin && strip bitcoin-node
 
 FROM registry.suse.com/bci/bci-micro:latest
-COPY --from=builder /bitcoin-30.2/build/bin/bitcoin-util /usr/local/bin
-COPY --from=builder /bitcoin-30.2/build/bin/bitcoin-cli /usr/local/bin
-COPY --from=builder /bitcoin-30.2/build/bin/bitcoin-tx /usr/local/bin
-COPY --from=builder /bitcoin-30.2/build/bin/bitcoin-wallet /usr/local/bin
-COPY --from=builder /bitcoin-30.2/build/bin/bitcoind /usr/local/bin
-COPY --from=builder /bitcoin-30.2/build/bin/test_bitcoin /usr/local/bin
-COPY --from=builder /bitcoin-30.2/build/bin/bitcoin-node /usr/local/bin
+COPY --from=builder /bitcoin-31.0/build/bin/bitcoin-util /usr/local/bin
+COPY --from=builder /bitcoin-31.0/build/bin/bitcoin-cli /usr/local/bin
+COPY --from=builder /bitcoin-31.0/build/bin/bitcoin-tx /usr/local/bin
+COPY --from=builder /bitcoin-31.0/build/bin/bitcoin-wallet /usr/local/bin
+COPY --from=builder /bitcoin-31.0/build/bin/bitcoind /usr/local/bin
+COPY --from=builder /bitcoin-31.0/build/bin/test_bitcoin /usr/local/bin
+COPY --from=builder /bitcoin-31.0/build/bin/bitcoin-node /usr/local/bin
 
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
