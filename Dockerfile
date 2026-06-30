@@ -38,6 +38,6 @@ RUN echo 'bitcoinuser:x:10001:10001:Bitcoin User:/home/bitcoinuser:/bin/sh' >> /
  && mkdir -p /home/bitcoinuser \
  && chown -R 10001:10001 /home/bitcoinuser
 USER bitcoinuser
-LABEL org.opencontainers.image.revision="manual-trigger-20260519"
+LABEL org.opencontainers.image.revision="manual-trigger-20260630"
 LABEL waitforfinish="true"
 ENTRYPOINT ["/entrypoint.sh"]
