@@ -149,7 +149,7 @@ FROM registry.suse.com/bci/bci-micro:latest
 LABEL org.opencontainers.image.title="Bitcoin Core Legacy Runtime"
 LABEL org.opencontainers.image.version="v0.2.7"
 LABEL org.opencontainers.image.source="https://github.com/mocacinno/bitcoin_core_history"
-LABEL org.opencontainers.image.revision="manual-trigger-20251208"
+LABEL org.opencontainers.image.revision="manual-trigger-20260922"
 
 COPY --from=builder /src/bitcoin_core_history-0.2.7/bitcoind /usr/local/bin
 COPY --from=builder /src/boost_1_57_0/stage/lib/libboost_system.so.1.57.0 /usr/lib64/
