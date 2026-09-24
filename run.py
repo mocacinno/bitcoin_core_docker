@@ -172,28 +172,29 @@ def git_checkout_and_update(repo_path: str, branch: str, label_date: str, verbos
     if not changed:
         if verbose:
             print("[+] Dockerfile label already up-to-date (no change).")
-        return False  # no commit/push necessary
+        return False, None  # no commit/push necessary
 
     if dry_run:
         print("[DRY-RUN] Would commit and push changes for", branch)
-        return True
+        return True, None
 
     # git add/commit/push
     run_cmd(["git", "add", DOCKERFILE_PATH], cwd=repo_path)
     commit_msg = f'ci: manual rebuild trigger {label_date} (automated)'
     run_cmd(["git", "commit", "-m", commit_msg], cwd=repo_path)
+    head_sha = run_cmd(["git", "rev-parse", "HEAD"], cwd=repo_path, capture_output=True)
     run_cmd(["git", "push", REMOTE_NAME, f"{branch}"], cwd=repo_path)
     if verbose:
         print(f"[+] Pushed commit to {branch}")
     time.sleep(15)
-    return True
+    return True, head_sha
 
 # -------------------------
 # GitHub Actions polling
 # -------------------------
-def get_latest_workflow_run(owner: str, repo: str, branch: str, token: Optional[str], verbose: bool):
+def get_latest_workflow_run(owner: str, repo: str, branch: str, head_sha: str, token: Optional[str], verbose: bool):
     """
-    Query GitHub Actions runs for the repo+branch and return the newest run or None.
+    Query GitHub Actions runs for the repo+branch and return the newest run for head_sha or None.
     See: GET /repos/{owner}/{repo}/actions/runs
     """
     url = f"{GITHUB_API_BASE}/repos/{owner}/{repo}/actions/runs"
@@ -207,57 +208,73 @@ def get_latest_workflow_run(owner: str, repo: str, branch: str, token: Optional[
             print(f"[!] GitHub API returned {r.status_code}: {r.text}")
         return None
     j = r.json()
-    runs = j.get("workflow_runs", [])
+    runs = [run for run in j.get("workflow_runs", []) if run.get("head_sha") == head_sha]
     if not runs:
         return None
     # choose latest by created_at
     runs_sorted = sorted(runs, key=lambda x: x.get("created_at", ""), reverse=True)
     return runs_sorted[0]  # newest
 
-def poll_workflow_until_done(owner: str, repo: str, branch: str, token: Optional[str], poll_interval: int, verbose: bool):
+def get_workflow_run(owner: str, repo: str, run_id: int, token: Optional[str], verbose: bool):
+    """Return one workflow run by ID, or None when the API request fails."""
+    url = f"{GITHUB_API_BASE}/repos/{owner}/{repo}/actions/runs/{run_id}"
+    headers = {"Accept": "application/vnd.github+json"}
+    if token:
+        headers["Authorization"] = f"Bearer {token}"
+    r = requests.get(url, headers=headers)
+    if r.status_code != 200:
+        if verbose:
+            print(f"[!] GitHub API returned {r.status_code}: {r.text}")
+        return None
+    return r.json()
+
+def poll_workflow_until_done(owner: str, repo: str, branch: str, head_sha: str, token: Optional[str], poll_interval: int, verbose: bool):
     """
-    Poll until the latest workflow for branch completes (or detects failure).
+    Find the workflow for head_sha, then poll that exact run until it completes.
     Returns dict of run if completed, or raises on failure/timeout.
     """
     if verbose:
         print(f"[+] Polling GitHub Actions for branch {branch} ...")
-    last_seen_id = None
+    run_id = None
     while True:
-        run = get_latest_workflow_run(owner, repo, branch, token, verbose)
+        if run_id is None:
+            run = get_latest_workflow_run(owner, repo, branch, head_sha, token, verbose)
+        else:
+            run = get_workflow_run(owner, repo, run_id, token, verbose)
         if run is None:
             if verbose:
-                print("[...] No workflow run detected yet for branch; sleeping.")
+                print("[...] Workflow run not available yet; sleeping.")
             time.sleep(poll_interval)
             continue
-        run_id = run.get("id")
+        current_run_id = run.get("id")
         status = run.get("status")         # queued, in_progress, completed
         conclusion = run.get("conclusion") # success, failure, cancelled, timed_out, etc
         html_url = run.get("html_url")
         head_branch = run.get("head_branch")
         created_at = run.get("created_at")
 
-        if last_seen_id != run_id:
+        if run_id is None:
             if verbose:
-                print(f"[+] Detected run id={run_id} branch={head_branch} created_at={created_at} status={status} conclusion={conclusion} url={html_url}")
-            last_seen_id = run_id
+                print(f"[+] Detected run id={current_run_id} branch={head_branch} created_at={created_at} status={status} conclusion={conclusion} url={html_url}")
+            run_id = current_run_id
 
         if status in ("queued", "in_progress"):
             if verbose:
-                print(f"[+] Run {run_id} status={status}. Waiting {poll_interval} sec...")
+                print(f"[+] Run {current_run_id} status={status}. Waiting {poll_interval} sec...")
             time.sleep(poll_interval)
             continue
         elif status == "completed":
             if conclusion == "success":
                 if verbose:
-                    print(f"[+] Run {run_id} completed successfully: {html_url}")
+                    print(f"[+] Run {current_run_id} completed successfully: {html_url}")
                 return run
             else:
                 # failure/cancelled/time_out/etc -> raise to stop the sequence
-                raise RuntimeError(f"Workflow run {run_id} finished with conclusion={conclusion}. See {html_url}")
+                raise RuntimeError(f"Workflow run {current_run_id} finished with conclusion={conclusion}. See {html_url}")
         else:
             # unknown status -> wait
             if verbose:
-                print(f"[+] Run {run_id} unknown status={status}, sleeping.")
+                print(f"[+] Run {current_run_id} unknown status={status}, sleeping.")
             time.sleep(poll_interval)
 
 # -------------------------
@@ -269,7 +286,7 @@ def main():
     p.add_argument("--remote-url", required=True, help="Repo remote URL (e.g. https://github.com/mocacinno/bitcoin_core_docker.git)")
     p.add_argument("--owner", required=True, help="GitHub owner/organization (e.g. mocacinno)")
     p.add_argument("--repo-name", required=True, help="GitHub repository name (e.g. bitcoin_core_docker)")
-    p.add_argument("--blacklist", nargs="*", default=["main", "master", "develop", "helpers", "ci", "workflows"], help="Branches to ignore.")
+    p.add_argument("--blacklist", nargs="*", default=["main", "master", "develop", "helpers", "ci", "workflows", "v2.0_SLES16", "v2.1_SLES16", "v2.2_SLES16", "v2.3_SLES16", "v2.4_SLES16", "v2.5_SLES16", "v2.6_SLES16", "v2.7_SLES16", "v2.8_SLES16", "v2.9_SLES16", "v2.7-gui_SLES16"], help="Branches to ignore.")
     p.add_argument("--start-from", default=None, help="Start from this branch name (inclusive). Useful to resume.")
     p.add_argument("--dry-run", action="store_true", help="Don't commit/push; only show what would happen.")
     p.add_argument("--once", action="store_true", help="Do only one branch then exit (useful for debugging).")
@@ -317,7 +334,7 @@ def main():
         print("\n" + "="*60)
         print(f"Processing branch: {branch}")
         try:
-            changed = git_checkout_and_update(repo_path, branch, label_date, verbose, dry_run)
+            changed, head_sha = git_checkout_and_update(repo_path, branch, label_date, verbose, dry_run)
         except Exception as e:
             print(f"[ERROR] Git operation failed for branch {branch}: {e}")
             sys.exit(1)
@@ -339,7 +356,7 @@ def main():
             continue
 
         try:
-            run = poll_workflow_until_done(owner, repo_name, branch, token, poll_interval, verbose)
+            run = poll_workflow_until_done(owner, repo_name, branch, head_sha, token, poll_interval, verbose)
             # If returned, it finished successfully -> continue
         except Exception as e:
             print(f"[!] Workflow failed for branch {branch}: {e}")
@@ -357,5 +374,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
