@@ -13,6 +13,10 @@ Here is a complete list of all the images- in this repo, click on the documentat
 
 | Version  | Tag      | Release Date | Documentation Link                         |
 |----------|----------|--------------|--------------------------------------------|
+| v32.1    | v32.1    | 2026-10-26   | [v32.1 Documentation](v32.1)               |
+| v32.0    | v32.0    | 2026-10-21   | [v32.0 Documentation](v32.0)               |
+| v31.1    | v31.1    | 2026-07-07   | [v31.1 Documentation](v31.1)               |
+| v31.0    | v31.0    | 2026-04-20   | [v31.0 Documentation](v31.0)               |
 | v30.1    | v30.1    | 2026-01-02   | [v30.1 Documentation](v30.1)               |
 | v30.0    | v30.0    | 2025-10-13   | [v30.0 Documentation](v30.0)               |
 | v29.2    | v29.2    | 2025-10-14   | [v29.2 Documentation](v29.2.md)            |
